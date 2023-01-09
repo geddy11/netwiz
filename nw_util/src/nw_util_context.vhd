@@ -1,12 +1,12 @@
 -------------------------------------------------------------------------------
--- Title      : Network Wizard adaptations package
+-- Title      : Network Wizard Utilities context
 -- Project    : netwiz
 -- GitHub     : https://github.com/geddy11/netwiz
 -- Standard   : VHDL'08
 -------------------------------------------------------------------------------
 -- Description: 
 --!\file
---!\brief This package contains parameters that can be used to tailor netwiz for specific projects.
+--!\brief Utilities context
 --
 -------------------------------------------------------------------------------
 -- MIT License
@@ -30,22 +30,13 @@
 -- WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR 
 -- IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -------------------------------------------------------------------------------
---! @cond libraries
-library IEEE;
-use IEEE.std_logic_1164.all;
-use IEEE.numeric_std.all;
---! @endcond
 
-package nw_adaptations_pkg is
-
-  -------------------------------------------------------------------------------
-  --! Severity level of assertion violations.
-  -------------------------------------------------------------------------------
-  constant C_SEVERITY: severity_level := ERROR;
-
-  -------------------------------------------------------------------------------
-  --! Width (chars) of timestamp in msg() output.
-  -------------------------------------------------------------------------------
-  constant C_TIME_WIDTH : integer := 15;  
-  
-end package nw_adaptations_pkg;
+context nw_util_context is
+  library nw_adapt;
+  use nw_adapt.nw_adaptations_pkg.all;
+  library nw_util;
+  use nw_util.nw_types_pkg.all;
+  use nw_util.nw_util_pkg.all;
+  use nw_util.nw_prbs_pkg.all;
+  use nw_util.nw_crc_pkg.all;
+end context nw_util_context;

@@ -1,12 +1,12 @@
 -------------------------------------------------------------------------------
--- Title      : Network Wizard adaptations package
+-- Title      : Network Wizard type definitions package
 -- Project    : netwiz
 -- GitHub     : https://github.com/geddy11/netwiz
 -- Standard   : VHDL'08
 -------------------------------------------------------------------------------
 -- Description: 
 --!\file
---!\brief This package contains parameters that can be used to tailor netwiz for specific projects.
+--!\brief Type definitions common for netwiz libraries.
 --
 -------------------------------------------------------------------------------
 -- MIT License
@@ -36,16 +36,11 @@ use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 --! @endcond
 
-package nw_adaptations_pkg is
+package nw_types_pkg is
 
   -------------------------------------------------------------------------------
-  --! Severity level of assertion violations.
+  -- Types
   -------------------------------------------------------------------------------
-  constant C_SEVERITY: severity_level := ERROR;
+  type t_slv_arr is array (natural range <>) of std_logic_vector;  --! Array of std_logic_vector is the primary data type
 
-  -------------------------------------------------------------------------------
-  --! Width (chars) of timestamp in msg() output.
-  -------------------------------------------------------------------------------
-  constant C_TIME_WIDTH : integer := 15;  
-  
-end package nw_adaptations_pkg;
+end package nw_types_pkg;
