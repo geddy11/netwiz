@@ -186,8 +186,8 @@ package body nw_util_pkg is
   --! \return           Repacked data array
   --!
   --! Array will be repacked to wider or narrower data words. The only limit is that there must be an integer relationship between
-  --! the input data word size and the new data width. When increasing the data width, padding will be added before or after as required
-  --! with a user-defined pad word.
+  --! the input data word size and the new data width. This limit is circumvented by first repacking to 1bit, then to target width. 
+  --! When increasing the data width, padding will be added before or after as required with a user-defined pad word. 
   --!
   --! **Example use**
   --! ~~~
@@ -196,6 +196,7 @@ package body nw_util_pkg is
   --! array_32bit := f_repack(array_8bit, 32, C_LSB_FIRST, C_PAD_BEFORE, x"ff"); -- array_32bit is now (x"332211ff", x"77665544")
   --! array_1bit  := f_repack(array_8bit(0 to 0), 1, C_MSB_FIRST); -- array_1bit is now ("0", "0", "0", "1", "0", "0", "0", "1")
   --! array_3bit  := f_repack(array_1bit, 3, C_LSB_FIRST);         -- array_3bit is now ("000", "001", "010")
+  --! array_7bit  := f_repack(f_repack(array_8bit, 1), 7); -- array_7bit is now ("0001000", "1001000", "1000110", "0110100", "0100010", ...)
   --! ~~~
   -------------------------------------------------------------------------------
   function f_repack(data       : t_slv_arr;

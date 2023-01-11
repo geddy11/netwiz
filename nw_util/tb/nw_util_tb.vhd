@@ -105,6 +105,7 @@ begin
 
     wait for 100 ns;
     -- Finish the simulation
+    msg("All tests are pass!");
     std.env.stop;
     wait;                               -- to stop completely
   end process p_main;
