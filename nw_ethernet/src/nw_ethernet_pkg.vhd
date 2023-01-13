@@ -7,7 +7,6 @@
 -- Description: 
 --!\file
 --!\brief Ethernet library.
---
 -------------------------------------------------------------------------------
 -- MIT License
 --
@@ -35,6 +34,7 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 use std.textio.all;
+--use std.standard.all;
 
 library nw_adapt;
 use nw_adapt.nw_adaptations_pkg.all;
@@ -45,6 +45,41 @@ use work.nw_crc_pkg.all;
 use work.nw_util_pkg.all;
 --! @endcond
 
+--! \page nw_ethernet Ethernet library
+--! \tableofcontents
+--! The ethernet library provides functions for creating and checking ethernet packets.
+--! \subsection eth_subsec1 Functionality
+--! \li Create ethernet packets of any length and type (small packets are padded to 64 byte).
+--! \li Create and extract ethernet headers, including VLAN tags
+--! \li Check CRC of ethernet packets
+--!
+--! \n\n More details in \ref nw_ethernet_pkg
+--! \subsection eth_subsec2 Example use
+--! Include the libraries:
+--! ~~~
+--! library nw_util;
+--! context nw_util.nw_util_context;
+--! library nw_ethernet;
+--! use nw_ethernet.nw_ethernet_pkg.all;
+--! ~~~
+--! Assume the variable \c v_payload contains the ethernet payload, for example an IPv4 packet. The variables are defined:
+--! ~~~
+--! variable v_header  : t_ethernet_header; -- header record
+--! variable v_eth_pkt : t_slv_arr(0 to 1500)(7 downto 0); -- byte array
+--! variable v_len     : natural;
+--! ~~~
+--! First setup the header, then calculate the total ethernet packet length before creating the packet.
+--! ~~~
+--! v_header                  := C_DEFAULT_ETH_HEADER; -- copy default header
+--! v_header.mac_dest         := f_eth_mac_2_slv_arr("08:00:27:27:1a:d5"); -- change destination MAC
+--! v_len                     := f_eth_create_pkt_len(v_header, v_payload); -- calculate total packet length
+--! v_eth_pkt(0 to v_len - 1) := f_eth_create_pkt(v_header, v_payload); -- create the packet
+--! ~~~
+--! The variable \c v_eth_pkt is an 8-bit array. This can of course be rearranged to any word width with \c f_repack .
+--! ~~~
+--! v_eth_pkt_256 := f_repack(v_eth_pkt, 256, C_MSB_FIRST); -- repack to 256bit words (padded with zeros if required)
+--! ~~~
+--! See further examples in the test bench nw_ethernet_tb.vhd.
 package nw_ethernet_pkg is
 
   -------------------------------------------------------------------------------
@@ -127,6 +162,9 @@ package nw_ethernet_pkg is
 
   constant C_ETH_CRC32 : std_logic_vector(31 downto 0) := x"04C11DB7";
 
+  constant C_ETH_SFD: std_logic_vector(7 downto 0) := x"d5"; --! Start Frame Delimiter
+  constant C_ETH_PREAMBLE: t_slv_arr(0 to 7)(7 downto 0) := (x"55", x"55", x"55", x"55", x"55", x"55", x"55", C_ETH_SFD); --! Ethernet Preamble and SFD
+
   constant C_DEFAULT_DOT1Q : t_dot1q := (tpid => x"0000", pcp => "111", dei => '0', vid => x"001");
   constant C_DEFAULT_ETH_HEADER : t_ethernet_header := (mac_dest  => (x"d1", x"d2", x"d3", x"d4", x"d5", x"d6"),
                                                         mac_src   => (x"51", x"52", x"53", x"54", x"55", x"56"),
@@ -140,13 +178,14 @@ package nw_ethernet_pkg is
                             payload    : t_slv_arr;
                             get_length : boolean := false) return t_slv_arr;
 
+  function f_eth_create_pkt_len(header  : t_ethernet_header;
+                                payload : t_slv_arr) return natural;
+
   function f_eth_get_header(eth_pkt : t_slv_arr) return t_ethernet_header;
 
   function f_eth_crc_ok(eth_pkt : t_slv_arr) return boolean;
 
-  function f_eth_create_pkt_len(header  : t_ethernet_header;
-                                payload : t_slv_arr) return natural;
-
+  function f_eth_mac_2_slv_arr(mac: string(1 to 17)) return t_slv_arr;
 
 end package nw_ethernet_pkg;
 
@@ -159,21 +198,21 @@ package body nw_ethernet_pkg is
   --! \param get_length Get length of repacked array, default False
   --! \return           Ethernet packet (8bit array)
   --!
-  --! Create ethernet packet. Payload must be 8bit data array. 4-byte FCS is added to the end of the packet.
+  --! Create ethernet packet. Payload must be 8bit data array. Padding is added to achieve minimum frame size of 64 bytes. 4-byte FCS is added to the end of the packet.
   --! For VLAN tagging: Set header.vlan_tag.tpid = C_ET_VLAN.
   --!
   --! **Example use**
   --! ~~~
   --! v_eth_header  := C_DEFAULT_ETH_HEADER;
   --! v_packet_8bit := f_eth_create_pkt(v_eth_header, payload); 
-  --! v_pkt_256bit  := f_repack(v_packet_8bit, 256);
+  --! v_pkt_256bit  := f_repack(f_concat(C_ETH_PREAMBLE, v_packet_8bit), 256); -- add preamble and repack to 256bit  word size
   --! ~~~
   -------------------------------------------------------------------------------
   function f_eth_create_pkt(header     : t_ethernet_header;
                             payload    : t_slv_arr;
                             get_length : boolean := false)
     return t_slv_arr is
-    variable v_data   : t_slv_arr(0 to payload'length + 17)(7 downto 0);
+    variable v_data   : t_slv_arr(0 to maximum(payload'length + 21, 63))(7 downto 0);
     variable v_len    : natural;
     variable v_crc    : t_slv_arr(0 to 0)(31 downto 0);
     variable v_length : t_slv_arr(0 to 0)(30 downto 0);
@@ -202,6 +241,13 @@ package body nw_ethernet_pkg is
       v_data(v_len) := payload(i);
       v_len         := v_len + 1;
     end loop;
+    -- pad if required
+    if v_len < 60 then
+      for i in v_len to 59 loop
+        v_data(v_len) := x"00";
+      end loop;
+      v_len := 60;
+    end if;
     -- add CRC
     v_crc(0)                   := not f_swap_endian(f_bitflip(f_gen_crc(C_ETH_CRC32, v_data(0 to v_len - 1), x"ffffffff", C_LSB_FIRST)));
     v_data(v_len to v_len + 3) := f_repack(v_crc, 8, C_MSB_FIRST);
@@ -253,16 +299,17 @@ package body nw_ethernet_pkg is
     return t_ethernet_header is
     variable v_header : t_ethernet_header;
     variable v_idx    : natural := eth_pkt'low;
-    variable etype    : std_logic_vector(15 downto 0);
+    variable v_etype  : std_logic_vector(15 downto 0);
+    variable v_vlan   : natural := 0;
   begin
     assert eth_pkt'ascending report "f_eth_get_header: ethernet packet must be ascending" severity C_SEVERITY;
     assert eth_pkt'length >= 14 report "f_eth_get_header: ethernet packet must be at least 14 bytes" severity C_SEVERITY;
 
     v_header.mac_dest(0 to 5) := eth_pkt(v_idx to v_idx + 5);
     v_header.mac_src(0 to 5)  := eth_pkt(v_idx + 6 to v_idx + 11);
-    etype                     := eth_pkt(v_idx + 12) & eth_pkt(v_idx + 13);
-    v_header.ethertype        := etype;
-    if etype = C_ET_VLAN then
+    v_etype                   := eth_pkt(v_idx + 12) & eth_pkt(v_idx + 13);
+    if v_etype = C_ET_VLAN then
+      v_vlan                 := 4;
       v_header.vlan_tag.tpid := C_ET_VLAN;
       v_header.vlan_tag.pcp  := eth_pkt(v_idx + 14)(7 downto 5);
       v_header.vlan_tag.dei  := eth_pkt(v_idx + 14)(4);
@@ -270,6 +317,8 @@ package body nw_ethernet_pkg is
     else
       v_header.vlan_tag := C_DEFAULT_DOT1Q;
     end if;
+    v_etype            := eth_pkt(v_idx + 12 + v_vlan) & eth_pkt(v_idx + 13 + v_vlan);
+    v_header.ethertype := v_etype;
     return v_header;
   end function f_eth_get_header;
 
@@ -290,7 +339,7 @@ package body nw_ethernet_pkg is
     variable v_crc : t_slv_arr(0 to 0)(31 downto 0);
   begin
     assert eth_pkt'ascending report "f_eth_crc_ok: ethernet packet must be ascending" severity C_SEVERITY;
-    assert eth_pkt'length >= 18 report "f_eth_crc_ok: ethernet packet must be at least 18 bytes" severity C_SEVERITY;
+    assert eth_pkt'length >= 64 report "f_eth_crc_ok: ethernet packet must be at least 64 bytes" severity C_SEVERITY;
 
     v_crc(0) := not f_swap_endian(f_bitflip(f_gen_crc(C_ETH_CRC32, eth_pkt(eth_pkt'low to eth_pkt'high - 4), x"ffffffff", C_LSB_FIRST)));
     if f_repack(v_crc, 8, C_MSB_FIRST) = eth_pkt(eth_pkt'high - 3 to eth_pkt'high) then
@@ -299,5 +348,27 @@ package body nw_ethernet_pkg is
       return false;
     end if;
   end function f_eth_crc_ok;
+
+  -------------------------------------------------------------------------------
+  --! \brief Convert MAC string to slv_array
+  --! \param emac  MAC address in string format
+  --! \return      MAC address as byte array
+  --!
+  --! Convert MAC address in string format to byte array.
+  --!
+  --! **Example use**
+  --! ~~~
+  --! v_mac := f_eth_mac_2_slv_arr("a2:34:56:f1:30:00"); -- v_mac is now (x"a2", x"34", x"56", x"f1", x"30", x"00")
+  --! ~~~
+  -------------------------------------------------------------------------------
+  function f_eth_mac_2_slv_arr(mac: string(1 to 17)) 
+    return t_slv_arr is
+    variable v_mac: t_slv_arr(0 to 5)(7 downto 0);
+  begin
+    for i in 0 to 5 loop
+      v_mac(i) := f_str_2_slv(mac(i * 3 + 1 to i * 3 + 2));
+    end loop;
+    return v_mac;
+  end function f_eth_mac_2_slv_arr;
 
 end package body nw_ethernet_pkg;

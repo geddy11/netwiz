@@ -32,7 +32,6 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 
-
 --library nw_util;
 --context nw_util.nw_util_context;
 library nw_adapt;
@@ -66,6 +65,8 @@ architecture behav of nw_ethernet_tb is
                                                            x"2e", x"2f", x"30", x"31", x"32", x"33", x"34", x"35",
                                                            x"36", x"37", x"e6", x"4c", x"b4", x"86");
 
+  
+
 begin
 
   p_main : process
@@ -73,7 +74,8 @@ begin
                                               mac_src   => C_ETH_PKT(6 to 11),
                                               vlan_tag  => C_DEFAULT_DOT1Q,
                                               ethertype => x"0800");
-    variable data : t_slv_arr(0 to 101)(7 downto 0);
+    variable v_data : t_slv_arr(0 to 101)(7 downto 0);
+    
   begin
     wait for 0.5674 ns;
     -------------------------------------------------------------------------------
@@ -86,12 +88,15 @@ begin
       report "Test 1.2 failed" severity failure;
     assert f_eth_crc_ok(C_ETH_PKT)
       report "Test 1.3 failed" severity failure;
-    data        := C_ETH_PKT;
-    data(56)(5) := not data(56)(5);     -- insert bit error
-    assert f_eth_crc_ok(data) = false
+    v_data        := C_ETH_PKT;
+    v_data(56)(5) := not v_data(56)(5);     -- insert bit error
+    assert f_eth_crc_ok(v_data) = false
       report "Test 1.4 failed" severity failure;
     assert 102 = f_eth_create_pkt_len(v_header, C_ETH_PKT(14 to 97))
       report "Test 1.5 failed" severity failure;
+    assert C_ETH_PKT(0 to 5) = f_eth_mac_2_slv_arr("08:00:27:27:1a:d5") 
+      report "Test 1.6 failed" severity failure;
+    
 
     wait for 10 ns;
     -- Finish the simulation
