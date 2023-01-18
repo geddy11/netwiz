@@ -32,17 +32,10 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 
---library nw_util;
---context nw_util.nw_util_context;
-library nw_adapt;
-use nw_adapt.nw_adaptations_pkg.all;
-use work.nw_types_pkg.all;
-use work.nw_util_pkg.all;
-use work.nw_prbs_pkg.all;
-
---library nw_ethernet;
---use nw_ethernet.nw_ethernet_pkg.all;
-use work.nw_ethernet_pkg.all;
+library nw_util;
+context nw_util.nw_util_context;
+library nw_ethernet;
+use nw_ethernet.nw_ethernet_pkg.all;
 
 
 entity nw_ethernet_tb is
@@ -65,7 +58,6 @@ architecture behav of nw_ethernet_tb is
                                                            x"2e", x"2f", x"30", x"31", x"32", x"33", x"34", x"35",
                                                            x"36", x"37", x"e6", x"4c", x"b4", x"86");
 
-  
 
 begin
 
@@ -75,7 +67,7 @@ begin
                                               vlan_tag  => C_DEFAULT_DOT1Q,
                                               ethertype => x"0800");
     variable v_data : t_slv_arr(0 to 101)(7 downto 0);
-    
+    variable v_len  : natural;
   begin
     wait for 0.5674 ns;
     -------------------------------------------------------------------------------
@@ -84,19 +76,33 @@ begin
     msg("Part 1: Verify nw_ethernet_pkg functions");
     assert v_header = f_eth_get_header(C_ETH_PKT)
       report "Test 1.1 failed" severity failure;
+
     assert C_ETH_PKT = f_eth_create_pkt(v_header, C_ETH_PKT(14 to 97))
       report "Test 1.2 failed" severity failure;
+
     assert f_eth_crc_ok(C_ETH_PKT)
       report "Test 1.3 failed" severity failure;
+
     v_data        := C_ETH_PKT;
-    v_data(56)(5) := not v_data(56)(5);     -- insert bit error
+    v_data(56)(5) := not v_data(56)(5);  -- insert bit error
+
     assert f_eth_crc_ok(v_data) = false
       report "Test 1.4 failed" severity failure;
+
     assert 102 = f_eth_create_pkt_len(v_header, C_ETH_PKT(14 to 97))
       report "Test 1.5 failed" severity failure;
-    assert C_ETH_PKT(0 to 5) = f_eth_mac_2_slv_arr("08:00:27:27:1a:d5") 
+
+    assert C_ETH_PKT(0 to 5) = f_eth_mac_2_slv_arr("08:00:27:27:1a:d5")
       report "Test 1.6 failed" severity failure;
-    
+
+    v_len := f_eth_get_payload_len(C_ETH_PKT);
+    assert v_len = 88
+      report "Test 1.7 failed" severity failure;
+
+    v_data(0 to 87) := f_eth_get_payload(C_ETH_PKT);
+    assert v_data(0 to 87) = C_ETH_PKT(14 to 101)
+      report "Test 1.8 failed" severity failure;
+
 
     wait for 10 ns;
     -- Finish the simulation

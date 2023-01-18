@@ -44,9 +44,9 @@ use work.nw_types_pkg.all;
 --! \page nw_util Utilities library
 --! \tableofcontents
 --! Leading text.
---!  \section sec An example section
+--!  
 --!  This page contains the subsections \ref subsection1 and \ref subsection2.
---!  For more info see page \ref page2.
+--!  
 --!  \subsection subsection1 The first subsection
 --!  Text.
 --!  \subsection subsection2 The second subsection
@@ -93,7 +93,11 @@ package nw_util_pkg is
   function f_swap_endian(data : t_slv_arr) return t_slv_arr;
   function f_swap_endian(data : std_logic_vector) return std_logic_vector;
 
-  function f_str_2_slv(value: string) return std_logic_vector;
+  function f_to_unsigned_arr(data : t_slv_arr) return t_unsigned_arr;
+  function f_to_slv_arr(data      : t_unsigned_arr) return t_slv_arr;
+
+
+  function f_str_2_slv(value : string) return std_logic_vector;
 
   -------------------------------------------------------------------------------
   -- Procedures
@@ -536,36 +540,87 @@ package body nw_util_pkg is
   --! v_number   := f_str_2_slv("a50"); -- v_number is now "101001010000"
   --! ~~~
   -------------------------------------------------------------------------------
-  function f_str_2_slv(value: string) 
+  function f_str_2_slv(value : string)
     return std_logic_vector is
-    variable v_val: std_logic_vector(value'length * 4 - 1 downto 0);
+    variable v_val   : std_logic_vector(value'length * 4 - 1 downto 0);
     variable v_digit : std_logic_vector(3 downto 0);
   begin
     for i in 0 to value'length - 1 loop
       case value(value'left + i) is
-        when '0'       =>   v_digit := x"0";
-        when '1'       =>   v_digit := x"1";
-        when '2'       =>   v_digit := x"2";
-        when '3'       =>   v_digit := x"3";
-        when '4'       =>   v_digit := x"4";
-        when '5'       =>   v_digit := x"5";
-        when '6'       =>   v_digit := x"6";
-        when '7'       =>   v_digit := x"7";
-        when '8'       =>   v_digit := x"8";
-        when '9'       =>   v_digit := x"9";
-        when 'A' | 'a' =>   v_digit := x"a";
-        when 'B' | 'b' =>   v_digit := x"b";
-        when 'C' | 'c' =>   v_digit := x"c";
-        when 'D' | 'd' =>   v_digit := x"d";
-        when 'E' | 'e' =>   v_digit := x"e";
-        when 'F' | 'f' =>   v_digit := x"f";
+        when '0'       => v_digit := x"0";
+        when '1'       => v_digit := x"1";
+        when '2'       => v_digit := x"2";
+        when '3'       => v_digit := x"3";
+        when '4'       => v_digit := x"4";
+        when '5'       => v_digit := x"5";
+        when '6'       => v_digit := x"6";
+        when '7'       => v_digit := x"7";
+        when '8'       => v_digit := x"8";
+        when '9'       => v_digit := x"9";
+        when 'A' | 'a' => v_digit := x"a";
+        when 'B' | 'b' => v_digit := x"b";
+        when 'C' | 'c' => v_digit := x"c";
+        when 'D' | 'd' => v_digit := x"d";
+        when 'E' | 'e' => v_digit := x"e";
+        when 'F' | 'f' => v_digit := x"f";
         when others =>
-          assert False report "f_str_2_slv: string characters must be 0-9 or a-f" severity C_SEVERITY;
+          assert false report "f_str_2_slv: string characters must be 0-9 or a-f" severity C_SEVERITY;
       end case;
       v_val((value'length - i) * 4 - 1 downto (value'length - i - 1) * 4) := v_digit;
     end loop;
     return v_val;
   end function f_str_2_slv;
+
+  -------------------------------------------------------------------------------
+  --! \brief Convert slv array to unsigned array
+  --! \param data   slv array
+  --! \return       unsigned array
+  --!
+  --! This function converts each word in the data array from std_logic_vector to unsigned type.
+  --!
+  --! **Example use**
+  --! ~~~
+  --! v_udata := f_to_unsigned_arr(v_data);
+  --! ~~~
+  -------------------------------------------------------------------------------
+  function f_to_unsigned_arr(data : t_slv_arr)
+    return t_unsigned_arr is
+    variable v_ret : t_unsigned_arr(0 to data'length - 1)(data(data'low)'length - 1 downto 0);
+  begin
+    assert data'ascending report "f_to_unsigned_arr: input data array must be ascending" severity C_SEVERITY;
+    assert data(data'low)'ascending = false report "f_to_unsigned_arr: input data words must be descending" severity C_SEVERITY;
+
+    for i in 0 to data'length - 1 loop
+      v_ret(i) := unsigned(data(data'left + i));
+    end loop;
+    return v_ret;
+  end function f_to_unsigned_arr;
+
+  -------------------------------------------------------------------------------
+  --! \brief Convert unsigned array to slv array
+  --! \param data   unsigned array
+  --! \return       slv array
+  --!
+  --! This function converts each word in the data array from unsigned to std_logic_vector type.
+  --!
+  --! **Example use**
+  --! ~~~
+  --! v_data := f_to_slv_arr(v_udata);
+  --! ~~~
+  -------------------------------------------------------------------------------
+  function f_to_slv_arr(data : t_unsigned_arr)
+    return t_slv_arr is
+    variable v_ret : t_slv_arr(0 to data'length - 1)(data(data'low)'length - 1 downto 0);
+  begin
+    assert data'ascending report "f_to_slv_arr: input data array must be ascending" severity C_SEVERITY;
+    assert data(data'low)'ascending = false report "f_to_slv_arr: input data words must be descending" severity C_SEVERITY;
+
+    for i in 0 to data'length - 1 loop
+      v_ret(i) := std_logic_vector(data(data'left + i));
+    end loop;
+    return v_ret;
+  end function f_to_slv_arr;
+
 
   -----------------------------------------------------------------------------
   --! \brief Print message in simulation log

@@ -53,6 +53,10 @@ package nw_crc_pkg is
                      init      : std_logic_vector;
                      msb_first : boolean := C_MSB_FIRST) return std_logic_vector;
 
+  function f_gen_chksum(data: t_slv_arr;
+                        chksum_width: positive;
+                        use_carry: boolean := True) return std_logic_vector;
+
 
 end package nw_crc_pkg;
 
@@ -66,12 +70,12 @@ package body nw_crc_pkg is
   --! \param msb_first   Extract most significant bits first if True (default), least significant bits if False
   --! \return            CRC
   --!
-  --! 
+  --! Calculate CRC checksum of data array. 
   --!
   --! **Example use**
   --! ~~~
   --! array_8bit := (x"11", x"22", x"33", x"44", x"55", x"66", x"77");
-  --! v_crc_32   := f_gen_crc(C_ETH_CRC32, array_8bit, x"ffffffff"); -- v_crc_32 is now x"""
+  --! v_crc_32   := f_gen_crc(C_ETH_CRC32, array_8bit, x"ffffffff"); -- v_crc_32 is now x"97aee1d3"
   --! ~~~
   -------------------------------------------------------------------------------
   function f_gen_crc(poly      : std_logic_vector;
@@ -110,5 +114,43 @@ package body nw_crc_pkg is
     end loop;
     return v_crc;
   end function f_gen_crc;
+
+  -------------------------------------------------------------------------------
+  --! \brief Calculate sum-of-words checksum
+  --! \param data         Data array 
+  --! \param chksum_width Checksum width
+  --! \param use_carry    Add carry to checksum (default True)
+  --! \return             Checksum
+  --!
+  --! Calculate sum-of-words checksum of data array. The data array should have the same width as the checksum, 
+  --! which is accomplished with e.g. f_repack().
+  --!
+  --! **Example use**
+  --! ~~~
+  --! array_16bit := (x"4500", x"0073", x"0000", x"4000", x"4011", x"0000", x"c0a8", x"0001", x"c0a8", x"00c7"); -- IPv4 Header
+  --! v_chksum    := not f_gen_chksum(array_16bit, 16); -- v_chksum is now x"b861", which is the IPv4 header checksum
+  --! ~~~
+  -------------------------------------------------------------------------------
+  function f_gen_chksum(data: t_slv_arr;
+                        chksum_width: positive;
+                        use_carry: boolean := True) 
+    return std_logic_vector is
+      variable v_chksum : unsigned(2 * chksum_width - 1 downto 0) := (others => '0');
+      variable v_tmp : unsigned(2 * chksum_width - 1 downto 0) := (others => '0');
+  begin
+    assert data(data'low)'length = chksum_width report "f_gen_chksum: data array word width must equal chksum_width" severity C_SEVERITY;
+    assert data'ascending report "f_gen_chksum: data array must be ascending" severity C_SEVERITY;
+
+    for i in data'low to data'high loop
+      v_tmp(chksum_width - 1 downto 0) := unsigned(data(i));
+      v_chksum := v_chksum + v_tmp;
+      if use_carry then
+        v_chksum(chksum_width - 1 downto 0) := v_chksum(chksum_width - 1 downto 0) + v_chksum(2 * chksum_width - 1 downto chksum_width);
+        v_chksum(2 * chksum_width - 1 downto chksum_width) := (others => '0');
+      end if;
+    end loop;
+
+    return std_logic_vector(v_chksum(chksum_width - 1 downto 0));
+  end function f_gen_chksum;
 
 end package body nw_crc_pkg;

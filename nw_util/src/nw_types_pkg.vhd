@@ -42,5 +42,6 @@ package nw_types_pkg is
   -- Types
   -------------------------------------------------------------------------------
   type t_slv_arr is array (natural range <>) of std_logic_vector;  --! Array of std_logic_vector is the primary data type
+  type t_unsigned_arr is array (natural range <>) of unsigned;  --! Array of unsigned 
 
 end package nw_types_pkg;
