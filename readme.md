@@ -1,4 +1,4 @@
-![](netwiz.png)
+![](./netwiz.png)
 
 ## Libraries
 Netwiz consists of the following libraries:
