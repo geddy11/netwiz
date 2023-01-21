@@ -10,7 +10,7 @@
 -------------------------------------------------------------------------------
 -- MIT License
 --
--- Copyright (c) 2023 Geir Drange and contributors
+-- Copyright (c) 2023 Geir Drange
 --
 -- Permission is hereby granted, free of charge, to any person obtaining a copy
 -- of this software and associated documentation files (the "Software"), to deal
@@ -41,8 +41,34 @@ use work.nw_types_pkg.all;
 use work.nw_util_pkg.all;
 --! @endcond
 
-
-
+--! \page nw_crc Checksum and CRC library
+--! \tableofcontents
+--! This library provides functions for calculation of checksum and CRC. 
+--!
+--! \subsection crc_subsec1 Functionality
+--! \li Checksum of any data width, with or without carry
+--! \li CRC from any polynomial
+--!
+--! \n\n More details in \ref nw_crc_pkg
+--! \subsection crc_subsec2 Example use
+--! Include the libraries:
+--! ~~~
+--! library nw_util;
+--! context nw_util.nw_util_context;
+--! ~~~
+--! Calculation of internet checksum (IPv4 header checksum):
+--! ~~~
+--! v_chksum16 := not f_gen_chksum(array_16bit, 16); 
+--! ~~~
+--! Calculation of 8bit checksum (no carry):
+--! ~~~
+--! v_chksum8 := not f_gen_chksum(array_8bit, 8, False); 
+--! ~~~
+--! Calculation of ethernet CRC - here we need to postprocess the CRC by bit-reversing, swap endianess and inverting:
+--! ~~~
+--! v_crc_32   := not f_swap_endian(f_bitflip(f_gen_crc(C_ETH_CRC32, array_8bit, x"ffffffff", C_LSB_FIRST)));
+--! ~~~
+--! See further examples in the test bench nw_util_tb.vhd.
 package nw_crc_pkg is
 
   -------------------------------------------------------------------------------

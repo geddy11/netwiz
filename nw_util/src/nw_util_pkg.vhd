@@ -11,7 +11,7 @@
 -------------------------------------------------------------------------------
 -- MIT License
 --
--- Copyright (c) 2023 Geir Drange and contributors
+-- Copyright (c) 2023 Geir Drange
 --
 -- Permission is hereby granted, free of charge, to any person obtaining a copy
 -- of this software and associated documentation files (the "Software"), to deal
@@ -43,24 +43,37 @@ use work.nw_types_pkg.all;
 
 --! \page nw_util Utilities library
 --! \tableofcontents
---! Leading text.
---!  
---!  This page contains the subsections \ref subsection1 and \ref subsection2.
---!  
---!  \subsection subsection1 The first subsection
---!  Text.
---!  \subsection subsection2 The second subsection
---!  More text.
---
+--! This library provides functions for data array manipulation.
+--!
+--! \subsection util_subsec1 Functionality
+--! \li Predefined polynomials for maximum-length sequences
+--! \li Any data width and length
+--!
+--! \n\n More details in \ref nw_util_pkg
+--! \subsection util_subsec2 Example use
+--! Include the libraries:
+--! ~~~
+--! library nw_util;
+--! context nw_util.nw_util_context;
+--! ~~~
+--! Generate a data array of 8bit pseudo-random numbers:
+--! ~~~
+--! 
+--! 
+--! 
+--! ~~~
+--! See further examples in the test bench nw_util_tb.vhd.
 package nw_util_pkg is
 
   -------------------------------------------------------------------------------
   -- Constants
+  --! @cond constants
   -------------------------------------------------------------------------------
   constant C_PAD_AFTER  : boolean := true;  --! Put padding at the end
   constant C_PAD_BEFORE : boolean := false;  --! Put padding in front
   constant C_MSB_FIRST  : boolean := true;  --! Extract/insert most significant bits first
   constant C_LSB_FIRST  : boolean := false;  --! Extract/insert least significant bits first
+  --! @endcond
 
   -------------------------------------------------------------------------------
   -- Functions
@@ -89,6 +102,9 @@ package nw_util_pkg is
 
   function f_search(data  : t_slv_arr;
                     token : t_slv_arr) return integer;
+
+  function f_stack(data_high : t_slv_arr;
+                   data_low  : t_slv_arr) return t_slv_arr;
 
   function f_swap_endian(data : t_slv_arr) return t_slv_arr;
   function f_swap_endian(data : std_logic_vector) return std_logic_vector;
@@ -459,6 +475,34 @@ package body nw_util_pkg is
     end loop;
     return -1;
   end function f_search;
+
+  -------------------------------------------------------------------------------
+  --! \brief Stack data words from two arrays
+  --! \param data_high Input MSB data array 
+  --! \param data_low  Input LSB data array 
+  --! \return          Stacked arrays
+  --!
+  --! Stack two data arrays, word by word. If one array is longer than the other, it will be cropped to match the length of the shorter one.
+  --!
+  --! **Example use**
+  --! ~~~
+  --! array_8bit  := (x"11", x"22", x"33", x"44", x"55", x"66", x"77");
+  --! array_4bit  := (x"0", x"1", x"2", x"3");
+  --! array_12bit := f_stack(array_4bit, array_8bit); -- array_12bit is now (x"011", x"122", x"233", x"344)
+  --! ~~~
+  -------------------------------------------------------------------------------
+  function f_stack(data_high : t_slv_arr;
+                   data_low  : t_slv_arr)
+    return t_slv_arr is
+    variable v_len   : natural := minimum(data_high'length, data_low'length);
+    variable v_width : natural := data_high(data_high'low)'length + data_low(data_low'low)'length;
+    variable v_data  : t_slv_arr(0 to v_len - 1)(v_width - 1 downto 0);
+  begin
+    for i in 0 to v_len - 1 loop
+      v_data(i) := data_high(i) & data_low(i);
+    end loop;
+    return v_data;
+  end function f_stack;
 
   -------------------------------------------------------------------------------
   --! \brief Swap endianness of array

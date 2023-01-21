@@ -10,7 +10,7 @@
 -------------------------------------------------------------------------------
 -- MIT License
 --
--- Copyright (c) 2023 Geir Drange and contributors
+-- Copyright (c) 2023 Geir Drange
 --
 -- Permission is hereby granted, free of charge, to any person obtaining a copy
 -- of this software and associated documentation files (the "Software"), to deal
@@ -41,6 +41,35 @@ use work.nw_types_pkg.all;
 use work.nw_util_pkg.all;
 --! @endcond
 
+--! \page nw_prbs PRBS library
+--! \tableofcontents
+--! This library provides functions for generation of Pseudo-Random Binary Sequences.
+--! A maximum length sequence has some unique properties. If the order of the polynomial is n, then
+--! the length of the sequence will be 2^n - 1, the longest run of 1's will be n and the longest run of 0's in that sequence will be n - 1.
+--!
+--! \subsection prbs_subsec1 Functionality
+--! \li Predefined polynomials for maximum-length sequences
+--! \li Any data width and length
+--!
+--! \n\n More details in \ref nw_prbs_pkg
+--! \subsection prbs_subsec2 Example use
+--! Include the libraries:
+--! ~~~
+--! library nw_util;
+--! context nw_util.nw_util_context;
+--! ~~~
+--! Generate a data array of 8bit pseudo-random numbers:
+--! ~~~
+--! array_8bit(0 to 127) := f_gen_prbs(C_POLY_X16_X15_X13_X4_1, 8, 128);
+--! array_8bit(0 to 127) := f_gen_prbs(C_POLY_X16_X15_X13_X4_1, 8, 128, C_LSB_FIRST); -- same sequence, but words bitflipped
+--! array_8bit(0 to 127) := f_gen_prbs(C_POLY_X16_X15_X13_X4_1, 8, 128, C_LSB_FIRST, x"8123"); -- same polynomial, but different init value
+--! ~~~
+--! Maximum length sequences can also be utilized to generate a range of unique, random numbers. 
+--! Say we want to generate 1024 unique MAC addresses to verify a MAC lookup table, from the range \c 7c:10:xx:xx:xx:xx:
+--! ~~~
+--! mac_array(0 to 1023) := f_stack(f_gen_nrs(x"7c10", 1024, "0"), f_gen_prbs(C_POLY_X32_X22_X2_X1_1, 32, 1024));
+--! ~~~
+--! See further examples in the test bench nw_util_tb.vhd.
 package nw_prbs_pkg is
 
   -------------------------------------------------------------------------------
@@ -155,7 +184,7 @@ package body nw_prbs_pkg is
   --! \param msb_first   Pack bits MSB in data words first (True, default), or LSB (False)
   --! \return            PRBS sequence in data array
   --!
-  --! This is an overloaded verison of f_ge_prbs with init value set to all 1's.
+  --! This is an overloaded verison of f_gen_prbs with init value set to all 1's.
   --!
   --! **Example use**
   --! ~~~

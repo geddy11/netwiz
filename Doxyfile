@@ -253,7 +253,7 @@ PYTHON_DOCSTRING       = YES
 # documentation from any documented member that it re-implements.
 # The default value is: YES.
 
-INHERIT_DOCS           = YES
+INHERIT_DOCS           = NO
 
 # If the SEPARATE_MEMBER_PAGES tag is set to YES then doxygen will produce a new
 # page for each member. If set to NO, the documentation of a member will be part
@@ -505,7 +505,7 @@ EXTRACT_ALL            = NO
 # be included in the documentation.
 # The default value is: NO.
 
-EXTRACT_PRIVATE        = NO
+EXTRACT_PRIVATE        = YES
 
 # If the EXTRACT_PRIV_VIRTUAL tag is set to YES, documented private virtual
 # methods of a class will be included in the documentation.
@@ -517,7 +517,7 @@ EXTRACT_PRIV_VIRTUAL   = NO
 # scope will be included in the documentation.
 # The default value is: NO.
 
-EXTRACT_PACKAGE        = NO
+EXTRACT_PACKAGE        = YES
 
 # If the EXTRACT_STATIC tag is set to YES, all static members of a file will be
 # included in the documentation.
@@ -617,7 +617,7 @@ CASE_SENSE_NAMES       = SYSTEM
 # scope will be hidden.
 # The default value is: NO.
 
-HIDE_SCOPE_NAMES       = NO
+HIDE_SCOPE_NAMES       = YES
 
 # If the HIDE_COMPOUND_REFERENCE tag is set to NO (default) then doxygen will
 # append additional text to a page's title, such as Class Reference. If set to
@@ -796,7 +796,7 @@ FILE_VERSION_FILTER    =
 # DoxygenLayout.xml, doxygen will parse it automatically even if the LAYOUT_FILE
 # tag is left empty.
 
-LAYOUT_FILE            =
+LAYOUT_FILE            = ./DoxygenLayout.xml
 
 # The CITE_BIB_FILES tag can be used to specify one or more bib files containing
 # the reference definitions. This must be a list of .bib files. The .bib
@@ -1934,7 +1934,7 @@ EXTRA_SEARCH_MAPPINGS  =
 # If the GENERATE_LATEX tag is set to YES, doxygen will generate LaTeX output.
 # The default value is: YES.
 
-GENERATE_LATEX         = YES
+GENERATE_LATEX         = NO
 
 # The LATEX_OUTPUT tag is used to specify where the LaTeX docs will be put. If a
 # relative path is entered the value of OUTPUT_DIRECTORY will be put in front of

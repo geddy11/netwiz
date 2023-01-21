@@ -8,7 +8,7 @@
 -------------------------------------------------------------------------------
 -- MIT License
 --
--- Copyright (c) 2023 Geir Drange and contributors
+-- Copyright (c) 2023 Geir Drange
 --
 -- Permission is hereby granted, free of charge, to any person obtaining a copy
 -- of this software and associated documentation files (the "Software"), to deal
@@ -44,6 +44,7 @@ architecture behav of nw_util_tb is
 
   constant C_PRBS_5 : t_slv_arr(0 to 0)(30 downto 0) := (others => "1001101001000010101110110001111");
   constant C_CRC16  : std_logic_vector(15 downto 0)  := x"8005";
+  constant C_STACKED: t_slv_arr(0 to 1)(15 downto 0) := (x"5511", x"4222");
 
 begin
 
@@ -56,8 +57,9 @@ begin
     variable v_token : t_slv_arr(0 to 1)(7 downto 0)       := (x"55", x"42");
     variable v_udata : t_unsigned_arr(0 to 3)(15 downto 0) := (x"1234", x"ff65", x"7899", x"ade1");
     variable v_data  : t_slv_arr(0 to 3)(15 downto 0)      := (x"1234", x"ff65", x"7899", x"ade1");
-    variable v_crc :std_logic_vector(31 downto 0);
-    variable v_a_16 : t_slv_arr(0 to 9)(15 downto 0) := (x"4500", x"0073", x"0000", x"4000", x"4011", x"0000", x"c0a8", x"0001", x"c0a8", x"00c7"); 
+    variable v_crc   : std_logic_vector(31 downto 0);
+    variable v_a_16  : t_slv_arr(0 to 9)(15 downto 0) := (x"4500", x"0073", x"0000", x"4000", x"4011", x"0000", x"c0a8", x"0001", x"c0a8", x"00c7"); 
+    variable v_nrs   : t_slv_arr(0 to 255)(7 downto 0);
   begin
     wait for 1 ns;
     -------------------------------------------------------------------------------
@@ -81,6 +83,14 @@ begin
     assert v_data = f_to_slv_arr(v_udata)
       report "Test 1.4 failed" severity failure;
 
+    assert C_STACKED = f_stack(v_token, v_a_8)
+      report "Test 1.5 failed" severity failure;
+
+    assert f_search(v_a_8, v_token(0 to 0)) = 4
+      report "Test 1.6 failed" severity failure;
+
+    assert f_search(v_a_8, v_token(1 to 1)) = -1
+      report "Test 1.7 failed" severity failure;
 
     -------------------------------------------------------------------------------
     -- nw_prbs_pkg functions
@@ -93,12 +103,6 @@ begin
     assert f_gen_prbs(C_POLY_X5_X3_1, 1, 31) = f_repack(C_PRBS_5, 1)
       report "Test 2.2 failed" severity failure;
 
-    assert f_search(v_a_8, v_token(0 to 0)) = 4
-      report "Test 2.3 failed" severity failure;
-
-    assert f_search(v_a_8, v_token(1 to 1)) = -1
-      report "Test 2.4 failed" severity failure;
-
     -------------------------------------------------------------------------------
     -- nw_crc_pkg functions
     -------------------------------------------------------------------------------
@@ -108,7 +112,16 @@ begin
       report "Test 3.1 failed" severity failure;
 
     assert x"b861" = not f_gen_chksum(v_a_16, 16, True)
-    report "Test 3.2 failed" severity failure;
+      report "Test 3.2 failed" severity failure;
+
+    -------------------------------------------------------------------------------
+    -- nw_nrs_pkg functions
+    -------------------------------------------------------------------------------
+    wait for 0.333 ns;
+    msg("Part 4: Verify nw_nrs_pkg functions");
+    assert f_gen_nrs(x"55", 256) = f_gen_nrs(x"55", 256, x"ff", false)
+      report "Test 4.1 failed" severity failure;
+
 
     wait for 100 ns;
     -- Finish the simulation

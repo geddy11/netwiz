@@ -11,7 +11,7 @@
 -------------------------------------------------------------------------------
 -- MIT License
 --
--- Copyright (c) 2023 Geir Drange and contributors
+-- Copyright (c) 2023 Geir Drange
 --
 -- Permission is hereby granted, free of charge, to any person obtaining a copy
 -- of this software and associated documentation files (the "Software"), to deal
@@ -38,5 +38,6 @@ context nw_util_context is
   use nw_util.nw_types_pkg.all;
   use nw_util.nw_util_pkg.all;
   use nw_util.nw_prbs_pkg.all;
+  use nw_util.nw_nrs_pkg.all;
   use nw_util.nw_crc_pkg.all;
 end context nw_util_context;
