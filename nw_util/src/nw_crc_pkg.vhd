@@ -41,8 +41,11 @@ use work.nw_types_pkg.all;
 use work.nw_util_pkg.all;
 --! @endcond
 
---! \page nw_crc Checksum and CRC library
+--! \addgroup nw_util CRC
+-- page nw_crc Checksum and CRC library
+--! \page nw_crc Utilities library
 --! \tableofcontents
+--! \section CRC
 --! This library provides functions for calculation of checksum and CRC. 
 --!
 --! \subsection crc_subsec1 Functionality
@@ -172,6 +175,8 @@ package body nw_crc_pkg is
       v_chksum := v_chksum + v_tmp;
       if use_carry then
         v_chksum(chksum_width - 1 downto 0) := v_chksum(chksum_width - 1 downto 0) + v_chksum(2 * chksum_width - 1 downto chksum_width);
+        v_chksum(2 * chksum_width - 1 downto chksum_width) := (others => '0');
+      else
         v_chksum(2 * chksum_width - 1 downto chksum_width) := (others => '0');
       end if;
     end loop;

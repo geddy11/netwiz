@@ -41,6 +41,7 @@ context nw_util.nw_util_context;
 
 --! \page nw_pcap PCAP library
 --! \tableofcontents
+--! \section PCAP
 --! The PCAP library provides functions for reading network packets from PCAP files captured by \c tcpdump, \c Wireshark etc. 
 --! These packets can then be used as stimuli in test benches. 
 --! A collection of PCAP files can be found at for example <a href="https://packetlife.net/captures/">PacketLife</a>.

@@ -42,9 +42,9 @@ end entity nw_util_tb;
 
 architecture behav of nw_util_tb is
 
-  constant C_PRBS_5 : t_slv_arr(0 to 0)(30 downto 0) := (others => "1001101001000010101110110001111");
-  constant C_CRC16  : std_logic_vector(15 downto 0)  := x"8005";
-  constant C_STACKED: t_slv_arr(0 to 1)(15 downto 0) := (x"5511", x"4222");
+  constant C_PRBS_5  : t_slv_arr(0 to 0)(30 downto 0) := (others => "1001101001000010101110110001111");
+  constant C_CRC16   : std_logic_vector(15 downto 0)  := x"8005";
+  constant C_STACKED : t_slv_arr(0 to 1)(15 downto 0) := (x"5511", x"4222");
 
 begin
 
@@ -58,7 +58,7 @@ begin
     variable v_udata : t_unsigned_arr(0 to 3)(15 downto 0) := (x"1234", x"ff65", x"7899", x"ade1");
     variable v_data  : t_slv_arr(0 to 3)(15 downto 0)      := (x"1234", x"ff65", x"7899", x"ade1");
     variable v_crc   : std_logic_vector(31 downto 0);
-    variable v_a_16  : t_slv_arr(0 to 9)(15 downto 0) := (x"4500", x"0073", x"0000", x"4000", x"4011", x"0000", x"c0a8", x"0001", x"c0a8", x"00c7"); 
+    variable v_a_16  : t_slv_arr(0 to 9)(15 downto 0)      := (x"4500", x"0073", x"0000", x"4000", x"4011", x"0000", x"c0a8", x"0001", x"c0a8", x"00c7");
     variable v_nrs   : t_slv_arr(0 to 255)(7 downto 0);
   begin
     wait for 1 ns;
@@ -111,7 +111,7 @@ begin
     assert x"e177" = f_bitflip(f_gen_crc(C_CRC16, v_a_8, x"ffff", C_LSB_FIRST))  -- CRC-16/MODBUS
       report "Test 3.1 failed" severity failure;
 
-    assert x"b861" = not f_gen_chksum(v_a_16, 16, True)
+    assert x"b861" = not f_gen_chksum(v_a_16, 16, true)
       report "Test 3.2 failed" severity failure;
 
     -------------------------------------------------------------------------------

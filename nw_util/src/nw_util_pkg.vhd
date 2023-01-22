@@ -41,13 +41,16 @@ use nw_adapt.nw_adaptations_pkg.all;
 use work.nw_types_pkg.all;
 --! @endcond
 
+--! \defgroup nw_util util
 --! \page nw_util Utilities library
 --! \tableofcontents
 --! This library provides functions for data array manipulation.
---!
+--! \section util
 --! \subsection util_subsec1 Functionality
---! \li Predefined polynomials for maximum-length sequences
---! \li Any data width and length
+--! \li Repack data arrays to new data width, padding before or after
+--! \li Flip bits in data words or swap endianess
+--! \li Concatenate data array lengthwise or widthwise
+--! \li Search for token in data arrays
 --!
 --! \n\n More details in \ref nw_util_pkg
 --! \subsection util_subsec2 Example use

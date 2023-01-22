@@ -41,6 +41,7 @@ context nw_util.nw_util_context;
 
 --! \page nw_ethernet Ethernet library
 --! \tableofcontents
+--! \section Ethernet
 --! The ethernet library provides functions for creating and checking ethernet packets.
 --!
 --! \subsection eth_subsec1 Functionality
@@ -200,7 +201,7 @@ package body nw_ethernet_pkg is
   --! \brief Create ethernet packet
   --! \param header     Ethernet header
   --! \param payload    Ethernet payload
-  --! \param get_length Get length of repacked array, default False
+  --! \param get_length Get length of created packet, default False
   --! \return           Ethernet packet (8bit array)
   --!
   --! Create ethernet packet. Payload must be 8bit data array. Padding is added to achieve minimum frame size of 64 bytes. 4-byte FCS is added to the end of the packet.
@@ -275,7 +276,7 @@ package body nw_ethernet_pkg is
   --!
   --! **Example use**
   --! ~~~
-  --! v_len                      := f_eth_create_pkt(v_eth_header, payload, True); 
+  --! v_len                      := f_eth_create_pkt_len(v_eth_header, payload); 
   --! v_pkt_8bit(0 to v_len - 1) := f_eth_create_pkt(v_eth_header, payload);
   --! ~~~
   -------------------------------------------------------------------------------
@@ -369,7 +370,7 @@ package body nw_ethernet_pkg is
   -------------------------------------------------------------------------------
   --! \brief Get ethernet payload length
   --! \param eth_pkt    Ethernet packet (8bit)
-  --! \return           Ethernet payload
+  --! \return           Ethernet payload length
   --!
   --! Get ethernet payload length from ethernet packet. Assumes that first byte in packet is first byte after start frame delimiter.
   --!
@@ -418,11 +419,12 @@ package body nw_ethernet_pkg is
   --! \param mac   MAC address in string format
   --! \return      MAC address as byte array
   --!
-  --! Convert MAC address in string format to byte array.
+  --! Convert MAC address in string format to byte array. The character separating the numbers is not checked, and can be any valid character.
   --!
   --! **Example use**
   --! ~~~
   --! v_mac := f_eth_mac_2_slv_arr("a2:34:56:f1:30:00"); -- v_mac is now (x"a2", x"34", x"56", x"f1", x"30", x"00")
+  --! v_mac := f_eth_mac_2_slv_arr("a2-34-56-f1-30-00"); -- v_mac is now (x"a2", x"34", x"56", x"f1", x"30", x"00")
   --! ~~~
   -------------------------------------------------------------------------------
   function f_eth_mac_2_slv_arr(mac : string(1 to 17))

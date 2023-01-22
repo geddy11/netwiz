@@ -42,6 +42,7 @@ use work.nw_types_pkg.all;
 
 --! \page nw_nrs NRS library
 --! \tableofcontents
+--! \section NRS
 --! The NRS library provides functions for generation of non-random sequences.
 --!
 --! \subsection nrs_subsec1 Functionality

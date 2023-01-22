@@ -41,8 +41,10 @@ use work.nw_types_pkg.all;
 use work.nw_util_pkg.all;
 --! @endcond
 
+--! \addgroup nw_util PRBS
 --! \page nw_prbs PRBS library
 --! \tableofcontents
+--! \section PRBS
 --! This library provides functions for generation of Pseudo-Random Binary Sequences.
 --! A maximum length sequence has some unique properties. If the order of the polynomial is n, then
 --! the length of the sequence will be 2^n - 1, the longest run of 1's will be n and the longest run of 0's in that sequence will be n - 1.
