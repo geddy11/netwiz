@@ -41,12 +41,10 @@ use work.nw_types_pkg.all;
 use work.nw_util_pkg.all;
 --! @endcond
 
---! \addgroup nw_util CRC
--- page nw_crc Checksum and CRC library
---! \page nw_crc Utilities library
+--! \page nw_crc Checksum and CRC library
 --! \tableofcontents
---! \section CRC
---! This library provides functions for calculation of checksum and CRC. 
+--! \section crc CRC & Checksum
+--! This library provides functions for calculation of checksums and CRC. 
 --!
 --! \subsection crc_subsec1 Functionality
 --! \li Checksum of any data width, with or without carry
@@ -76,6 +74,7 @@ package nw_crc_pkg is
 
   -------------------------------------------------------------------------------
   -- Functions
+  -- @cond functions
   -------------------------------------------------------------------------------
   function f_gen_crc(poly      : std_logic_vector;
                      data      : t_slv_arr;
@@ -85,7 +84,7 @@ package nw_crc_pkg is
   function f_gen_chksum(data: t_slv_arr;
                         chksum_width: positive;
                         use_carry: boolean := True) return std_logic_vector;
-
+  -- @endcond
 
 end package nw_crc_pkg;
 

@@ -36,6 +36,7 @@ library nw_util;
 context nw_util.nw_util_context;
 
 use work.nw_ipv4_pkg.all;
+use work.nw_udpv4_pkg.all;
 --library nw_ethernet;
 --use nw_ethernet.nw_ethernet_pkg.all;
 --use work.nw_ethernet_pkg.all;
@@ -100,6 +101,7 @@ begin
     variable v_ipv4_header : t_ipv4_header;
     variable v_len         : natural;
     variable v_chksum      : std_logic_vector(15 downto 0);
+    variable v_udp_header  : t_udp_header;
 
   begin
     wait for 0.5674 ns;
@@ -139,7 +141,30 @@ begin
     assert f_ipv4_chksum_ok(v_ipv4_pkt)
       report "Test 1.8 failed" severity failure;
 
+    -------------------------------------------------------------------------------
+    -- nw_udpv4_pkg functions
+    -------------------------------------------------------------------------------
+    wait for 2.78 ns;
+    msg("Part 2: Verify nw_udpv4_pkg functions");
+    assert f_udpv4_chksum_ok(f_ipv4_get_header(C_IPV4_UDP_PKT), f_ipv4_get_payload(C_IPV4_UDP_PKT))
+      report "Test 2.1 failed" severity failure;
 
+    v_udp_header := f_udpv4_get_header(f_ipv4_get_payload(C_IPV4_UDP_PKT));
+    assert v_udp_header.chksum = x"7f12"
+      report "Test 2.2 failed" severity failure;
+
+    v_len := f_udpv4_get_payload_len(f_ipv4_get_payload(C_IPV4_UDP_PKT));
+    assert v_len = 282
+      report "Test 2.3 failed" severity failure;
+
+    v_payload(0 to v_len - 1) := f_udpv4_get_payload(f_ipv4_get_payload(C_IPV4_UDP_PKT));
+    assert v_payload(0 to v_len - 1) = C_IPV4_UDP_PKT(28 to 309)
+      report "Test 2.4 failed" severity failure;
+
+    v_len     := f_udpv4_create_pkt_len(v_udp_header, f_udpv4_get_payload(f_ipv4_get_payload(C_IPV4_UDP_PKT)));
+    v_payload := f_updv4_create_pkt(f_ipv4_get_header(C_IPV4_UDP_PKT), v_udp_header, f_udpv4_get_payload(f_ipv4_get_payload(C_IPV4_UDP_PKT)));
+    assert v_payload(0 to v_len - 1) = C_IPV4_UDP_PKT(20 to 309)
+      report "Test 2.5 failed" severity failure;
 
 
     wait for 100 ns;

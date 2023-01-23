@@ -41,11 +41,10 @@ use nw_adapt.nw_adaptations_pkg.all;
 use work.nw_types_pkg.all;
 --! @endcond
 
---! \defgroup nw_util util
 --! \page nw_util Utilities library
 --! \tableofcontents
 --! This library provides functions for data array manipulation.
---! \section util
+--! \section util Utilities
 --! \subsection util_subsec1 Functionality
 --! \li Repack data arrays to new data width, padding before or after
 --! \li Flip bits in data words or swap endianess
@@ -59,27 +58,57 @@ use work.nw_types_pkg.all;
 --! library nw_util;
 --! context nw_util.nw_util_context;
 --! ~~~
---! Generate a data array of 8bit pseudo-random numbers:
+--! Bit-flip (reflect) and swap endianness of data arrays and std_logic_vectors:
 --! ~~~
---! 
---! 
---! 
+--! array_8bit    := (x"c1", x"67");
+--! array_flipped := f_bitflip(array_8bit); -- array_flipped is now (x"83", x"e6")
+--! v_a           := "1100001111";
+--! v_a_flipped   := f_bitflip(v_a); -- v_a_flipped is now "1111000011"
+--! array_32bit   := (x"11223344", x"abcdef00);
+--! array_swapped := f_swap_endian(array_32bit); -- array_swapped is now (x"44332211",  x"00efcdab")
 --! ~~~
+--! Concatenate data arrays:
+--! ~~~
+--! array_8bit   := (x"c1", x"67");
+--! array2_8bit  := (x"55", x"8f", x"42);
+--! array_concat := f_concat(array_8bit, array2_8bit); -- array_concat is now (x"c1", x"67", x"55", x"8f", x"42)
+--! ~~~
+--! Repack data arrays to new data word width:
+--! ~~~
+--! array_8bit  := (x"11", x"22", x"33", x"44", x"55", x"66", x"77");
+--! array_32bit := f_repack(array_8bit, 32, C_MSB_FIRST, C_PAD_BEFORE, x"ff"); -- array_32bit is now (x"ff112233", x"44556677")
+--! array_32bit := f_repack(array_8bit, 32, C_LSB_FIRST, C_PAD_BEFORE, x"ff"); -- array_32bit is now (x"332211ff", x"77665544")
+--! array_1bit  := f_repack(array_8bit(0 to 0), 1, C_MSB_FIRST); -- array_1bit is now ("0", "0", "0", "1", "0", "0", "0", "1")
+--! array_3bit  := f_repack(array_1bit, 3, C_LSB_FIRST);         -- array_3bit is now ("000", "001", "010")
+--! array_7bit  := f_repack(f_repack(array_8bit, 1), 7); -- array_7bit is now ("0001000", "1001000", "1000110", "0110100", "0100010", ...)
+--! ~~~
+--! Reverse data arrays:
+--! ~~~ 
+--! array_8bit := (x"c1", x"67", x"42");
+--! array_rev  := f_reverse(array_8bit); -- array_rev is now (x"42", x"67", x"c1")
+--! ~~~
+--! Stack data arrays to create wider data words:
+--! ~~~ 
+--! array_8bit  := (x"11", x"22", x"33", x"44", x"55", x"66", x"77");
+--! array_4bit  := (x"0", x"1", x"2", x"3");
+--! array_12bit := f_stack(array_4bit, array_8bit); -- array_12bit is now (x"011", x"122", x"233", x"344)
+--! ~~~ 
 --! See further examples in the test bench nw_util_tb.vhd.
 package nw_util_pkg is
 
   -------------------------------------------------------------------------------
   -- Constants
-  --! @cond constants
+  -- @cond constants
   -------------------------------------------------------------------------------
   constant C_PAD_AFTER  : boolean := true;  --! Put padding at the end
   constant C_PAD_BEFORE : boolean := false;  --! Put padding in front
   constant C_MSB_FIRST  : boolean := true;  --! Extract/insert most significant bits first
   constant C_LSB_FIRST  : boolean := false;  --! Extract/insert least significant bits first
-  --! @endcond
+  -- @endcond
 
   -------------------------------------------------------------------------------
   -- Functions
+  --! @cond functions
   -------------------------------------------------------------------------------
   function f_bitflip(data : t_slv_arr) return t_slv_arr;
   function f_bitflip(data : std_logic_vector) return std_logic_vector;
@@ -117,12 +146,15 @@ package nw_util_pkg is
 
 
   function f_str_2_slv(value : string) return std_logic_vector;
+  --! @endcond
 
   -------------------------------------------------------------------------------
   -- Procedures
+  --! @cond procedures
   -------------------------------------------------------------------------------
   procedure msg (
     constant msg : in string);          -- message to be printed
+  --! @endcond
 
 end package nw_util_pkg;
 

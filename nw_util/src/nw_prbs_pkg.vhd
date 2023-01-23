@@ -41,10 +41,9 @@ use work.nw_types_pkg.all;
 use work.nw_util_pkg.all;
 --! @endcond
 
---! \addgroup nw_util PRBS
 --! \page nw_prbs PRBS library
 --! \tableofcontents
---! \section PRBS
+--! \section prbs Pseudo-Random Binary Sequences
 --! This library provides functions for generation of Pseudo-Random Binary Sequences.
 --! A maximum length sequence has some unique properties. If the order of the polynomial is n, then
 --! the length of the sequence will be 2^n - 1, the longest run of 1's will be n and the longest run of 0's in that sequence will be n - 1.
@@ -77,7 +76,7 @@ package nw_prbs_pkg is
   -------------------------------------------------------------------------------
   -- Example maximum length polynomials
   -- Source: https://en.wikipedia.org/wiki/Linear-feedback_shift_register
-  --! @cond constants
+  -- @cond constants
   -------------------------------------------------------------------------------
   constant C_POLY_X2_X_1            : std_logic_vector(1 downto 0)  := "11";  -- x^2+x+1    
   constant C_POLY_X3_X2_1           : std_logic_vector(2 downto 0)  := "110";  -- x^3+x^2+1        
@@ -110,10 +109,11 @@ package nw_prbs_pkg is
   constant C_POLY_X30_X6_X4_X1_1    : std_logic_vector(29 downto 0) := "100000000000000000000000101001";  -- x^30+x^6+x^4+x^1+1
   constant C_POLY_X31_X28_1         : std_logic_vector(30 downto 0) := "1001000000000000000000000000000";  -- x^31+x^28+1
   constant C_POLY_X32_X22_X2_X1_1   : std_logic_vector(31 downto 0) := "10000000001000000000000000000011";  -- x^32+x^22+x^2+x^1+1
-  --! @endcond
+  -- @endcond
 
   -------------------------------------------------------------------------------
   -- PRBS functions
+  --! @cond functions
   -------------------------------------------------------------------------------
   function f_gen_prbs(poly       : std_logic_vector;
                       data_width : positive;
@@ -125,6 +125,7 @@ package nw_prbs_pkg is
                       data_width : positive;
                       length     : positive;
                       msb_first  : boolean := true) return t_slv_arr;
+  --! @endcond
 
 end package nw_prbs_pkg;
 

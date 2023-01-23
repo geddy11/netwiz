@@ -44,7 +44,7 @@ use work.ip_protocols_pkg.all;
 --! \page nw_ipv4 IPv4 library
 --! \tableofcontents
 --! \section IPv4
---! The IPv4 library provides functions for ...
+--! The IPv4 library provides functions for creating and manipulation IPv4 packets.
 --! \subsection ipv4_subsec1 Functionality
 --! \li Create IPv4 packets of any length
 --! \li Create and extract IPv4 headers
@@ -81,7 +81,6 @@ package nw_ipv4_pkg is
 
   -------------------------------------------------------------------------------
   -- IPv4 header
-  -- @cond records
   -------------------------------------------------------------------------------
   type t_ipv4_options is record
     copied        : std_logic;  --! Set to 1 if the options need to be copied into all fragments of a fragmented packet. 
@@ -107,7 +106,6 @@ package nw_ipv4_pkg is
     dest_ip        : std_logic_vector(31 downto 0);  --! Destination address
     options        : t_ipv4_options;    --! IPv4 options
   end record t_ipv4_header;
-  -- @endcond
 
   -------------------------------------------------------------------------------
   -- Constants
@@ -246,8 +244,9 @@ package body nw_ipv4_pkg is
 
   -------------------------------------------------------------------------------
   --! \brief Get IPv4 payload
-  --! \param ipv4_pkt IPv4 packet (8bit)
-  --! \return         t_slv_arr
+  --! \param ipv4_pkt   IPv4 packet (8bit)
+  --! \param get_length Get length of created packet, default False
+  --! \return           t_slv_arr
   --!
   --! Extract IPv4 payload from IPv4 packet. 
   --!
@@ -265,9 +264,11 @@ package body nw_ipv4_pkg is
     variable v_length : t_slv_arr(0 to 0)(30 downto 0);
     variable v_len    : natural;
     variable v_hlen   : natural;
+    variable v_data: t_slv_arr(0 to ipv4_pkt'length - 1)(7 downto 0);
   begin
     assert ipv4_pkt'ascending report "f_ipv4_get_payload: IPv4 packet must be ascending" severity C_SEVERITY;
     assert ipv4_pkt'length > 20 report "f_ipv4_get_payload: IPv4 packet must be at least 20 bytes" severity C_SEVERITY;
+    assert ipv4_pkt(ipv4_pkt'low)'length = 8 report "f_ipv4_get_payload: packet must be 8bit" severity C_SEVERITY;
 
     -- extract header
     v_header := f_ipv4_get_header(ipv4_pkt);
@@ -278,7 +279,8 @@ package body nw_ipv4_pkg is
       v_length(0) := std_logic_vector(to_unsigned(v_len, 31));
       return v_length;
     end if;
-    return ipv4_pkt(ipv4_pkt'low + v_hlen to ipv4_pkt'low + v_hlen + v_len - 1);
+    v_data(0 to v_len - 1) := ipv4_pkt(ipv4_pkt'low + v_hlen to ipv4_pkt'low + v_hlen + v_len - 1);
+    return v_data(0 to v_len - 1);
   end function f_ipv4_get_payload;
 
   -------------------------------------------------------------------------------
@@ -306,7 +308,7 @@ package body nw_ipv4_pkg is
   --! \param header     IPv4 header
   --! \param payload    IPv4 payload
   --! \param get_length Get length of created packet, default False
-  --! \return           IPv4 packet (8bit array)
+  --! \return           IPv4 packet (8bit array) or length of IPv4 packet
   --!
   --! Create IPv4 packet. Payload must be 8bit data array.
   --!
@@ -400,7 +402,7 @@ package body nw_ipv4_pkg is
   -------------------------------------------------------------------------------
   --! \brief Check IPv4 checksum
   --! \param ipv4_pkt  IPv4 packet (8bit)
-  --! \return          CRC is OK (True), or not (False)
+  --! \return          Checksum is OK (True), or not (False)
   --!
   --! Check checksum of IPv4 packet. The first byte of the packet must be the first byte of the IPv4 header.
   --!

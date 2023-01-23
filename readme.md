@@ -20,6 +20,7 @@ Netwiz consists of several libraries. Libraries not related to a specific networ
     * [nw_ethernet](@ref nw_ethernet_pkg): Create and manipulate Ethernet packets
   * nw_ipv4:
     * [nw_ipv4](@ref nw_ipv4_pkg): Create and manipulate IPv4 packets
+    * [nw_udp](@ref nw_udpv4_pkg): Create and manipulate UDP packets
 
   Additional protocol libraries are expected to be added in the future.
 

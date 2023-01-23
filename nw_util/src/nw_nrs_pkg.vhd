@@ -39,14 +39,14 @@ use nw_adapt.nw_adaptations_pkg.all;
 
 use work.nw_types_pkg.all;
 --! @endcond
-
+-- \addgroup nw_util NRS
 --! \page nw_nrs NRS library
 --! \tableofcontents
 --! \section NRS
 --! The NRS library provides functions for generation of non-random sequences.
 --!
 --! \subsection nrs_subsec1 Functionality
---! \li Generate data arrays with constant or inrementing/decrementing numbers.
+--! \li Generate data arrays with constant or incrementing/decrementing numbers.
 --! \li Any data width and array length
 --!
 --! \n\n More details in \ref nw_nrs_pkg
@@ -65,12 +65,14 @@ use work.nw_types_pkg.all;
 package nw_nrs_pkg is
 
   -------------------------------------------------------------------------------
-  -- PRBS functions
+  -- Functions
+  --@cond functions
   -------------------------------------------------------------------------------
   function f_gen_nrs(start_val : std_logic_vector;
                      len       : positive;
                      step      : std_logic_vector := "1";
                      step_up   : boolean          := true) return t_slv_arr;
+  -- @endcond
 
 end package nw_nrs_pkg;
 
