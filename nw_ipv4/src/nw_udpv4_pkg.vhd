@@ -41,7 +41,7 @@ context nw_util.nw_util_context;
 use work.nw_ipv4_pkg.all;
 --! @endcond
 
---! \page nw_udpv4 UDP(v4) library 
+--! \page nw_udpv4 UDP 
 --! \tableofcontents
 --! \section udpv4 UDP for IPv4
 --! The UDP library provides functions for creating and manipulation UDP packets. 
@@ -106,13 +106,13 @@ package nw_udpv4_pkg is
   -- Functions
   --!@cond functions
   -------------------------------------------------------------------------------
-  function f_updv4_create_pkt(ipv4_header : t_ipv4_header;
+  function f_udpv4_create_pkt(ipv4_header : t_ipv4_header;
                               udp_header  : t_udp_header;
                               payload     : t_slv_arr;
                               add_chksum  : boolean := true;
                               get_length  : boolean := false) return t_slv_arr;
 
-  function f_updv4_create_pkt(udp_header : t_udp_header;
+  function f_udpv4_create_pkt(udp_header : t_udp_header;
                               payload    : t_slv_arr;
                               get_length : boolean := false) return t_slv_arr;
 
@@ -153,7 +153,7 @@ package body nw_udpv4_pkg is
   --! v_packet_8bit := f_udpv4_create_pkt(v_ipv4_header, v_udp_header, payload); 
   --! ~~~
   -------------------------------------------------------------------------------
-  function f_updv4_create_pkt(ipv4_header : t_ipv4_header;
+  function f_udpv4_create_pkt(ipv4_header : t_ipv4_header;
                               udp_header  : t_udp_header;
                               payload     : t_slv_arr;
                               add_chksum  : boolean := true;
@@ -202,7 +202,7 @@ package body nw_udpv4_pkg is
     else
       return v_data;
     end if;
-  end function f_updv4_create_pkt;
+  end function f_udpv4_create_pkt;
 
   -------------------------------------------------------------------------------
   --! \brief Create UDPv4 packet (no checksum)
@@ -219,13 +219,13 @@ package body nw_udpv4_pkg is
   --! v_packet_8bit := f_udpv4_create_pkt(v_udp_header, payload); 
   --! ~~~
   -------------------------------------------------------------------------------
-  function f_updv4_create_pkt(udp_header : t_udp_header;
+  function f_udpv4_create_pkt(udp_header : t_udp_header;
                               payload    : t_slv_arr;
                               get_length : boolean := false)
     return t_slv_arr is
   begin
-    return f_updv4_create_pkt(C_DEFAULT_IPV4_HEADER, udp_header, payload, false, get_length);
-  end function f_updv4_create_pkt;
+    return f_udpv4_create_pkt(C_DEFAULT_IPV4_HEADER, udp_header, payload, false, get_length);
+  end function f_udpv4_create_pkt;
 
   -------------------------------------------------------------------------------
   --! \brief Return length of UDP packet.
@@ -246,7 +246,7 @@ package body nw_udpv4_pkg is
     return natural is
     variable v_length : t_slv_arr(0 to 0)(30 downto 0);
   begin
-    v_length := f_updv4_create_pkt(udp_header, payload, true);
+    v_length := f_udpv4_create_pkt(udp_header, payload, true);
     return to_integer(unsigned(v_length(0)));
   end function f_udpv4_create_pkt_len;
 

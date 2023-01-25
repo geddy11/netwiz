@@ -50,7 +50,11 @@ use work.ip_protocols_pkg.all;
 --! \li Create and extract IPv4 headers
 --! \li Verify checksum of IPv4 packets
 --!
---! \n\n More details in \ref nw_ipv4_pkg
+--! Other libraries in IPv4 are: 
+--! \li \subpage nw_udpv4
+--! \li \subpage nw_icmpv4
+--!
+--! \n More details in \ref nw_ipv4_pkg
 --! \subsection ipv4_subsec2 Example use
 --! Include the libraries:
 --! ~~~

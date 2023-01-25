@@ -41,7 +41,7 @@ use work.nw_types_pkg.all;
 use work.nw_util_pkg.all;
 --! @endcond
 
---! \page nw_prbs PRBS library
+--! \page nw_prbs PRBS
 --! \tableofcontents
 --! \section prbs Pseudo-Random Binary Sequences
 --! This library provides functions for generation of Pseudo-Random Binary Sequences.
@@ -52,7 +52,7 @@ use work.nw_util_pkg.all;
 --! \li Predefined polynomials for maximum-length sequences
 --! \li Any data width and length
 --!
---! \n\n More details in \ref nw_prbs_pkg
+--! \n More details in \ref nw_prbs_pkg
 --! \subsection prbs_subsec2 Example use
 --! Include the libraries:
 --! ~~~

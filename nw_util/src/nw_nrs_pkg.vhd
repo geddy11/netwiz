@@ -39,17 +39,17 @@ use nw_adapt.nw_adaptations_pkg.all;
 
 use work.nw_types_pkg.all;
 --! @endcond
--- \addgroup nw_util NRS
---! \page nw_nrs NRS library
+
+--! \page nw_nrs NRS
 --! \tableofcontents
---! \section NRS
+--! \section nrs Non-Random Sequences
 --! The NRS library provides functions for generation of non-random sequences.
 --!
 --! \subsection nrs_subsec1 Functionality
 --! \li Generate data arrays with constant or incrementing/decrementing numbers.
 --! \li Any data width and array length
 --!
---! \n\n More details in \ref nw_nrs_pkg
+--! \n More details in \ref nw_nrs_pkg
 --! \subsection nrs_subsec2 Example use
 --! Include the libraries:
 --! ~~~

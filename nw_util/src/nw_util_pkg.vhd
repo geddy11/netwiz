@@ -51,7 +51,12 @@ use work.nw_types_pkg.all;
 --! \li Concatenate data array lengthwise or widthwise
 --! \li Search for token in data arrays
 --!
---! \n\n More details in \ref nw_util_pkg
+--! Other libraries in Utilities are: 
+--! \li \subpage nw_crc
+--! \li \subpage nw_prbs
+--! \li \subpage nw_nrs
+--!
+--! \n More details in \ref nw_util_pkg
 --! \subsection util_subsec2 Example use
 --! Include the libraries:
 --! ~~~

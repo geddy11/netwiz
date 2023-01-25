@@ -41,7 +41,7 @@ use work.nw_types_pkg.all;
 use work.nw_util_pkg.all;
 --! @endcond
 
---! \page nw_crc Checksum and CRC library
+--! \page nw_crc Checksum and CRC
 --! \tableofcontents
 --! \section crc CRC & Checksum
 --! This library provides functions for calculation of checksums and CRC. 
@@ -50,7 +50,7 @@ use work.nw_util_pkg.all;
 --! \li Checksum of any data width, with or without carry
 --! \li CRC from any polynomial
 --!
---! \n\n More details in \ref nw_crc_pkg
+--! \n More details in \ref nw_crc_pkg
 --! \subsection crc_subsec2 Example use
 --! Include the libraries:
 --! ~~~
