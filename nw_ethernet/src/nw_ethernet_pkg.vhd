@@ -49,7 +49,10 @@ context nw_util.nw_util_context;
 --! \li Create and extract ethernet headers, including VLAN tags
 --! \li Check CRC of ethernet packets
 --!
---! \n\n More details in \ref nw_ethernet_pkg
+--! Other libraries in Ethernet are: 
+--! \li \subpage nw_arp
+--!
+--! \n More details in \ref nw_ethernet_pkg
 --! \subsection eth_subsec2 Example use
 --! Include the libraries:
 --! ~~~
@@ -351,7 +354,7 @@ package body nw_ethernet_pkg is
     variable v_len    : natural;
   begin
     assert eth_pkt'ascending report "f_eth_get_payload: ethernet packet must be ascending" severity C_SEVERITY;
-    assert eth_pkt'length >= 64 report "f_eth_get_payload: ethernet packet must be at least 64 bytes" severity C_SEVERITY;
+    assert eth_pkt'length >= 34 report "f_eth_get_payload: ethernet packet must be at least 34 bytes" severity C_SEVERITY;
 
     -- extract header
     v_header := f_eth_get_header(eth_pkt);

@@ -18,9 +18,11 @@ Netwiz consists of several libraries. Libraries not related to a specific networ
   Protocol specific libraries:
   * nw_ethernet:
     * [nw_ethernet](@ref nw_ethernet): Create and manipulate Ethernet packets
+    * [nw_arp](@ref nw_arp): Create and manipulate ARP packets
   * nw_ipv4:
     * [nw_ipv4](@ref nw_ipv4): Create and manipulate IPv4 packets
     * [nw_udp](@ref nw_udpv4): Create and manipulate UDP packets
+    * [nw_icmp](@ref nw_icmpv4): Create and manipulate ICMP packets
 
   Additional protocol libraries are expected to be added in the future.
 

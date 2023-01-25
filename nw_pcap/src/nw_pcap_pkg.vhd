@@ -48,12 +48,13 @@ context nw_util.nw_util_context;
 --!
 --! \subsection pcap_subsec1 Functionality
 --! \li Read network packets from PCAP and PCAPNG files
+--! \li Count captured packets in PCAP/PCAPNG files
 --!
 --! \subsection pcap_subsec2 Limitations
 --! \li No support for reading metadata (use e.g. Wireshark to explore PCAP files).
 --! \li Only first section in PCAPNG files can be accessed.
 --!
---! \n\n More details in \ref nw_pcap_pkg
+--! \n More details in \ref nw_pcap_pkg
 --! \subsection pcap_subsec3 Example use
 --! Include the libraries:
 --! ~~~

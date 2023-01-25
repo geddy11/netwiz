@@ -35,7 +35,7 @@ use IEEE.numeric_std.all;
 library nw_util;
 context nw_util.nw_util_context;
 library nw_ethernet;
-use nw_ethernet.nw_ethernet_pkg.all;
+context nw_ethernet.nw_ethernet_context;
 
 
 entity nw_ethernet_tb is
@@ -58,6 +58,13 @@ architecture behav of nw_ethernet_tb is
                                                            x"2e", x"2f", x"30", x"31", x"32", x"33", x"34", x"35",
                                                            x"36", x"37", x"e6", x"4c", x"b4", x"86");
 
+  constant C_ETH_ARP_PKT : t_slv_arr(0 to 41)(7 downto 0) := (x"ff", x"ff", x"ff", x"ff", x"ff", x"ff", x"7c", x"10", 
+                                                          x"c9", x"16", x"1c", x"56", x"08", x"06", x"00", x"01",
+                                                          x"08", x"00", x"06", x"04", x"00", x"01", x"7c", x"10",
+                                                          x"c9", x"16", x"1c", x"56", x"c0", x"a8", x"00", x"a7",
+                                                          x"00", x"00", x"00", x"00", x"00", x"00", x"c0", x"a8", 
+                                                          x"00", x"a3");
+
 
 begin
 
@@ -68,6 +75,7 @@ begin
                                               ethertype => x"0800");
     variable v_data : t_slv_arr(0 to 101)(7 downto 0);
     variable v_len  : natural;
+    variable v_arp_header : t_arp_header;
   begin
     wait for 0.5674 ns;
     -------------------------------------------------------------------------------
@@ -103,8 +111,24 @@ begin
     assert v_data(0 to 87) = C_ETH_PKT(14 to 101)
       report "Test 1.8 failed" severity failure;
 
+    -------------------------------------------------------------------------------
+    -- nw_arp_pkg functions
+    -------------------------------------------------------------------------------
+    wait for 4.0071 ns;
+    msg("Part 2: Verify nw_arp_pkg functions");
 
-    wait for 10 ns;
+    v_arp_header := f_arp_get_header(f_eth_get_payload(C_ETH_ARP_PKT));
+
+    v_len := f_arp_create_pkt_len(v_arp_header);
+    assert v_len = 28
+    report "Test 2.1 failed" severity failure;
+
+    assert f_arp_create_pkt(v_arp_header) = C_ETH_ARP_PKT(14 to 41)
+    report "Test 2.2 failed" severity failure;
+
+
+
+    wait for 100 ns;
     -- Finish the simulation
     msg("All tests are pass!");
     std.env.stop;
