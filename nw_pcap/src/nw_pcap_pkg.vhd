@@ -96,62 +96,8 @@ context nw_util.nw_util_context;
 package nw_pcap_pkg is
 
   -------------------------------------------------------------------------------
-  -- Type definitions
-  -- @cond types
-  -------------------------------------------------------------------------------
-  -- @cond types
-  type t_pcap_file is record
-    file_type : natural;
-    bigendian : boolean;
-    snaplen   : natural;
-  end record t_pcap_file;
-
-  type t_file is file of character;
-  -- @endcond
-
-  -------------------------------------------------------------------------------
-  -- Constants
-  --! @cond constants
-  -------------------------------------------------------------------------------
-  constant C_PCAP_US : std_logic_vector(31 downto 0) := x"a1b2c3d4";
-  constant C_PCAP_NS : std_logic_vector(31 downto 0) := x"a1b2c34d";
-
-  constant C_PCAPNG_BT    : std_logic_vector(31 downto 0) := x"0a0d0d0a";
-  constant C_PCAPNG       : std_logic_vector(31 downto 0) := x"1a2b3c4d";
-  constant C_UNKNOWN_FILE : natural                       := 0;
-  constant C_PCAP_FILE    : natural                       := 1;
-  constant C_PCAPNG_FILE  : natural                       := 2;
-  --! @endcond
-
-  -------------------------------------------------------------------------------
   -- Functions
-  --! @cond functions
   -------------------------------------------------------------------------------
-  impure function f_pcap_read_ftype(name : string) return t_pcap_file;
-
-  impure function f_pcapng_read_pkt_len(name   : string;
-                                       pkt_no : integer;
-                                       ftype  : t_pcap_file)
-    return natural;
-
-  impure function f_pcap_read_pkt_len(name   : string;
-                                     pkt_no : integer;
-                                     ftype  : t_pcap_file)
-    return natural;
-
-  impure function f_pcapng_read_pkt(name      : string;
-                                   pkt_no    : natural;
-                                   pkt_len   : natural;
-                                   bigendian : boolean)
-    return t_slv_arr;
-
-  impure function f_pcap_read_pkt(name      : string;
-                                 pkt_no    : natural;
-                                 pkt_len   : natural;
-                                 bigendian : boolean)
-    return t_slv_arr;
-  --! @endcond
-  
   impure function f_pcap_get_pkt_cnt(name : string)
     return integer;
 
@@ -164,10 +110,35 @@ package nw_pcap_pkg is
                                  pkt_len : natural)
     return t_slv_arr;
   
-
 end package nw_pcap_pkg;
 
 package body nw_pcap_pkg is
+
+  -------------------------------------------------------------------------------
+  -- Type definitions
+  --! @cond types
+  -------------------------------------------------------------------------------
+  type t_pcap_file is record
+    file_type : natural;
+    bigendian : boolean;
+    snaplen   : natural;
+  end record t_pcap_file;
+
+  type t_file is file of character;
+  --! @endcond
+
+  -------------------------------------------------------------------------------
+  -- Constants
+  --! @cond constants
+  -------------------------------------------------------------------------------
+  constant C_PCAP_US      : std_logic_vector(31 downto 0) := x"a1b2c3d4";
+  constant C_PCAP_NS      : std_logic_vector(31 downto 0) := x"a1b2c34d";
+  constant C_PCAPNG_BT    : std_logic_vector(31 downto 0) := x"0a0d0d0a";
+  constant C_PCAPNG       : std_logic_vector(31 downto 0) := x"1a2b3c4d";
+  constant C_UNKNOWN_FILE : natural                       := 0;
+  constant C_PCAP_FILE    : natural                       := 1;
+  constant C_PCAPNG_FILE  : natural                       := 2;
+  --! @endcond
 
   -------------------------------------------------------------------------------
   -- Functions (internal use)
@@ -219,15 +190,13 @@ package body nw_pcap_pkg is
     v_type.snaplen := to_integer(unsigned(v_word(30 downto 0)));
     return v_type;
   end function f_pcap_read_ftype;
-  --! @endcond
 
   -------------------------------------------------------------------------------
   -- Get packet length (PCAPNG)
-  --! @cond functions
   -------------------------------------------------------------------------------
   impure function f_pcapng_read_pkt_len(name   : string;
-                                       pkt_no : integer;
-                                       ftype  : t_pcap_file)
+                                        pkt_no : integer;
+                                        ftype  : t_pcap_file)
     return natural is
     file file_in      : t_file open read_mode is name;
     variable v_char   : character;
@@ -300,15 +269,13 @@ package body nw_pcap_pkg is
       return minimum(to_integer(unsigned(v_orglen(30 downto 0))), ftype.snaplen);
     end if;
   end function f_pcapng_read_pkt_len;
-  --! @endcond
 
   -------------------------------------------------------------------------------
   -- Get packet length (PCAP)
-  --! @cond functions
   -------------------------------------------------------------------------------
   impure function f_pcap_read_pkt_len(name   : string;
-                                     pkt_no : integer;
-                                     ftype  : t_pcap_file)
+                                      pkt_no : integer;
+                                      ftype  : t_pcap_file)
     return natural is
     file file_in       : t_file open read_mode is name;
     variable v_char    : character;
@@ -361,16 +328,14 @@ package body nw_pcap_pkg is
       return minimum(to_integer(unsigned(v_orglen(30 downto 0))), ftype.snaplen);
     end if;
   end function f_pcap_read_pkt_len;
-  --! @endcond
 
   -------------------------------------------------------------------------------
   -- Get packet (PCAPNG)
-  --! @cond functions
   -------------------------------------------------------------------------------
   impure function f_pcapng_read_pkt(name      : string;
-                                   pkt_no    : natural;
-                                   pkt_len   : natural;
-                                   bigendian : boolean)
+                                    pkt_no    : natural;
+                                    pkt_len   : natural;
+                                    bigendian : boolean)
     return t_slv_arr is
 
     file file_in      : t_file open read_mode is name;
@@ -456,9 +421,9 @@ package body nw_pcap_pkg is
   -- Get packet (PCAP)
   -------------------------------------------------------------------------------
   impure function f_pcap_read_pkt(name      : string;
-                                 pkt_no    : natural;
-                                 pkt_len   : natural;
-                                 bigendian : boolean)
+                                  pkt_no    : natural;
+                                  pkt_len   : natural;
+                                  bigendian : boolean)
     return t_slv_arr is
     file file_in       : t_file open read_mode is name;
     variable v_char    : character;
@@ -507,8 +472,6 @@ package body nw_pcap_pkg is
     file_close(file_in);
     return v_data;
   end function f_pcap_read_pkt;
-
-  
 
   -------------------------------------------------------------------------------
   --! \brief Get PCAP file packet count

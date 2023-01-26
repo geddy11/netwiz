@@ -109,8 +109,7 @@ package nw_util_pkg is
   constant C_PAD_BEFORE : boolean := false;  --! Put padding in front
   constant C_MSB_FIRST  : boolean := true;  --! Extract/insert most significant bits first
   constant C_LSB_FIRST  : boolean := false;  --! Extract/insert least significant bits first
-  -- @endcond
-
+  
   -------------------------------------------------------------------------------
   -- Functions
   --! @cond functions

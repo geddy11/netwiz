@@ -35,12 +35,8 @@ use IEEE.numeric_std.all;
 library nw_util;
 context nw_util.nw_util_context;
 
-use work.nw_ipv4_pkg.all;
-use work.nw_udpv4_pkg.all;
-use work.nw_icmpv4_pkg.all;
---library nw_ethernet;
---use nw_ethernet.nw_ethernet_pkg.all;
---use work.nw_ethernet_pkg.all;
+library nw_ipv4;
+context nw_ipv4.nw_ipv4_context;
 
 
 entity nw_ipv4_tb is

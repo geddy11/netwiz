@@ -53,49 +53,36 @@ begin
 
   p_main : process
     variable v_data : t_slv_arr(0 to 1023)(7 downto 0);
-    variable v_type : t_pcap_file;
     variable v_l    : natural;
 
   begin
     wait for 1 ns;
     msg("Part 1: Verify pcapng functions");
-    v_type := f_pcap_read_ftype(C_PCAPNG_FILENAME);
-    assert v_type.file_type = C_PCAPNG_FILE
-      report "Test 1.1 failed" severity failure;
-
-    assert not v_type.bigendian
-      report "Test 1.2 failed" severity failure;
-
+    
     assert 17 = f_pcap_get_pkt_cnt(C_PCAPNG_FILENAME)
-      report "Test 1.3 failed" severity failure;
+      report "Test 1.1 failed" severity failure;
 
     v_l := f_pcap_get_pkt_len(C_PCAPNG_FILENAME, 3);
     assert 125 = f_pcap_get_pkt_len(C_PCAPNG_FILENAME, 3)
-      report "Test 1.4 failed" severity failure;
+      report "Test 1.2 failed" severity failure;
 
     v_data(0 to 124) := f_pcap_get_pkt(C_PCAPNG_FILENAME, 3, 125);
     assert (x"68", x"a3", x"c4", x"f9", x"49") = v_data(0 to 4) and (x"74", x"70", x"0d", x"0a") = v_data(121 to 124)
-      report "Test 1.5 failed" severity failure;
+      report "Test 1.3 failed" severity failure;
 
     wait for 6.66 ns;
     msg("Part 2: Verify pcap functions");
-    v_type := f_pcap_read_ftype(C_PCAP_FILENAME);
-    assert v_type.file_type = C_PCAP_FILE
-      report "Test 2.1 failed" severity failure;
-
-    assert not v_type.bigendian
-      report "Test 2.2 failed" severity failure;
 
     assert 28 = f_pcap_get_pkt_cnt(C_PCAP_FILENAME)
-      report "Test 2.3 failed" severity failure;
+      report "Test 2.1 failed" severity failure;
 
     v_l := f_pcap_get_pkt_len(C_PCAP_FILENAME, 26);
     assert 138 = f_pcap_get_pkt_len(C_PCAP_FILENAME, 26)
-      report "Test 2.4 failed" severity failure;
+      report "Test 2.2 failed" severity failure;
 
     v_data(0 to 137) := f_pcap_get_pkt(C_PCAP_FILENAME, 26, 138);
     assert (x"00", x"14", x"00", x"00", x"02") = v_data(0 to 4) and (x"34", x"35", x"36", x"37") = v_data(134 to 137)
-      report "Test 2.5 failed" severity failure;
+      report "Test 2.3 failed" severity failure;
 
     wait for 8.75 ns;
     -- Finish the simulation

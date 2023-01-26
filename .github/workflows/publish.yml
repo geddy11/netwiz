@@ -1,12 +1,10 @@
-name: Publish to GitHub pages
+name: publish
 
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -16,3 +14,4 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           config_file: Doxyfile
+          folder: docs
