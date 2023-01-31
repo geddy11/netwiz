@@ -39,13 +39,20 @@ use IEEE.numeric_std.all;
 package nw_adaptations_pkg is
 
   -------------------------------------------------------------------------------
-  --! Severity level of assertion violations.
+  -- Severity level of assertion violations.
   -------------------------------------------------------------------------------
-  constant C_SEVERITY: severity_level := ERROR;
+  constant C_SEVERITY : severity_level := error;
 
   -------------------------------------------------------------------------------
-  --! Width (chars) of timestamp in msg() output.
+  -- Width (chars) of timestamp in msg() output.
   -------------------------------------------------------------------------------
-  constant C_TIME_WIDTH : integer := 15;  
-  
+  constant C_TIME_WIDTH : integer := 15;
+
+  -------------------------------------------------------------------------------
+  -- IPv6 options
+  -------------------------------------------------------------------------------
+  constant C_IPV6_MAX_EXT_HEADERS     : natural := 8;  -- Maximum number of extension headers to support
+  constant C_IPV6_MAX_EXT_HEADER_SIZE : natural := 256;  -- Maximum size (bytes) of extension header options
+
+
 end package nw_adaptations_pkg;

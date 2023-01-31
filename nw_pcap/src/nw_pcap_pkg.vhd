@@ -35,6 +35,8 @@ use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 use std.textio.all;
 
+library nw_adapt;
+use nw_adapt.nw_adaptations_pkg.all;
 library nw_util;
 context nw_util.nw_util_context;
 --! @endcond

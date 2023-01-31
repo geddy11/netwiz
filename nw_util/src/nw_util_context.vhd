@@ -32,8 +32,6 @@
 -------------------------------------------------------------------------------
 
 context nw_util_context is
-  library nw_adapt;
-  use nw_adapt.nw_adaptations_pkg.all;
   library nw_util;
   use nw_util.nw_types_pkg.all;
   use nw_util.nw_util_pkg.all;

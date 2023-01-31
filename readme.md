@@ -7,6 +7,8 @@ NetWiz requires VHDL 2008 and is designed for test bench use only, synthesis is 
 
 ## Libraries
 Netwiz consists of several libraries. Libraries not related to a specific network protocol are:
+  * nw_adapt:
+    * Configurable settings
   * nw_util: 
     * [nw_util](@ref nw_util): Functions for data array manipulation
     * [nw_crc](@ref nw_crc): CRC and checksum generation 
@@ -23,6 +25,8 @@ Netwiz consists of several libraries. Libraries not related to a specific networ
     * [nw_ipv4](@ref nw_ipv4): Create and manipulate IPv4 packets
     * [nw_udp](@ref nw_udpv4): Create and manipulate UDP packets
     * [nw_icmp](@ref nw_icmpv4): Create and manipulate ICMP packets
+  * nw_ipv6:
+    * [nw_ipv6](@ref nw_ipv6): Create and manipulate IPv6 packets
 
   Additional protocol libraries are expected to be added in the future.
 

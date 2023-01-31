@@ -176,6 +176,7 @@ package ip_protocols_pkg is
   constant C_WESP            : std_logic_vector(7 downto 0) := x"8D";  -- Wrapped Encapsulating Security Payload RFC 5840
   constant C_ROHC            : std_logic_vector(7 downto 0) := x"8E";  -- Robust Header Compression RFC 5856
   constant C_ETHERNET        : std_logic_vector(7 downto 0) := x"8F";  -- IPv6 Segment Routing (TEMPORARY - registered 2020-01-31, expired 2021-01-31)
+  constant C_AGGFRAG         : std_logic_vector(7 downto 0) := x"90";  -- AGGFRAG encapsulation payload for ESP
   --! @endcond
 
 end package ip_protocols_pkg;

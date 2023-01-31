@@ -35,6 +35,8 @@ use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 use std.textio.all;
 
+library nw_adapt;
+use nw_adapt.nw_adaptations_pkg.all;
 library nw_util;
 context nw_util.nw_util_context;
 
@@ -249,7 +251,7 @@ package body nw_ipv4_pkg is
   -------------------------------------------------------------------------------
   --! \brief Get IPv4 payload
   --! \param ipv4_pkt   IPv4 packet (8bit)
-  --! \param get_length Get length of created packet, default False
+  --! \param get_length Get length of payload, default False
   --! \return           t_slv_arr
   --!
   --! Extract IPv4 payload from IPv4 packet. 
