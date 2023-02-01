@@ -118,21 +118,18 @@ package nw_icmpv4_pkg is
   --!@cond functions
   -------------------------------------------------------------------------------
   function f_icmpv4_create_pkt(icmp_header : t_icmpv4_header;
-                               add_payload : boolean   := false;
-                               payload     : t_slv_arr := C_ICMPV4_EMPTY;
-                               get_length  : boolean   := false) return t_slv_arr;
+                               payload     : t_slv_arr) return t_slv_arr;
 
-  function f_icmpv4_create_pkt(icmp_header : t_icmpv4_header;
-                               payload     : t_slv_arr;
-                               get_length  : boolean := false) return t_slv_arr;
+  function f_icmpv4_create_pkt(icmp_header : t_icmpv4_header) return t_slv_arr;
+
+  function f_icmpv4_create_pkt_len(icmp_header : t_icmpv4_header) return natural;
 
   function f_icmpv4_create_pkt_len(icmp_header : t_icmpv4_header;
                                    payload     : t_slv_arr) return natural;
 
   function f_icmpv4_get_header(icmp_pkt : t_slv_arr) return t_icmpv4_header;
 
-  function f_icmpv4_get_payload(icmp_pkt   : t_slv_arr;
-                                get_length : boolean := false) return t_slv_arr;
+  function f_icmpv4_get_payload(icmp_pkt : t_slv_arr) return t_slv_arr;
 
   function f_icmpv4_get_payload_len(icmp_pkt : t_slv_arr) return natural;
 
@@ -144,25 +141,13 @@ end package nw_icmpv4_pkg;
 package body nw_icmpv4_pkg is
 
   -------------------------------------------------------------------------------
-  --! \brief Create ICMPv4 packet
-  --! \param icmp_header  ICMP header
-  --! \param add_payload  Add payload, default False
-  --! \param payload     ICMP payload
-  --! \param get_length  Get length of created packet, default False
-  --! \return            ICMP packet (8bit array) or length of ICMP packet
-  --!
-  --! Create ICMPv4 packet. Payload must be 8bit data array. 
-  --!
-  --! **Example use**
-  --! ~~~
-  --! v_packet_8bit  := f_icmpv4_create_pkt(C_DEFAULT_ICMPV4_HEADER); -- echo request
-  --! v_packet2_8bit := f_icmpv4_create_pkt(C_DEFAULT_ICMPV4_HEADER); 
-  --! ~~~
+  -- Create ICMPv4 packet (internal)
+  --@cond functions
   -------------------------------------------------------------------------------
   function f_icmpv4_create_pkt(icmp_header : t_icmpv4_header;
-                               add_payload : boolean   := false;
-                               payload     : t_slv_arr := C_ICMPV4_EMPTY;
-                               get_length  : boolean   := false)
+                               add_payload : boolean;
+                               payload     : t_slv_arr;
+                               get_length  : boolean)
     return t_slv_arr is
     variable v_len    : natural                               := 8 + payload'length;
     variable v_data   : t_slv_arr(0 to v_len - 1)(7 downto 0) := (others => x"00");
@@ -200,28 +185,45 @@ package body nw_icmpv4_pkg is
       return v_data(0 to v_len - 1);
     end if;
   end function f_icmpv4_create_pkt;
+  -- @endcond
 
   -------------------------------------------------------------------------------
-  --! \brief Create ICMPv4 packet (no checksum)
+  --! \brief Create ICMPv4 packet
   --! \param icmp_header ICMP header
   --! \param payload     ICMP payload
-  --! \param get_length  Get length of created packet, default False
   --! \return            ICMP packet (8bit array) or length of ICMP packet
   --!
-  --! Create ICMP packet with payload. Payload must be 8bit data array. 
+  --! Create ICMPv4 packet. Payload must be 8bit data array. 
   --!
   --! **Example use**
   --! ~~~
-  --! v_icmp_header  := C_DEFAULT_ICMPV4_HEADER;
-  --! v_packet_8bit := f_icmpv4_create_pkt(v_icmp_header, payload); 
+  --! v_packet_8bit  := f_icmpv4_create_pkt(C_DEFAULT_ICMPV4_HEADER); -- echo request
+  --! v_packet2_8bit := f_icmpv4_create_pkt(C_DEFAULT_ICMPV4_HEADER, payload); -- with payload
   --! ~~~
   -------------------------------------------------------------------------------
   function f_icmpv4_create_pkt(icmp_header : t_icmpv4_header;
-                               payload     : t_slv_arr;
-                               get_length  : boolean := false)
+                               payload     : t_slv_arr)
     return t_slv_arr is
   begin
-    return f_icmpv4_create_pkt(icmp_header, true, payload, get_length);
+    return f_icmpv4_create_pkt(icmp_header, true, payload, false);
+  end function f_icmpv4_create_pkt;
+
+  -------------------------------------------------------------------------------
+  --! \brief Create ICMPv4 packet (no payload)
+  --! \param icmp_header ICMP header
+  --! \return            ICMP packet (8bit array) or length of ICMP packet
+  --!
+  --! Create ICMPv4 packet. Payload must be 8bit data array. 
+  --!
+  --! **Example use**
+  --! ~~~
+  --! v_packet_8bit  := f_icmpv4_create_pkt(C_DEFAULT_ICMPV4_HEADER); -- echo request
+  --! ~~~
+  -------------------------------------------------------------------------------
+  function f_icmpv4_create_pkt(icmp_header : t_icmpv4_header)
+    return t_slv_arr is
+  begin
+    return f_icmpv4_create_pkt(icmp_header, false, C_ICMPV4_EMPTY, false);
   end function f_icmpv4_create_pkt;
 
   -------------------------------------------------------------------------------
@@ -243,7 +245,28 @@ package body nw_icmpv4_pkg is
     return natural is
     variable v_length : t_slv_arr(0 to 0)(30 downto 0);
   begin
-    v_length := f_icmpv4_create_pkt(icmp_header, payload, true);
+    v_length := f_icmpv4_create_pkt(icmp_header, true, payload, true);
+    return to_integer(unsigned(v_length(0)));
+  end function f_icmpv4_create_pkt_len;
+
+  -------------------------------------------------------------------------------
+  --! \brief Return length of ICMP packet (no payload)
+  --! \param icmp_header ICMP header
+  --! \return           Length of ICMP packet
+  --!
+  --! Return the length of the created ICMP packet.
+  --!
+  --! **Example use**
+  --! ~~~
+  --! v_len                      := f_icmpv4_create_pkt_len(v_icmp_header); 
+  --! v_pkt_8bit(0 to v_len - 1) := f_icmpv4_create_pkt(v_icmp_header);
+  --! ~~~
+  -------------------------------------------------------------------------------
+  function f_icmpv4_create_pkt_len(icmp_header : t_icmpv4_header)
+    return natural is
+    variable v_length : t_slv_arr(0 to 0)(30 downto 0);
+  begin
+    v_length := f_icmpv4_create_pkt(icmp_header, false, C_ICMPV4_EMPTY, true);
     return to_integer(unsigned(v_length(0)));
   end function f_icmpv4_create_pkt_len;
 
@@ -274,18 +297,8 @@ package body nw_icmpv4_pkg is
   end function f_icmpv4_get_header;
 
   -------------------------------------------------------------------------------
-  --! \brief Get ICMP payload
-  --! \param icmp_pkt   ICMP packet (8bit)
-  --! \param get_length Get length of created packet, default False
-  --! \return           t_slv_arr
-  --!
-  --! Extract ICMP payload from ICMP packet. 
-  --!
-  --! **Example use**
-  --! ~~~
-  --! v_len                     := f_icmpv4_get_payload_len(data_array_8bit); 
-  --! v_payload(0 to v_len - 1) := f_icmpv4_get_payload(data_array_8bit); 
-  --! ~~~
+  -- Get ICMP payload (internal)
+  --@cond functions
   -------------------------------------------------------------------------------
   function f_icmpv4_get_payload(icmp_pkt   : t_slv_arr;
                                 get_length : boolean := false)
@@ -309,6 +322,26 @@ package body nw_icmpv4_pkg is
       return v_length;
     end if;
     return v_data(0 to v_len - 1);
+  end function f_icmpv4_get_payload;
+  -- @endcond
+
+  -------------------------------------------------------------------------------
+  --! \brief Get ICMP payload
+  --! \param icmp_pkt   ICMP packet (8bit)
+  --! \return           t_slv_arr
+  --!
+  --! Extract ICMP payload from ICMP packet. 
+  --!
+  --! **Example use**
+  --! ~~~
+  --! v_len                     := f_icmpv4_get_payload_len(data_array_8bit); 
+  --! v_payload(0 to v_len - 1) := f_icmpv4_get_payload(data_array_8bit); 
+  --! ~~~
+  -------------------------------------------------------------------------------
+  function f_icmpv4_get_payload(icmp_pkt : t_slv_arr)
+    return t_slv_arr is
+  begin
+    return f_icmpv4_get_payload(icmp_pkt, false);
   end function f_icmpv4_get_payload;
 
   -------------------------------------------------------------------------------

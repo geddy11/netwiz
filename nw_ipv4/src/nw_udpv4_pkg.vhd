@@ -111,20 +111,17 @@ package nw_udpv4_pkg is
   function f_udpv4_create_pkt(ipv4_header : t_ipv4_header;
                               udp_header  : t_udp_header;
                               payload     : t_slv_arr;
-                              add_chksum  : boolean := true;
-                              get_length  : boolean := false) return t_slv_arr;
+                              add_chksum  : boolean := true) return t_slv_arr;
 
   function f_udpv4_create_pkt(udp_header : t_udp_header;
-                              payload    : t_slv_arr;
-                              get_length : boolean := false) return t_slv_arr;
+                              payload    : t_slv_arr) return t_slv_arr;
 
   function f_udpv4_create_pkt_len(udp_header : t_udp_header;
                                   payload    : t_slv_arr) return natural;
 
   function f_udpv4_get_header(udp_pkt : t_slv_arr) return t_udp_header;
 
-  function f_udpv4_get_payload(udp_pkt    : t_slv_arr;
-                               get_length : boolean := false) return t_slv_arr;
+  function f_udpv4_get_payload(udp_pkt : t_slv_arr) return t_slv_arr;
 
   function f_udpv4_get_payload_len(udp_pkt : t_slv_arr) return natural;
 
@@ -137,23 +134,8 @@ end package nw_udpv4_pkg;
 package body nw_udpv4_pkg is
 
   -------------------------------------------------------------------------------
-  --! \brief Create UDPv4 packet
-  --! \param ipv4_header IPv4 header (required for checksum calculation)
-  --! \param udp_header  UDP header
-  --! \param payload     UDP payload
-  --! \param add_chksum  Add checksum
-  --! \param get_length  Get length of created packet, default False
-  --! \return            UDP packet (8bit array) or length of UDP packet
-  --!
-  --! Create UDPv4 packet. Payload must be 8bit data array. A pseudo-header is generated from the IPv4 header
-  --! which is included in the checksum calculation.
-  --!
-  --! **Example use**
-  --! ~~~
-  --! v_ipv4_header := C_DEFAULT_IPV4_HEADER;
-  --! v_udp_header  := C_DEFAULT_UDP_HEADER;
-  --! v_packet_8bit := f_udpv4_create_pkt(v_ipv4_header, v_udp_header, payload); 
-  --! ~~~
+  -- Create UDPv4 packet (internal)
+  --@cond functions
   -------------------------------------------------------------------------------
   function f_udpv4_create_pkt(ipv4_header : t_ipv4_header;
                               udp_header  : t_udp_header;
@@ -205,12 +187,39 @@ package body nw_udpv4_pkg is
       return v_data;
     end if;
   end function f_udpv4_create_pkt;
+  -- @endcond
+
+  -------------------------------------------------------------------------------
+  --! \brief Create UDPv4 packet
+  --! \param ipv4_header IPv4 header (required for checksum calculation)
+  --! \param udp_header  UDP header
+  --! \param payload     UDP payload
+  --! \param add_chksum  Add checksum (default true)
+  --! \return            UDP packet (8bit array) or length of UDP packet
+  --!
+  --! Create UDPv4 packet. Payload must be 8bit data array. A pseudo-header is generated from the IPv4 header
+  --! which is included in the checksum calculation.
+  --!
+  --! **Example use**
+  --! ~~~
+  --! v_ipv4_header := C_DEFAULT_IPV4_HEADER;
+  --! v_udp_header  := C_DEFAULT_UDP_HEADER;
+  --! v_packet_8bit := f_udpv4_create_pkt(v_ipv4_header, v_udp_header, payload); 
+  --! ~~~
+  -------------------------------------------------------------------------------
+  function f_udpv4_create_pkt(ipv4_header : t_ipv4_header;
+                              udp_header  : t_udp_header;
+                              payload     : t_slv_arr;
+                              add_chksum  : boolean := true)
+    return t_slv_arr is
+  begin
+    return f_udpv4_create_pkt(ipv4_header, udp_header, payload, add_chksum, false);
+  end function f_udpv4_create_pkt;
 
   -------------------------------------------------------------------------------
   --! \brief Create UDPv4 packet (no checksum)
   --! \param udp_header UDP header
   --! \param payload    UDP payload
-  --! \param get_length Get length of created packet, default False
   --! \return           UDP packet (8bit array) or length of UDP packet
   --!
   --! Create UDP packet, set checksum field to x"0000". Payload must be 8bit data array. 
@@ -222,11 +231,10 @@ package body nw_udpv4_pkg is
   --! ~~~
   -------------------------------------------------------------------------------
   function f_udpv4_create_pkt(udp_header : t_udp_header;
-                              payload    : t_slv_arr;
-                              get_length : boolean := false)
+                              payload    : t_slv_arr)
     return t_slv_arr is
   begin
-    return f_udpv4_create_pkt(C_DEFAULT_IPV4_HEADER, udp_header, payload, false, get_length);
+    return f_udpv4_create_pkt(C_DEFAULT_IPV4_HEADER, udp_header, payload, false, false);
   end function f_udpv4_create_pkt;
 
   -------------------------------------------------------------------------------
@@ -248,7 +256,7 @@ package body nw_udpv4_pkg is
     return natural is
     variable v_length : t_slv_arr(0 to 0)(30 downto 0);
   begin
-    v_length := f_udpv4_create_pkt(udp_header, payload, true);
+    v_length := f_udpv4_create_pkt(C_DEFAULT_IPV4_HEADER, udp_header, payload, false, true);
     return to_integer(unsigned(v_length(0)));
   end function f_udpv4_create_pkt_len;
 
@@ -282,18 +290,8 @@ package body nw_udpv4_pkg is
   end function f_udpv4_get_header;
 
   -------------------------------------------------------------------------------
-  --! \brief Get UDP payload
-  --! \param udp_pkt    UDP packet (8bit)
-  --! \param get_length Get length of created packet, default False
-  --! \return           t_slv_arr
-  --!
-  --! Extract UDP payload from UDP packet. 
-  --!
-  --! **Example use**
-  --! ~~~
-  --! v_len                     := f_udpv4_get_payload_len(data_array_8bit); 
-  --! v_payload(0 to v_len - 1) := f_udpv4_get_payload(data_array_8bit); 
-  --! ~~~
+  -- Get UDP payload (internal)
+  --@cond functions
   -------------------------------------------------------------------------------
   function f_udpv4_get_payload(udp_pkt    : t_slv_arr;
                                get_length : boolean := false)
@@ -317,6 +315,26 @@ package body nw_udpv4_pkg is
       return v_length;
     end if;
     return v_data(0 to v_len - 1);
+  end function f_udpv4_get_payload;
+  -- @endcond
+
+  -------------------------------------------------------------------------------
+  --! \brief Get UDP payload
+  --! \param udp_pkt    UDP packet (8bit)
+  --! \return           t_slv_arr
+  --!
+  --! Extract UDP payload from UDP packet. 
+  --!
+  --! **Example use**
+  --! ~~~
+  --! v_len                     := f_udpv4_get_payload_len(data_array_8bit); 
+  --! v_payload(0 to v_len - 1) := f_udpv4_get_payload(data_array_8bit); 
+  --! ~~~
+  -------------------------------------------------------------------------------
+  function f_udpv4_get_payload(udp_pkt : t_slv_arr)
+    return t_slv_arr is
+  begin
+    return f_udpv4_get_payload(udp_pkt, false);
   end function f_udpv4_get_payload;
 
   -------------------------------------------------------------------------------

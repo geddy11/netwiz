@@ -180,16 +180,14 @@ package nw_ethernet_pkg is
   --!@cond functions
   -------------------------------------------------------------------------------
   function f_eth_create_pkt(header     : t_ethernet_header;
-                            payload    : t_slv_arr;
-                            get_length : boolean := false) return t_slv_arr;
+                            payload    : t_slv_arr) return t_slv_arr;
 
   function f_eth_create_pkt_len(header  : t_ethernet_header;
                                 payload : t_slv_arr) return natural;
 
   function f_eth_get_header(eth_pkt : t_slv_arr) return t_ethernet_header;
 
-  function f_eth_get_payload(eth_pkt    : t_slv_arr;
-                             get_length : boolean := false) return t_slv_arr;
+  function f_eth_get_payload(eth_pkt    : t_slv_arr) return t_slv_arr;
 
   function f_eth_get_payload_len(eth_pkt : t_slv_arr) return natural;
 
@@ -203,21 +201,8 @@ end package nw_ethernet_pkg;
 package body nw_ethernet_pkg is
 
   -------------------------------------------------------------------------------
-  --! \brief Create ethernet packet
-  --! \param header     Ethernet header
-  --! \param payload    Ethernet payload
-  --! \param get_length Get length of created packet, default False
-  --! \return           Ethernet packet (8bit array)
-  --!
-  --! Create ethernet packet. Payload must be 8bit data array. Padding is added to achieve minimum frame size of 64 bytes. 4-byte FCS is added to the end of the packet.
-  --! For VLAN tagging: Set header.vlan_tag.tpid = C_ET_VLAN.
-  --!
-  --! **Example use**
-  --! ~~~
-  --! v_eth_header  := C_DEFAULT_ETH_HEADER;
-  --! v_packet_8bit := f_eth_create_pkt(v_eth_header, payload); 
-  --! v_pkt_256bit  := f_repack(f_concat(C_ETH_PREAMBLE, v_packet_8bit), 256); -- add preamble and repack to 256bit  word size
-  --! ~~~
+  -- Create ethernet packet (internal)
+  --!@cond functions
   -------------------------------------------------------------------------------
   function f_eth_create_pkt(header     : t_ethernet_header;
                             payload    : t_slv_arr;
@@ -270,6 +255,30 @@ package body nw_ethernet_pkg is
       return v_data(0 to v_len - 1);
     end if;
   end function f_eth_create_pkt;
+  --!@endcond
+
+  -------------------------------------------------------------------------------
+  --! \brief Create ethernet packet
+  --! \param header     Ethernet header
+  --! \param payload    Ethernet payload
+  --! \return           Ethernet packet (8bit array)
+  --!
+  --! Create ethernet packet. Payload must be 8bit data array. Padding is added to achieve minimum frame size of 64 bytes. 4-byte FCS is added to the end of the packet.
+  --! For VLAN tagging: Set header.vlan_tag.tpid = C_ET_VLAN.
+  --!
+  --! **Example use**
+  --! ~~~
+  --! v_eth_header  := C_DEFAULT_ETH_HEADER;
+  --! v_packet_8bit := f_eth_create_pkt(v_eth_header, payload); 
+  --! v_pkt_256bit  := f_repack(f_concat(C_ETH_PREAMBLE, v_packet_8bit), 256); -- add preamble and repack to 256bit  word size
+  --! ~~~
+  -------------------------------------------------------------------------------
+  function f_eth_create_pkt(header     : t_ethernet_header;
+                            payload    : t_slv_arr)
+    return t_slv_arr is
+    begin
+      return f_eth_create_pkt(header, payload, false);
+    end function f_eth_create_pkt;
 
   -------------------------------------------------------------------------------
   --! \brief Return length of ethernet packet.
@@ -334,18 +343,8 @@ package body nw_ethernet_pkg is
   end function f_eth_get_header;
 
   -------------------------------------------------------------------------------
-  --! \brief Get ethernet payload
-  --! \param eth_pkt    Ethernet packet (8bit)
-  --! \param get_length Get length of payload, default False
-  --! \return           Ethernet payload
-  --!
-  --! Extract ethernet payload from ethernet packet. Assumes that first byte in packet is first byte after start frame delimiter.
-  --!
-  --! **Example use**
-  --! ~~~
-  --! v_len                     := f_eth_get_payload_len(data_array_8bit); -- determine size of payload
-  --! v_payload(0 to v_len - 1) := f_eth_get_payload(data_array_8bit); 
-  --! ~~~
+  -- Get ethernet payload (internal)
+  --!@cond functions
   -------------------------------------------------------------------------------
   function f_eth_get_payload(eth_pkt    : t_slv_arr;
                              get_length : boolean := false)
@@ -371,6 +370,26 @@ package body nw_ethernet_pkg is
     end if;
     return eth_pkt(eth_pkt'high - v_len + 1 to eth_pkt'high);
   end function f_eth_get_payload;
+  --!@endcond
+
+  -------------------------------------------------------------------------------
+  --! \brief Get ethernet payload
+  --! \param eth_pkt    Ethernet packet (8bit)
+  --! \return           Ethernet payload
+  --!
+  --! Extract ethernet payload from ethernet packet. Assumes that first byte in packet is first byte after start frame delimiter.
+  --!
+  --! **Example use**
+  --! ~~~
+  --! v_len                     := f_eth_get_payload_len(data_array_8bit); -- determine size of payload
+  --! v_payload(0 to v_len - 1) := f_eth_get_payload(data_array_8bit); 
+  --! ~~~
+  -------------------------------------------------------------------------------
+  function f_eth_get_payload(eth_pkt    : t_slv_arr)
+    return t_slv_arr is
+    begin
+      return f_eth_get_payload(eth_pkt, false);
+    end function f_eth_get_payload;
 
   -------------------------------------------------------------------------------
   --! \brief Get ethernet payload length

@@ -179,8 +179,7 @@ package nw_arp_pkg is
   -- Functions
   --!@cond functions
   -------------------------------------------------------------------------------
-  function f_arp_create_pkt(header     : t_arp_header;
-                            get_length : boolean := false) return t_slv_arr;
+  function f_arp_create_pkt(header     : t_arp_header) return t_slv_arr;
 
   function f_arp_create_pkt_len(header : t_arp_header) return natural;
 
@@ -192,18 +191,8 @@ end package nw_arp_pkg;
 package body nw_arp_pkg is
 
   -------------------------------------------------------------------------------
-  --! \brief Create ARP packet
-  --! \param header     ARP header
-  --! \param get_length Get length of created packet, default False
-  --! \return           ARP packet (8bit array)
-  --!
-  --! Create ARP packet. 
-  --!
-  --! **Example use**
-  --! ~~~
-  --! v_arp_header  := C_DEFAULT_ARP_HEADER;
-  --! v_packet_8bit := f_arp_create_pkt(v_arp_header);
-  --! ~~~
+  -- Create ARP packet (internal)
+  --!@cond functions
   -------------------------------------------------------------------------------
   function f_arp_create_pkt(header     : t_arp_header;
                             get_length : boolean := false)
@@ -236,6 +225,26 @@ package body nw_arp_pkg is
       return v_data;
     end if;
   end function f_arp_create_pkt;
+  --!@endcond
+
+  -------------------------------------------------------------------------------
+  --! \brief Create ARP packet
+  --! \param header     ARP header
+  --! \return           ARP packet (8bit array)
+  --!
+  --! Create ARP packet. 
+  --!
+  --! **Example use**
+  --! ~~~
+  --! v_arp_header  := C_DEFAULT_ARP_HEADER;
+  --! v_packet_8bit := f_arp_create_pkt(v_arp_header);
+  --! ~~~
+  -------------------------------------------------------------------------------
+  function f_arp_create_pkt(header     : t_arp_header)
+    return t_slv_arr is
+    begin
+      return f_arp_create_pkt(header, false);
+    end function f_arp_create_pkt;
 
   ------------------------------------------------------------------------------
   --! \brief Return length of ARP packet.

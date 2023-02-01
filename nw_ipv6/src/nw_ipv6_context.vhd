@@ -1,12 +1,12 @@
 -------------------------------------------------------------------------------
--- Title      : Network Wizard IPv4 context
+-- Title      : Network Wizard IPv6 context
 -- Project    : netwiz
 -- GitHub     : https://github.com/geddy11/netwiz
 -- Standard   : VHDL'08
 -------------------------------------------------------------------------------
 -- Description: 
 --!\file
---!\brief IPv4 context
+--!\brief IPv6 context
 --
 -------------------------------------------------------------------------------
 -- MIT License
@@ -31,10 +31,9 @@
 -- IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -------------------------------------------------------------------------------
 
-context nw_ipv4_context is
-  library nw_ipv4;
-  use nw_ipv4.ip_protocols_pkg.all;
-  use nw_ipv4.nw_ipv4_pkg.all;
-  use nw_ipv4.nw_udpv4_pkg.all;
-  use nw_ipv4.nw_icmpv4_pkg.all;
-end context nw_ipv4_context;
+context nw_ipv6_context is
+  library nw_ipv6;
+  use nw_ipv6.nw_ipv4_pkg.all;
+  use nw_ipv6.nw_udpv4_pkg.all;
+  --use nw_ipv6.nw_icmpv4_pkg.all;
+end context nw_ipv6_context;

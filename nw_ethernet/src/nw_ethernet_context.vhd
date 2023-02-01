@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
--- Title      : Network Wizard Utilities context
+-- Title      : Network Wizard Ethernet context
 -- Project    : netwiz
 -- GitHub     : https://github.com/geddy11/netwiz
 -- Standard   : VHDL'08

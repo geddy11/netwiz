@@ -175,17 +175,15 @@ package nw_ipv4_pkg is
   -- Functions
   --!@cond functions
   -------------------------------------------------------------------------------
-  function f_ipv4_create_pkt(header     : t_ipv4_header;
-                             payload    : t_slv_arr;
-                             get_length : boolean := false) return t_slv_arr;
+  function f_ipv4_create_pkt(header  : t_ipv4_header;
+                             payload : t_slv_arr) return t_slv_arr;
 
   function f_ipv4_create_pkt_len(header  : t_ipv4_header;
                                  payload : t_slv_arr) return natural;
 
   function f_ipv4_get_header(ipv4_pkt : t_slv_arr) return t_ipv4_header;
 
-  function f_ipv4_get_payload(ipv4_pkt   : t_slv_arr;
-                              get_length : boolean := false) return t_slv_arr;
+  function f_ipv4_get_payload(ipv4_pkt : t_slv_arr) return t_slv_arr;
 
   function f_ipv4_get_payload_len(ipv4_pkt : t_slv_arr) return natural;
 
@@ -249,18 +247,8 @@ package body nw_ipv4_pkg is
   end function f_ipv4_get_header;
 
   -------------------------------------------------------------------------------
-  --! \brief Get IPv4 payload
-  --! \param ipv4_pkt   IPv4 packet (8bit)
-  --! \param get_length Get length of payload, default False
-  --! \return           t_slv_arr
-  --!
-  --! Extract IPv4 payload from IPv4 packet. 
-  --!
-  --! **Example use**
-  --! ~~~
-  --! v_len                     := f_ipv4_get_payload_len(data_array_8bit); 
-  --! v_payload(0 to v_len - 1) := f_ipv4_get_payload(data_array_8bit); 
-  --! ~~~
+  -- Get IPv4 payload (internal)
+  --! @cond functions
   -------------------------------------------------------------------------------
   function f_ipv4_get_payload(ipv4_pkt   : t_slv_arr;
                               get_length : boolean := false)
@@ -270,7 +258,7 @@ package body nw_ipv4_pkg is
     variable v_length : t_slv_arr(0 to 0)(30 downto 0);
     variable v_len    : natural;
     variable v_hlen   : natural;
-    variable v_data: t_slv_arr(0 to ipv4_pkt'length - 1)(7 downto 0);
+    variable v_data   : t_slv_arr(0 to ipv4_pkt'length - 1)(7 downto 0);
   begin
     assert ipv4_pkt'ascending report "f_ipv4_get_payload: IPv4 packet must be ascending" severity C_SEVERITY;
     assert ipv4_pkt'length > 20 report "f_ipv4_get_payload: IPv4 packet must be at least 20 bytes" severity C_SEVERITY;
@@ -288,6 +276,27 @@ package body nw_ipv4_pkg is
     v_data(0 to v_len - 1) := ipv4_pkt(ipv4_pkt'low + v_hlen to ipv4_pkt'low + v_hlen + v_len - 1);
     return v_data(0 to v_len - 1);
   end function f_ipv4_get_payload;
+  --!@endcond
+
+  -------------------------------------------------------------------------------
+  --! \brief Get IPv4 payload
+  --! \param ipv4_pkt   IPv4 packet (8bit)
+  --! \return           t_slv_arr
+  --!
+  --! Extract IPv4 payload from IPv4 packet. 
+  --!
+  --! **Example use**
+  --! ~~~
+  --! v_len                     := f_ipv4_get_payload_len(data_array_8bit); 
+  --! v_payload(0 to v_len - 1) := f_ipv4_get_payload(data_array_8bit); 
+  --! ~~~
+  -------------------------------------------------------------------------------
+  function f_ipv4_get_payload(ipv4_pkt : t_slv_arr)
+    return t_slv_arr is
+  begin
+    return f_ipv4_get_payload(ipv4_pkt, false);
+  end function f_ipv4_get_payload;
+
 
   -------------------------------------------------------------------------------
   --! \brief Get IPv4 payload length
@@ -310,19 +319,8 @@ package body nw_ipv4_pkg is
   end function f_ipv4_get_payload_len;
 
   -------------------------------------------------------------------------------
-  --! \brief Create IPv4 packet
-  --! \param header     IPv4 header
-  --! \param payload    IPv4 payload
-  --! \param get_length Get length of created packet, default False
-  --! \return           IPv4 packet (8bit array) or length of IPv4 packet
-  --!
-  --! Create IPv4 packet. Payload must be 8bit data array.
-  --!
-  --! **Example use**
-  --! ~~~
-  --! v_ipv4_header := C_DEFAULT_IPV4_HEADER;
-  --! v_packet_8bit := f_ipv4_create_pkt(v_ipv4_header, payload); 
-  --! ~~~
+  -- Create IPv4 packet (internal)
+  --! @cond functions
   -------------------------------------------------------------------------------
   function f_ipv4_create_pkt(header     : t_ipv4_header;
                              payload    : t_slv_arr;
@@ -380,6 +378,28 @@ package body nw_ipv4_pkg is
     else
       return v_data;
     end if;
+  end function f_ipv4_create_pkt;
+  --!@endcond
+
+  -------------------------------------------------------------------------------
+  --! \brief Create IPv4 packet
+  --! \param header     IPv4 header
+  --! \param payload    IPv4 payload
+  --! \return           IPv4 packet (8bit array) or length of IPv4 packet
+  --!
+  --! Create IPv4 packet. Payload must be 8bit data array.
+  --!
+  --! **Example use**
+  --! ~~~
+  --! v_ipv4_header := C_DEFAULT_IPV4_HEADER;
+  --! v_packet_8bit := f_ipv4_create_pkt(v_ipv4_header, payload); 
+  --! ~~~
+  -------------------------------------------------------------------------------
+  function f_ipv4_create_pkt(header  : t_ipv4_header;
+                             payload : t_slv_arr)
+    return t_slv_arr is
+  begin
+    return f_ipv4_create_pkt(header, payload, false);
   end function f_ipv4_create_pkt;
 
   -------------------------------------------------------------------------------

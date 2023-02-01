@@ -156,8 +156,7 @@ package nw_ipv6_pkg is
   -------------------------------------------------------------------------------
   function f_ipv6_create_pkt(header          : t_ipv6_header;
                              payload         : t_slv_arr;
-                             ext_header_list : t_ext_header_list := C_DEFAULT_EXT_HEADER_LIST;
-                             get_length      : boolean           := false) return t_slv_arr;
+                             ext_header_list : t_ext_header_list := C_DEFAULT_EXT_HEADER_LIST) return t_slv_arr;
 
   function f_ipv6_create_pkt_len(header          : t_ipv6_header;
                                  payload         : t_slv_arr;
@@ -170,8 +169,7 @@ package nw_ipv6_pkg is
 
   function f_ipv6_get_ext_headers(ipv6_pkt : t_slv_arr) return t_ext_header_list;
 
-  function f_ipv6_get_payload(ipv6_pkt   : t_slv_arr;
-                              get_length : boolean := false) return t_slv_arr;
+  function f_ipv6_get_payload(ipv6_pkt : t_slv_arr) return t_slv_arr;
 
   function f_ipv6_get_payload_len(ipv6_pkt : t_slv_arr) return natural;
 
@@ -183,21 +181,8 @@ end package nw_ipv6_pkg;
 package body nw_ipv6_pkg is
 
   -------------------------------------------------------------------------------
-  --! \brief Create IPv6 packet
-  --! \param header          IPv6 header
-  --! \param payload         IPv6 payload
-  --! \param ext_header_list IPv6 extension header list (default none)
-  --! \param get_length      Get length of created packet, default False
-  --! \return                IPv6 packet (8bit array) or length of IPv6 packet
-  --!
-  --! Create IPv6 packet. Payload must be 8bit data array.
-  --!
-  --! **Example use**
-  --! ~~~
-  --! v_ipv6_header              := C_DEFAULt_IPV66_HEADER;
-  --! v_len                      := f_ipv6_create_pkt_len(v_ipv6_header, payload); -- get total packet length
-  --! v_ipv6_pkt(0 to v_len - 1) := f_ipv6_create_pkt(v_ipv6_header, payload); 
-  --! ~~~
+  -- Create IPv6 packet (internal)
+  --!@cond functions
   -------------------------------------------------------------------------------
   function f_ipv6_create_pkt(header          : t_ipv6_header;
                              payload         : t_slv_arr;
@@ -208,7 +193,6 @@ package body nw_ipv6_pkg is
     variable v_ext_len_max : natural := C_IPV6_MAX_EXT_HEADERS * C_IPV6_MAX_EXT_HEADER_SIZE;
     variable v_maxlen      : natural := v_hlen + v_ext_len_max + payload'length;
     variable v_data        : t_slv_arr(0 to v_maxlen - 1)(7 downto 0);
-    --variable v_len_slv : std_logic_vector(15 downto 0);
     variable v_length      : t_slv_arr(0 to 0)(30 downto 0);
     variable v_len         : natural;
     variable v_last_header : std_logic_vector(7 downto 0);
@@ -315,6 +299,31 @@ package body nw_ipv6_pkg is
     else
       return v_data(0 to v_len - 1);
     end if;
+  end function f_ipv6_create_pkt;
+  --!@endcond
+
+  -------------------------------------------------------------------------------
+  --! \brief Create IPv6 packet
+  --! \param header          IPv6 header
+  --! \param payload         IPv6 payload
+  --! \param ext_header_list IPv6 extension header list (default none)
+  --! \return                IPv6 packet (8bit array) or length of IPv6 packet
+  --!
+  --! Create IPv6 packet. Payload must be 8bit data array.
+  --!
+  --! **Example use**
+  --! ~~~
+  --! v_ipv6_header              := C_DEFAULt_IPV66_HEADER;
+  --! v_len                      := f_ipv6_create_pkt_len(v_ipv6_header, payload); -- get total packet length
+  --! v_ipv6_pkt(0 to v_len - 1) := f_ipv6_create_pkt(v_ipv6_header, payload); 
+  --! ~~~
+  -------------------------------------------------------------------------------
+  function f_ipv6_create_pkt(header          : t_ipv6_header;
+                             payload         : t_slv_arr;
+                             ext_header_list : t_ext_header_list := C_DEFAULT_EXT_HEADER_LIST)
+    return t_slv_arr is
+  begin
+    return f_ipv6_create_pkt(header, payload, ext_header_list, false);
   end function f_ipv6_create_pkt;
 
   -------------------------------------------------------------------------------
@@ -498,18 +507,8 @@ package body nw_ipv6_pkg is
   end function f_ipv6_get_ext_headers;
 
   -------------------------------------------------------------------------------
-  --! \brief Get IPv6 payload
-  --! \param ipv6_pkt   IPv6 packet (8bit)
-  --! \param get_length Get length of payload, default False
-  --! \return           t_slv_arr
-  --!
-  --! Extract IPv6 payload from IPv6 packet. Extension headers are not part of the payload retunred.
-  --!
-  --! **Example use**
-  --! ~~~
-  --! v_len                     := f_ipv6_get_payload_len(ipv6_pkt); 
-  --! v_payload(0 to v_len - 1) := f_ipv6_get_payload(ipv6_pkt); 
-  --! ~~~
+  -- Get payload length (internal)
+  --!@cond functions
   -------------------------------------------------------------------------------
   function f_ipv6_get_payload(ipv6_pkt   : t_slv_arr;
                               get_length : boolean := false)
@@ -543,6 +542,27 @@ package body nw_ipv6_pkg is
     end if;
     v_data(0 to v_len - 1) := ipv6_pkt(ipv6_pkt'low + v_idx to ipv6_pkt'high);
     return v_data(0 to v_len - 1);
+  end function f_ipv6_get_payload;
+  --!@endcond
+
+  -------------------------------------------------------------------------------
+  --! \brief Get IPv6 payload
+  --! \param ipv6_pkt   IPv6 packet (8bit)
+  --! \param get_length Get length of payload, default False
+  --! \return           t_slv_arr
+  --!
+  --! Extract IPv6 payload from IPv6 packet. Extension headers are not part of the payload retunred.
+  --!
+  --! **Example use**
+  --! ~~~
+  --! v_len                     := f_ipv6_get_payload_len(ipv6_pkt); 
+  --! v_payload(0 to v_len - 1) := f_ipv6_get_payload(ipv6_pkt); 
+  --! ~~~
+  -------------------------------------------------------------------------------
+  function f_ipv6_get_payload(ipv6_pkt : t_slv_arr)
+    return t_slv_arr is
+  begin
+    return f_ipv6_get_payload(ipv6_pkt, false);
   end function f_ipv6_get_payload;
 
   -------------------------------------------------------------------------------
@@ -596,8 +616,8 @@ package body nw_ipv6_pkg is
   begin
     assert addr'length >= 2 report "f_ipv6_addr_2_slv_arr: Address string length must be at least 2" severity C_SEVERITY;
     assert addr'length < 40 report "f_ipv6_addr_2_slv_arr: Address string length must be < 40" severity C_SEVERITY;
-    assert addr(addr'low) = ':' and addr(addr'low + 1) /= ':' report "f_ipv6_addr_2_slv_arr: Address string cannot start with single :" severity C_SEVERITY;
-    assert addr(addr'high) = ':' and addr(addr'high - 1) /= ':' report "f_ipv6_addr_2_slv_arr: Address string cannot end with single :" severity C_SEVERITY;
+    --assert addr(addr'low) = ':' and addr(addr'low + 1) /= ':' report "f_ipv6_addr_2_slv_arr: Address string cannot start with single :" severity C_SEVERITY;
+    --assert addr(addr'high) = ':' and addr(addr'high - 1) /= ':' report "f_ipv6_addr_2_slv_arr: Address string cannot end with single :" severity C_SEVERITY;
 
     for c in v_addr2'low to v_addr2'high loop
       v_char := character'pos(v_addr2(c));
@@ -605,7 +625,6 @@ package body nw_ipv6_pkg is
         if v_col then                   -- double colon
           v_lastpart := true;
         else
-          msg("v_nidx = " & to_string(v_nidx));
           v_word := std_logic_vector(shift_right(unsigned(v_word), (4 - v_nidx) * 4));
           if v_lastpart then
             v_last(v_last_len)     := v_word(15 downto 8);

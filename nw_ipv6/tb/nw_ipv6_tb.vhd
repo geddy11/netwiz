@@ -42,6 +42,7 @@ context nw_ipv4.nw_ipv4_context;
 --library nw_ipv6;
 --context nw_ipv6.nw_ipv4_context;
 use work.nw_ipv6_pkg.all;
+use work.nw_udpv6_pkg.all;
 
 library nw_ethernet;
 context nw_ethernet.nw_ethernet_context;
@@ -84,6 +85,17 @@ architecture behav of nw_ipv6_tb is
                                                              x"05", x"dc", x"00", x"07", x"00", x"00", x"12",
                                                              x"fd");
 
+  constant C_UDPV6_PKT: t_slv_arr(0 to 79)(7 downto 0) := (x"60", x"00", x"00", x"00", x"00", x"28", x"11", x"1a", 
+                                                           x"2a", x"01", x"02", x"38", x"43", x"63", x"ee", x"00", 
+                                                           x"91", x"69", x"a8", x"a4", x"e5", x"72", x"d5", x"f8", 
+                                                           x"2a", x"01", x"04", x"88", x"00", x"42", x"10", x"00", 
+                                                           x"50", x"ed", x"85", x"88", x"00", x"8a", x"c5", x"70", 
+                                                           x"b2", x"91", x"82", x"e6", x"00", x"28", x"a6", x"ce", 
+                                                           x"40", x"41", x"42", x"43", x"44", x"45", x"46", x"47", 
+                                                           x"48", x"49", x"4a", x"4b", x"4c", x"4d", x"4e", x"4f", 
+                                                           x"50", x"51", x"52", x"53", x"54", x"55", x"56", x"57", 
+                                                           x"58", x"59", x"5a", x"5b", x"5c", x"5d", x"5e", x"5f");
+
 begin
 
   p_main : process
@@ -95,7 +107,7 @@ begin
     variable v_plen        : natural;
     variable v_ext_headers : t_ext_header_list := C_DEFAULT_EXT_HEADER_LIST;
     variable v_addr        : t_slv_arr(0 to 15)(7 downto 0);
-
+    variable v_udp_header  : t_udp_header;
   begin
     wait for 0.5674 ns;
     -------------------------------------------------------------------------------
@@ -177,6 +189,33 @@ begin
     v_addr := f_ipv6_addr_2_slv_arr("2102:ec7::2");
     assert v_addr = (x"21", x"02", x"0e", x"c7", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"02")
       report "Test 1.17 failed" severity failure;
+
+    -------------------------------------------------------------------------------
+    -- nw_udpv6_pkg functions
+    -------------------------------------------------------------------------------
+    wait for 3.01 ns;
+    msg("Part 2: Verify nw_udpv6_pkg functions");
+
+    assert f_udpv6_chksum_ok(f_ipv6_get_header(C_UDPV6_PKT), f_ipv6_get_payload(C_UDPV6_PKT))
+      report "Test 2.1 failed" severity failure;
+
+    v_udp_header := f_udpv6_get_header(f_ipv6_get_payload(C_UDPV6_PKT));
+    assert v_udp_header.chksum = x"a6ce"
+      report "Test 2.2 failed" severity failure;
+
+    v_len := f_udpv6_get_payload_len(f_ipv6_get_payload(C_UDPV6_PKT));
+    assert v_len = 32
+      report "Test 2.3 failed" severity failure;
+
+    v_payload(0 to v_len - 1) := f_udpv6_get_payload(f_ipv6_get_payload(C_UDPV6_PKT));
+    assert v_payload(0 to v_len - 1) = C_UDPV6_PKT(48 to 79)
+      report "Test 2.4 failed" severity failure;
+
+    v_len     := f_udpv6_create_pkt_len(v_udp_header, f_udpv6_get_payload(f_ipv6_get_payload(C_UDPV6_PKT)));
+    v_payload(0 to v_len - 1) := f_udpv6_create_pkt(f_ipv6_get_header(C_UDPV6_PKT), v_udp_header, f_udpv6_get_payload(f_ipv6_get_payload(C_UDPV6_PKT)));
+    assert v_payload(0 to v_len - 1) = C_UDPV6_PKT(40 to 79)
+      report "Test 2.5 failed" severity failure;
+    
 
     wait for 100 ns;
     -- Finish the simulation

@@ -109,7 +109,7 @@ package nw_util_pkg is
   constant C_PAD_BEFORE : boolean := false;  --! Put padding in front
   constant C_MSB_FIRST  : boolean := true;  --! Extract/insert most significant bits first
   constant C_LSB_FIRST  : boolean := false;  --! Extract/insert least significant bits first
-  
+
   -------------------------------------------------------------------------------
   -- Functions
   --! @cond functions
@@ -120,12 +120,11 @@ package nw_util_pkg is
   function f_concat(data1 : t_slv_arr;
                     data2 : t_slv_arr) return t_slv_arr;
 
-  function f_repack(data       : t_slv_arr;
-                    new_width  : natural;
-                    msb_first  : boolean;
-                    pad_after  : boolean;
-                    pad_value  : std_logic_vector;
-                    get_length : boolean := false) return t_slv_arr;
+  function f_repack(data      : t_slv_arr;
+                    new_width : natural;
+                    msb_first : boolean;
+                    pad_after : boolean;
+                    pad_value : std_logic_vector) return t_slv_arr;
 
   function f_repack(data      : t_slv_arr;
                     new_width : natural;
@@ -247,28 +246,7 @@ package body nw_util_pkg is
 
 
   -------------------------------------------------------------------------------
-  --! \brief Repack array to new word size
-  --! \param data       Input data array 
-  --! \param new_width  Target data width
-  --! \param msb_first  Insert/extract most significant bits first if True, least significant bits if False
-  --! \param pad_after  Put padding after if True, before if False
-  --! \param pad_value  Value to pad with (same word size as data)
-  --! \param get_length Get length of repacked array, default False
-  --! \return           Repacked data array
-  --!
-  --! Array will be repacked to wider or narrower data words. The only limit is that there must be an integer relationship between
-  --! the input data word size and the new data width. This limit is circumvented by first repacking to 1bit, then to target width. 
-  --! When increasing the data width, padding will be added before or after as required with a user-defined pad word. 
-  --!
-  --! **Example use**
-  --! ~~~
-  --! array_8bit  := (x"11", x"22", x"33", x"44", x"55", x"66", x"77");
-  --! array_32bit := f_repack(array_8bit, 32, C_MSB_FIRST, C_PAD_BEFORE, x"ff"); -- array_32bit is now (x"ff112233", x"44556677")
-  --! array_32bit := f_repack(array_8bit, 32, C_LSB_FIRST, C_PAD_BEFORE, x"ff"); -- array_32bit is now (x"332211ff", x"77665544")
-  --! array_1bit  := f_repack(array_8bit(0 to 0), 1, C_MSB_FIRST); -- array_1bit is now ("0", "0", "0", "1", "0", "0", "0", "1")
-  --! array_3bit  := f_repack(array_1bit, 3, C_LSB_FIRST);         -- array_3bit is now ("000", "001", "010")
-  --! array_7bit  := f_repack(f_repack(array_8bit, 1), 7); -- array_7bit is now ("0001000", "1001000", "1000110", "0110100", "0100010", ...)
-  --! ~~~
+  -- Repack array to new word size (internal)
   -------------------------------------------------------------------------------
   function f_repack(data       : t_slv_arr;
                     new_width  : natural;
@@ -403,6 +381,39 @@ package body nw_util_pkg is
   end function f_repack;
 
   -------------------------------------------------------------------------------
+  --! \brief Repack array to new word size
+  --! \param data       Input data array 
+  --! \param new_width  Target data width
+  --! \param msb_first  Insert/extract most significant bits first if True, least significant bits if False
+  --! \param pad_after  Put padding after if True, before if False
+  --! \param pad_value  Value to pad with (same word size as data)
+  --! \return           Repacked data array
+  --!
+  --! Array will be repacked to wider or narrower data words. The only limit is that there must be an integer relationship between
+  --! the input data word size and the new data width. This limit is circumvented by first repacking to 1bit, then to target width. 
+  --! When increasing the data width, padding will be added before or after as required with a user-defined pad word. 
+  --!
+  --! **Example use**
+  --! ~~~
+  --! array_8bit  := (x"11", x"22", x"33", x"44", x"55", x"66", x"77");
+  --! array_32bit := f_repack(array_8bit, 32, C_MSB_FIRST, C_PAD_BEFORE, x"ff"); -- array_32bit is now (x"ff112233", x"44556677")
+  --! array_32bit := f_repack(array_8bit, 32, C_LSB_FIRST, C_PAD_BEFORE, x"ff"); -- array_32bit is now (x"332211ff", x"77665544")
+  --! array_1bit  := f_repack(array_8bit(0 to 0), 1, C_MSB_FIRST); -- array_1bit is now ("0", "0", "0", "1", "0", "0", "0", "1")
+  --! array_3bit  := f_repack(array_1bit, 3, C_LSB_FIRST);         -- array_3bit is now ("000", "001", "010")
+  --! array_7bit  := f_repack(f_repack(array_8bit, 1), 7); -- array_7bit is now ("0001000", "1001000", "1000110", "0110100", "0100010", ...)
+  --! ~~~
+  -------------------------------------------------------------------------------
+  function f_repack(data      : t_slv_arr;
+                    new_width : natural;
+                    msb_first : boolean;
+                    pad_after : boolean;
+                    pad_value : std_logic_vector)
+    return t_slv_arr is
+  begin
+    return f_repack(data, new_width, msb_first, pad_after, pad_value, false);
+  end function f_repack;
+
+  -------------------------------------------------------------------------------
   --! \param data      Input data array 
   --! \param new_width Target data width
   --! \param msb_first Insert/extract most significant bits first if True (default), least significant bits if False
@@ -429,7 +440,7 @@ package body nw_util_pkg is
     variable v_pad_value : std_logic_vector(data(data'low)'length - 1 downto 0) := (others => '0');
 
   begin
-    return f_repack(data, new_width, msb_first, C_PAD_AFTER, v_pad_value);
+    return f_repack(data, new_width, msb_first, C_PAD_AFTER, v_pad_value, false);
   end function f_repack;
 
   -------------------------------------------------------------------------------
