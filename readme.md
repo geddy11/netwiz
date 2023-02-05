@@ -1,7 +1,7 @@
 ![](./netwiz.png)
 
 ## Intro
-NetWiz is a stand-alone VHDL library for network protocol packet generation and manipulation. 
+NetWiz is a stand-alone VHDL library for network protocol packet generation and manipulation. NetWiz offers a stateless and functional API.
 
 NetWiz requires VHDL 2008 and is designed for test bench use only, synthesis is not supported. NetWiz is licensed under the MIT license.
 
@@ -28,6 +28,7 @@ Netwiz consists of several libraries. Libraries not related to a specific networ
   * nw_ipv6:
     * [nw_ipv6](@ref nw_ipv6): Create and manipulate IPv6 packets
     * [nw_udp](@ref nw_udpv6): Create and manipulate UDPv6 packets
+    * [nw_icmp](@ref nw_icmpv6): Create and manipulate ICMPv6 packets
 
   Additional protocol libraries are expected to be added in the future.
 

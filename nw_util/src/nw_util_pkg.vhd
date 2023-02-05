@@ -156,7 +156,7 @@ package nw_util_pkg is
   --! @cond procedures
   -------------------------------------------------------------------------------
   procedure msg (
-    constant msg : in string);          -- message to be printed
+    constant msg_txt : in string);          -- message to be printed
   --! @endcond
 
 end package nw_util_pkg;
@@ -715,7 +715,6 @@ package body nw_util_pkg is
     return v_ret;
   end function f_to_slv_arr;
 
-
   -----------------------------------------------------------------------------
   --! \brief Print message in simulation log
   --! \param msg   Message to print 
@@ -728,12 +727,12 @@ package body nw_util_pkg is
   --! ~~~
   -----------------------------------------------------------------------------
   procedure msg (
-    constant msg : in string) is
+    constant msg_txt : in string) is
     variable txt : line;
   begin
     write(txt, string'("@"));
     write(txt, now, right, C_TIME_WIDTH);
-    write(txt, string'(" -- ") & msg);
+    write(txt, string'(" -- ") & msg_txt);
     writeline(OUTPUT, txt);
   end;
 

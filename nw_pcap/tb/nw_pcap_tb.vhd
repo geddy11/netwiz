@@ -45,9 +45,9 @@ end entity nw_pcap_tb;
 architecture behav of nw_pcap_tb is
 
   -- the file below is documented here: https://www.cloudshark.org/captures/4f292d12d438
-  constant C_PCAPNG_FILENAME : string := "F:/netwiz/nw_pcap/tb/ipv6-smtp.pcapng";
+  constant C_PCAPNG_FILENAME : string := "../nw_pcap/tb/ipv6-smtp.pcapng";
   -- the file below is documented here: https://www.cloudshark.org/captures/7a6644ad437e
-  constant C_PCAP_FILENAME   : string := "F:/netwiz/nw_pcap/tb/PPTP_negotiation.pcap";
+  constant C_PCAP_FILENAME   : string := "../nw_pcap/tb/PPTP_negotiation.pcap";
 
 begin
 

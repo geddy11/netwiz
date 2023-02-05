@@ -69,7 +69,7 @@ context nw_util.nw_util_context;
 --! First setup the header, then calculate the total ICMP packet length before creating the packet. 
 --! ~~~
 --! v_header                   := C_DEFAULT_ICMPV4_HEADER; -- copy default header (ping request)
---! v_payload                  := nw_nrs(f_gen_nrs(x"80", 32); -- payload contents
+--! v_payload                  := f_gen_nrs(x"80", 32); -- payload contents
 --! v_len                      := f_icmpv4_create_pkt_len(v_header, v_payload); -- calculate total packet length
 --! v_icmp_pkt(0 to v_len - 1) := f_icmpv4_create_pkt(v_header, v_payload); -- create the packet (no checksum)
 --! ~~~
@@ -77,7 +77,7 @@ context nw_util.nw_util_context;
 --! ~~~
 --! v_icmpv4_pkt_32 := f_repack(v_icmp_pkt, 32, C_MSB_FIRST); -- repack to 32bit words (padded with zeros if required)
 --! ~~~
---! See further examples in the test bench nw_icmpv4_tb.vhd.
+--! See further examples in the test bench nw_ipv4_tb.vhd.
 package nw_icmpv4_pkg is
 
   -------------------------------------------------------------------------------

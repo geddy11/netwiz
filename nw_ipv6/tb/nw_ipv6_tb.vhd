@@ -38,16 +38,14 @@ library nw_util;
 context nw_util.nw_util_context;
 library nw_ipv4;
 context nw_ipv4.nw_ipv4_context;
-
---library nw_ipv6;
---context nw_ipv6.nw_ipv4_context;
-use work.nw_ipv6_pkg.all;
-use work.nw_udpv6_pkg.all;
-
+library nw_ipv6;
+context nw_ipv6.nw_ipv6_context;
 library nw_ethernet;
 context nw_ethernet.nw_ethernet_context;
 
 entity nw_ipv6_tb is
+  generic (
+    GC_GHDL : integer := 0); -- set to 1 when running GHDL
 end entity nw_ipv6_tb;
 
 architecture behav of nw_ipv6_tb is
@@ -85,29 +83,31 @@ architecture behav of nw_ipv6_tb is
                                                              x"05", x"dc", x"00", x"07", x"00", x"00", x"12",
                                                              x"fd");
 
-  constant C_UDPV6_PKT: t_slv_arr(0 to 79)(7 downto 0) := (x"60", x"00", x"00", x"00", x"00", x"28", x"11", x"1a", 
-                                                           x"2a", x"01", x"02", x"38", x"43", x"63", x"ee", x"00", 
-                                                           x"91", x"69", x"a8", x"a4", x"e5", x"72", x"d5", x"f8", 
-                                                           x"2a", x"01", x"04", x"88", x"00", x"42", x"10", x"00", 
-                                                           x"50", x"ed", x"85", x"88", x"00", x"8a", x"c5", x"70", 
-                                                           x"b2", x"91", x"82", x"e6", x"00", x"28", x"a6", x"ce", 
-                                                           x"40", x"41", x"42", x"43", x"44", x"45", x"46", x"47", 
-                                                           x"48", x"49", x"4a", x"4b", x"4c", x"4d", x"4e", x"4f", 
-                                                           x"50", x"51", x"52", x"53", x"54", x"55", x"56", x"57", 
-                                                           x"58", x"59", x"5a", x"5b", x"5c", x"5d", x"5e", x"5f");
+  constant C_UDPV6_PKT : t_slv_arr(0 to 79)(7 downto 0) := (x"60", x"00", x"00", x"00", x"00", x"28", x"11", x"1a",
+                                                            x"2a", x"01", x"02", x"38", x"43", x"63", x"ee", x"00",
+                                                            x"91", x"69", x"a8", x"a4", x"e5", x"72", x"d5", x"f8",
+                                                            x"2a", x"01", x"04", x"88", x"00", x"42", x"10", x"00",
+                                                            x"50", x"ed", x"85", x"88", x"00", x"8a", x"c5", x"70",
+                                                            x"b2", x"91", x"82", x"e6", x"00", x"28", x"a6", x"ce",
+                                                            x"40", x"41", x"42", x"43", x"44", x"45", x"46", x"47",
+                                                            x"48", x"49", x"4a", x"4b", x"4c", x"4d", x"4e", x"4f",
+                                                            x"50", x"51", x"52", x"53", x"54", x"55", x"56", x"57",
+                                                            x"58", x"59", x"5a", x"5b", x"5c", x"5d", x"5e", x"5f");
 
 begin
 
   p_main : process
 
-    variable v_payload     : t_slv_arr(0 to 289)(7 downto 0);
-    variable v_ipv6_pkt    : t_slv_arr(0 to 309)(7 downto 0);
-    variable v_ipv6_header : t_ipv6_header;
-    variable v_len         : natural;
-    variable v_plen        : natural;
-    variable v_ext_headers : t_ext_header_list := C_DEFAULT_EXT_HEADER_LIST;
-    variable v_addr        : t_slv_arr(0 to 15)(7 downto 0);
-    variable v_udp_header  : t_udp_header;
+    variable v_payload       : t_slv_arr(0 to 289)(7 downto 0);
+    variable v_ipv6_pkt      : t_slv_arr(0 to 309)(7 downto 0);
+    variable v_ipv6_header   : t_ipv6_header;
+    variable v_len           : natural;
+    variable v_plen          : natural;
+    variable v_ext_headers   : t_ext_header_list := C_DEFAULT_EXT_HEADER_LIST;
+    variable v_addr          : t_slv_arr(0 to 15)(7 downto 0);
+    variable v_udp_header    : t_udp_header;
+    variable v_icmpv6_header : t_icmpv6_header;
+    variable v_icmpv6_pkt    : t_slv_arr(0 to 99)(7 downto 0);
   begin
     wait for 0.5674 ns;
     -------------------------------------------------------------------------------
@@ -211,11 +211,51 @@ begin
     assert v_payload(0 to v_len - 1) = C_UDPV6_PKT(48 to 79)
       report "Test 2.4 failed" severity failure;
 
-    v_len     := f_udpv6_create_pkt_len(v_udp_header, f_udpv6_get_payload(f_ipv6_get_payload(C_UDPV6_PKT)));
+    v_len                     := f_udpv6_create_pkt_len(v_udp_header, f_udpv6_get_payload(f_ipv6_get_payload(C_UDPV6_PKT)));
     v_payload(0 to v_len - 1) := f_udpv6_create_pkt(f_ipv6_get_header(C_UDPV6_PKT), v_udp_header, f_udpv6_get_payload(f_ipv6_get_payload(C_UDPV6_PKT)));
     assert v_payload(0 to v_len - 1) = C_UDPV6_PKT(40 to 79)
       report "Test 2.5 failed" severity failure;
-    
+
+    -------------------------------------------------------------------------------
+    -- nw_icmpv6_pkg functions
+    -------------------------------------------------------------------------------
+    wait for 3.01 ns;
+    msg("Part 3: Verify nw_icmpv6_pkg functions");
+
+    v_ipv6_header := f_ipv6_get_header(f_eth_get_payload(C_ICMPV6_PKT));
+
+    assert f_icmpv6_chksum_ok(v_ipv6_header, f_ipv6_get_payload(f_eth_get_payload(C_ICMPV6_PKT)))
+      report "Test 3.1 failed" severity failure;
+
+    v_icmpv6_header := f_icmpv6_get_header(f_ipv6_get_payload(f_eth_get_payload(C_ICMPV6_PKT)));
+    assert v_icmpv6_header.icmp_type = C_ICMPV6_PKT(62)
+      report "Test 3.2 failed" severity failure;
+
+    assert v_icmpv6_header.icmp_code = C_ICMPV6_PKT(63)
+      report "Test 3.3 failed" severity failure;
+
+    assert v_icmpv6_header.chksum = C_ICMPV6_PKT(64) & C_ICMPV6_PKT(65)
+      report "Test 3.4 failed" severity failure;
+
+    v_plen := f_icmpv6_get_payload_len(f_ipv6_get_payload(f_eth_get_payload(C_ICMPV6_PKT)));
+    assert v_plen = 24
+      report "Test 3.5 failed" severity failure;
+
+    v_payload(0 to v_plen - 1) := f_icmpv6_get_payload(f_ipv6_get_payload(f_eth_get_payload(C_ICMPV6_PKT)));
+    assert v_payload(0 to v_plen - 1) = C_ICMPV6_PKT(66 to 89)
+      report "Test 3.6 failed" severity failure;
+
+    v_len := f_icmpv6_create_pkt_len(v_ipv6_header, v_icmpv6_header, v_payload(0 to v_plen - 1));
+    assert v_len = 28
+      report "Test 3.7 failed" severity failure;
+
+    v_icmpv6_pkt(0 to v_len - 1) := f_icmpv6_create_pkt(v_ipv6_header, v_icmpv6_header, v_payload(0 to v_plen - 1));
+    if GC_GHDL /= 1 then -- this test fails in GHDL (but not Modelsim)
+      assert v_icmpv6_pkt(0 to v_len - 1) = C_ICMPV6_PKT(62 to 89)
+        report "Test 3.8 failed" severity failure;
+    else
+      msg("Note! Test 3.8 is skipped when running GHDL");
+    end if;
 
     wait for 100 ns;
     -- Finish the simulation

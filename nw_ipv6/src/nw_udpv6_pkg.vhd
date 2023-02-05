@@ -150,7 +150,7 @@ package body nw_udpv6_pkg is
     end loop;
     -- pseudo-header
     v_pseudo(0 to 15) := ipv6_header.src_addr(0 to 15);
-    if routing_header.header_type = C_IPV6_ROUTE then  -- use final detisnation
+    if routing_header.header_type = C_IPV6_ROUTE then  -- use final destination
     -- TODO
     else
       v_pseudo(16 to 31) := ipv6_header.dest_addr(0 to 15);

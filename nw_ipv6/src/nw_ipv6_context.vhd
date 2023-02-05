@@ -33,7 +33,7 @@
 
 context nw_ipv6_context is
   library nw_ipv6;
-  use nw_ipv6.nw_ipv4_pkg.all;
-  use nw_ipv6.nw_udpv4_pkg.all;
-  --use nw_ipv6.nw_icmpv4_pkg.all;
+  use nw_ipv6.nw_ipv6_pkg.all;
+  use nw_ipv6.nw_udpv6_pkg.all;
+  use nw_ipv6.nw_icmpv6_pkg.all;
 end context nw_ipv6_context;
