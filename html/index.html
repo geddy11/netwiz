@@ -89,11 +89,15 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="textblock"><p><a class="anchor" id="md_readme"></a> <img src="./netwiz.png" alt="" class="inline"/></p>
 <h2><a class="anchor" id="autotoc_md0"></a>
 Intro</h2>
-<p>NetWiz is a stand-alone VHDL library for network protocol packet generation and manipulation.</p>
+<p>NetWiz is a stand-alone VHDL library for network protocol packet generation and manipulation. NetWiz offers a stateless and functional API.</p>
 <p>NetWiz requires VHDL 2008 and is designed for test bench use only, synthesis is not supported. NetWiz is licensed under the MIT license.</p>
 <h2><a class="anchor" id="autotoc_md1"></a>
 Libraries</h2>
 <p>Netwiz consists of several libraries. Libraries not related to a specific network protocol are:</p><ul>
+<li>nw_adapt:<ul>
+<li>Configurable settings</li>
+</ul>
+</li>
 <li>nw_util:<ul>
 <li><a class="el" href="nw_util.html">nw_util</a>: Functions for data array manipulation</li>
 <li><a class="el" href="nw_crc.html">nw_crc</a>: CRC and checksum generation</li>
@@ -114,8 +118,14 @@ Libraries</h2>
 </li>
 <li>nw_ipv4:<ul>
 <li><a class="el" href="nw_ipv4.html">nw_ipv4</a>: Create and manipulate IPv4 packets</li>
-<li><a class="el" href="nw_udpv4.html">nw_udp</a>: Create and manipulate UDP packets</li>
-<li><a class="el" href="nw_icmpv4.html">nw_icmp</a>: Create and manipulate ICMP packets</li>
+<li><a class="el" href="nw_udpv4.html">nw_udp</a>: Create and manipulate UDPv4 packets</li>
+<li><a class="el" href="nw_icmpv4.html">nw_icmp</a>: Create and manipulate ICMPv4 packets</li>
+</ul>
+</li>
+<li>nw_ipv6:<ul>
+<li><a class="el" href="nw_ipv6.html">nw_ipv6</a>: Create and manipulate IPv6 packets</li>
+<li><a class="el" href="nw_udpv6.html">nw_udp</a>: Create and manipulate UDPv6 packets</li>
+<li><a class="el" href="nw_icmpv6.html">nw_icmp</a>: Create and manipulate ICMPv6 packets</li>
 </ul>
 </li>
 </ul>

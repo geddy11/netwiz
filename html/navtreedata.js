@@ -27,6 +27,7 @@ var NAVTREE =
   [ "Network Wizard for VHDL Test Benches", "index.html", [
     [ "Ethernet library", "nw_ethernet.html", "nw_ethernet" ],
     [ "IPv4 library", "nw_ipv4.html", "nw_ipv4" ],
+    [ "IPv6 library", "nw_ipv6.html", "nw_ipv6" ],
     [ "PCAP library", "nw_pcap.html", [
       [ "PCAP", "nw_pcap.html#PCAP", [
         [ "Functionality", "nw_pcap.html#pcap_subsec1", null ],

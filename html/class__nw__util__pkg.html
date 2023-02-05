@@ -99,7 +99,8 @@ Functions</h2></td></tr>
 <tr class="memdesc:aa285b1a9c223bc4b2fce22a609812cd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reverse bit order in data word.  <a href="#aa285b1a9c223bc4b2fce22a609812cd8"></a><br /></td></tr>
 <tr class="memitem:a37ec517784f321dbc07840074d657526"><td class="memItemLeft" align="right" valign="top"><b><b><span class="vhdlchar">t_slv_arr</span><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="class__nw__util__pkg.html#a37ec517784f321dbc07840074d657526">f_concat</a><b> ( </b><b><span class="vhdlchar">data1: </span><span class="stringliteral">in </span><span class="vhdlchar">t_slv_arr</span></b><b> , <span class="vhdlchar">data2: </span><span class="stringliteral">in </span><span class="vhdlchar">t_slv_arr</span></b><b> )</b></td></tr>
 <tr class="memdesc:a37ec517784f321dbc07840074d657526"><td class="mdescLeft">&#160;</td><td class="mdescRight">Concatenate two arrays (of same data width)  <a href="#a37ec517784f321dbc07840074d657526"></a><br /></td></tr>
-<tr class="memitem:a028ec2501c357fddce670abf26bf148d"><td class="memItemLeft" align="right" valign="top"><b><b><span class="vhdlchar">t_slv_arr</span><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="class__nw__util__pkg.html#a028ec2501c357fddce670abf26bf148d">f_repack</a><b> ( </b><br />
+<tr class="memitem:a028ec2501c357fddce670abf26bf148d"><td class="memItemLeft" align="right" valign="top"><a id="a028ec2501c357fddce670abf26bf148d"></a>
+<b><b><span class="vhdlchar">t_slv_arr</span><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="class__nw__util__pkg.html#a028ec2501c357fddce670abf26bf148d">f_repack</a><b> ( </b><br />
 <b><span class="vhdlchar">data: </span><span class="stringliteral">in </span><span class="vhdlchar">t_slv_arr</span></b><br />
 <b><span class="vhdlchar">new_width: </span><span class="stringliteral">in </span><b><span class="keywordtype">natural</span><span class="vhdlchar"> </span></b></b><br />
 <b><span class="vhdlchar">msb_first: </span><span class="stringliteral">in </span><b><span class="keywordtype">boolean</span><span class="vhdlchar"> </span></b></b><br />
@@ -107,14 +108,25 @@ Functions</h2></td></tr>
 <b><span class="vhdlchar">pad_value: </span><span class="stringliteral">in </span><b><span class="keywordtype">std_logic_vector</span><span class="vhdlchar"> </span></b></b><br />
 <b><span class="vhdlchar">get_length: </span><span class="stringliteral">in </span><span class="vhdlchar">boolean    false</span></b><br />
 <b> )</b></td></tr>
-<tr class="memdesc:a028ec2501c357fddce670abf26bf148d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Repack array to new word size.  <a href="#a028ec2501c357fddce670abf26bf148d"></a><br /></td></tr>
+<tr class="memitem:a37e41a0b8bef73361925264caeae5449"><td class="memItemLeft" align="right" valign="top"><b><b><span class="vhdlchar">t_slv_arr</span><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="class__nw__util__pkg.html#a37e41a0b8bef73361925264caeae5449">f_repack</a><b> ( </b><br />
+<b><span class="vhdlchar">data: </span><span class="stringliteral">in </span><span class="vhdlchar">t_slv_arr</span></b><br />
+<b><span class="vhdlchar">new_width: </span><span class="stringliteral">in </span><b><span class="keywordtype">natural</span><span class="vhdlchar"> </span></b></b><br />
+<b><span class="vhdlchar">msb_first: </span><span class="stringliteral">in </span><b><span class="keywordtype">boolean</span><span class="vhdlchar"> </span></b></b><br />
+<b><span class="vhdlchar">pad_after: </span><span class="stringliteral">in </span><b><span class="keywordtype">boolean</span><span class="vhdlchar"> </span></b></b><br />
+<b><span class="vhdlchar">pad_value: </span><span class="stringliteral">in </span><b><span class="keywordtype">std_logic_vector</span><span class="vhdlchar"> </span></b></b><br />
+<b> )</b></td></tr>
+<tr class="memdesc:a37e41a0b8bef73361925264caeae5449"><td class="mdescLeft">&#160;</td><td class="mdescRight">Repack array to new word size.  <a href="#a37e41a0b8bef73361925264caeae5449"></a><br /></td></tr>
 <tr class="memitem:ace320c83a19a34bd34e9838d93541834"><td class="memItemLeft" align="right" valign="top"><b><b><span class="vhdlchar">t_slv_arr</span><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="class__nw__util__pkg.html#ace320c83a19a34bd34e9838d93541834">f_repack</a><b> ( </b><br />
 <b><span class="vhdlchar">data: </span><span class="stringliteral">in </span><span class="vhdlchar">t_slv_arr</span></b><br />
 <b><span class="vhdlchar">new_width: </span><span class="stringliteral">in </span><b><span class="keywordtype">natural</span><span class="vhdlchar"> </span></b></b><br />
 <b><span class="vhdlchar">msb_first: </span><span class="stringliteral">in </span><span class="vhdlchar">boolean    C_MSB_FIRST</span></b><br />
 <b> )</b></td></tr>
-<tr class="memitem:a89b1842dafdd89ff33b35675ac4d5825"><td class="memItemLeft" align="right" valign="top"><b><b><span class="keywordtype">natural</span><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="class__nw__util__pkg.html#a89b1842dafdd89ff33b35675ac4d5825">f_repack_len</a><b> ( </b><b><span class="vhdlchar">data: </span><span class="stringliteral">in </span><span class="vhdlchar">t_slv_arr</span></b><b> , <span class="vhdlchar">new_width: </span><span class="stringliteral">in </span><b><span class="keywordtype">natural</span><span class="vhdlchar"> </span></b></b><b> )</b></td></tr>
-<tr class="memdesc:a89b1842dafdd89ff33b35675ac4d5825"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return length of repacked array.  <a href="#a89b1842dafdd89ff33b35675ac4d5825"></a><br /></td></tr>
+<tr class="memitem:a47f0dacc042e2874a5749514ae2f4dde"><td class="memItemLeft" align="right" valign="top"><b><b><span class="keywordtype">natural</span><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="class__nw__util__pkg.html#a47f0dacc042e2874a5749514ae2f4dde">f_repack_len</a><b> ( </b><br />
+<b><span class="vhdlchar">data: </span><span class="stringliteral">in </span><span class="vhdlchar">t_slv_arr</span></b><br />
+<b><span class="vhdlchar">new_width: </span><span class="stringliteral">in </span><b><span class="keywordtype">natural</span><span class="vhdlchar"> </span></b></b><br />
+<b><span class="vhdlchar">msb_first: </span><span class="stringliteral">in </span><span class="vhdlchar">boolean    C_MSB_FIRST</span></b><br />
+<b> )</b></td></tr>
+<tr class="memdesc:a47f0dacc042e2874a5749514ae2f4dde"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return length of repacked array.  <a href="#a47f0dacc042e2874a5749514ae2f4dde"></a><br /></td></tr>
 <tr class="memitem:a2a6bd297d297405f9712aaf022ef717a"><td class="memItemLeft" align="right" valign="top"><b><b><span class="vhdlchar">t_slv_arr</span><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="class__nw__util__pkg.html#a2a6bd297d297405f9712aaf022ef717a">f_reverse</a><b> ( </b><b><span class="vhdlchar">data: </span><span class="stringliteral">in </span><span class="vhdlchar">t_slv_arr</span></b><b> )</b></td></tr>
 <tr class="memdesc:a2a6bd297d297405f9712aaf022ef717a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reverse data array.  <a href="#a2a6bd297d297405f9712aaf022ef717a"></a><br /></td></tr>
 <tr class="memitem:a4d23268f9ebd6a21b2c9aa2cc203a3b6"><td class="memItemLeft" align="right" valign="top"><b><b><span class="keywordtype">integer</span><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="class__nw__util__pkg.html#a4d23268f9ebd6a21b2c9aa2cc203a3b6">f_search</a><b> ( </b><b><span class="vhdlchar">data: </span><span class="stringliteral">in </span><span class="vhdlchar">t_slv_arr</span></b><b> , <span class="vhdlchar">token: </span><span class="stringliteral">in </span><span class="vhdlchar">t_slv_arr</span></b><b> )</b></td></tr>
@@ -134,8 +146,8 @@ Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="Procedures"></a>
 Procedures</h2></td></tr>
- <tr class="memitem:a21fc85aae8166922dc71cf5d38169c43"><td class="memItemLeft" align="right" valign="top"><b><b><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="class__nw__util__pkg.html#a21fc85aae8166922dc71cf5d38169c43">msg</a>( <b><span class="keywordflow">constant </span><span class="vhdlchar">msg: </span><span class="stringliteral"></span> <b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="keywordtype">string</span><span class="vhdlchar"> </span></b></b> )</td></tr>
-<tr class="memdesc:a21fc85aae8166922dc71cf5d38169c43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print message in simulation log.  <a href="#a21fc85aae8166922dc71cf5d38169c43"></a><br /></td></tr>
+ <tr class="memitem:a081fef15f23fd1577e55129cbfd5831e"><td class="memItemLeft" align="right" valign="top"><b><b><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="class__nw__util__pkg.html#a081fef15f23fd1577e55129cbfd5831e">msg</a>( <b><span class="keywordflow">constant </span><span class="vhdlchar">msg_txt: </span><span class="stringliteral"></span> <b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="keywordtype">string</span><span class="vhdlchar"> </span></b></b> )</td></tr>
+<tr class="memdesc:a081fef15f23fd1577e55129cbfd5831e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print message in simulation log.  <a href="#a081fef15f23fd1577e55129cbfd5831e"></a><br /></td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a9bfa4209f7f78daea563f7618d0b3405"></a>
@@ -269,8 +281,8 @@ Procedures</h2></td></tr>
 </div><!-- fragment --> 
 </div>
 </div>
-<a id="a028ec2501c357fddce670abf26bf148d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a028ec2501c357fddce670abf26bf148d">&#9670;&nbsp;</a></span>f_repack() <span class="overload">[1/2]</span></h2>
+<a id="a37e41a0b8bef73361925264caeae5449"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37e41a0b8bef73361925264caeae5449">&#9670;&nbsp;</a></span>f_repack() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -306,13 +318,7 @@ Procedures</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">pad_value</span><span class="vhdlchar"> </span></b><span class="stringliteral">in</span> <em><b><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="keywordtype">std_logic_vector</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">get_length</span><span class="vhdlchar"> </span></b><span class="stringliteral">in</span> <em><b><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="keywordtype">boolean</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar">false</span><span class="vhdlchar"> </span></b></em>&#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">pad_value</span><span class="vhdlchar"> </span></b><span class="stringliteral">in</span> <em><b><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="keywordtype">std_logic_vector</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -335,7 +341,6 @@ Procedures</h2></td></tr>
     <tr><td class="paramname">msb_first</td><td>Insert/extract most significant bits first if True, least significant bits if False </td></tr>
     <tr><td class="paramname">pad_after</td><td>Put padding after if True, before if False </td></tr>
     <tr><td class="paramname">pad_value</td><td>Value to pad with (same word size as data) </td></tr>
-    <tr><td class="paramname">get_length</td><td>Get length of repacked array, default False </td></tr>
   </table>
   </dd>
 </dl>
@@ -410,8 +415,8 @@ Procedures</h2></td></tr>
 </div><!-- fragment --> 
 </div>
 </div>
-<a id="a89b1842dafdd89ff33b35675ac4d5825"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a89b1842dafdd89ff33b35675ac4d5825">&#9670;&nbsp;</a></span>f_repack_len()</h2>
+<a id="a47f0dacc042e2874a5749514ae2f4dde"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47f0dacc042e2874a5749514ae2f4dde">&#9670;&nbsp;</a></span>f_repack_len()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -429,7 +434,13 @@ Procedures</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">new_width</span><span class="vhdlchar"> </span></b><span class="stringliteral">in</span> <em><b><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="keywordtype">natural</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em>&#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">new_width</span><span class="vhdlchar"> </span></b><span class="stringliteral">in</span> <em><b><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="keywordtype">natural</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">msb_first</span><span class="vhdlchar"> </span></b><span class="stringliteral">in</span> <em><b><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="keywordtype">boolean</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar">C_MSB_FIRST</span><span class="vhdlchar"> </span></b></em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -809,8 +820,8 @@ Procedures</h2></td></tr>
 </div><!-- fragment --> 
 </div>
 </div>
-<a id="a21fc85aae8166922dc71cf5d38169c43"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a21fc85aae8166922dc71cf5d38169c43">&#9670;&nbsp;</a></span>msg()</h2>
+<a id="a081fef15f23fd1577e55129cbfd5831e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a081fef15f23fd1577e55129cbfd5831e">&#9670;&nbsp;</a></span>msg()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -822,7 +833,7 @@ Procedures</h2></td></tr>
           <td class="memname"> <b><span class="vhdlchar"> </span></b> msg</td>
           <td>(</td>
           <td class="paramtype"><span class="keywordtype">constant</span> &#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">msg</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="keywordtype">string</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em>&#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">msg_txt</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="keywordtype">string</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em>&#160;</td>
         </tr>
         <tr>
           <td></td>
