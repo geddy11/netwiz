@@ -131,7 +131,8 @@ package nw_util_pkg is
                     msb_first : boolean := C_MSB_FIRST) return t_slv_arr;
 
   function f_repack_len(data      : t_slv_arr;
-                        new_width : natural) return natural;
+                        new_width : natural;
+                        msb_first : boolean := C_MSB_FIRST) return natural;
 
   function f_reverse(data : t_slv_arr) return t_slv_arr;
 
@@ -458,12 +459,13 @@ package body nw_util_pkg is
   --! ~~~
   -------------------------------------------------------------------------------
   function f_repack_len(data      : t_slv_arr;
-                        new_width : natural)
+                        new_width : natural;
+                        msb_first : boolean := C_MSB_FIRST)
     return natural is
     variable v_pad_value : std_logic_vector(data(data'low)'length - 1 downto 0) := (others => '0');
     variable v_length    : t_slv_arr(0 to 0)(30 downto 0);
   begin
-    v_length := f_repack(data, new_width, C_MSB_FIRST, C_PAD_AFTER, v_pad_value, true);
+    v_length := f_repack(data, new_width, msb_first, C_PAD_AFTER, v_pad_value, true);
     return to_integer(unsigned(v_length(0)));
   end function f_repack_len;
 

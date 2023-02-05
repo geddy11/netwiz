@@ -99,8 +99,10 @@ package nw_udpv6_pkg is
                               payload        : t_slv_arr;
                               routing_header : t_extension_header := C_DEFAULT_EXT_HEADER) return t_slv_arr;
 
-  function f_udpv6_create_pkt_len(udp_header : t_udp_header;
-                                  payload    : t_slv_arr) return natural;
+  function f_udpv6_create_pkt_len(ipv6_header    : t_ipv6_header;
+                                  udp_header     : t_udp_header;
+                                  payload        : t_slv_arr;
+                                  routing_header : t_extension_header := C_DEFAULT_EXT_HEADER) return natural;
 
   function f_udpv6_get_header(udp_pkt : t_slv_arr) return t_udp_header;
 
@@ -202,26 +204,28 @@ package body nw_udpv6_pkg is
 
   -------------------------------------------------------------------------------
   --! \brief Return length of UDP packet.
-  --! \param udp_header UDP header
-  --! \param payload    UDP payload
-  --! \return           Length of UDP packet
+  --! \param ipv6_header    IPv6 header (required for checksum calculation)
+  --! \param udp_header     UDP header
+  --! \param payload        UDP payload
+  --! \param routing_header IPv6 routing extension header (default none)
+  --! \return               Length of UDP packet
   --!
   --! Return the length of the created UDP packet.
   --!
   --! **Example use**
   --! ~~~
-  --! v_len                      := f_udpv6_create_pkt_len(v_udp_header, payload); 
-  --! v_pkt_8bit(0 to v_len - 1) := f_udpv6_create_pkt(v_udp_header, payload);
+  --! v_len                      := f_udpv6_create_pkt_len(C_DEFAULT_IPV6_HEADER, v_udp_header, payload); 
+  --! v_pkt_8bit(0 to v_len - 1) := f_udpv6_create_pkt(C_DEFAULT_IPV6_HEADER, v_udp_header, payload);
   --! ~~~
   -------------------------------------------------------------------------------
-  function f_udpv6_create_pkt_len(udp_header : t_udp_header;
-                                  payload    : t_slv_arr)
+  function f_udpv6_create_pkt_len(ipv6_header    : t_ipv6_header;
+                                  udp_header     : t_udp_header;
+                                  payload        : t_slv_arr;
+                                  routing_header : t_extension_header := C_DEFAULT_EXT_HEADER)
     return natural is
-    variable v_length         : t_slv_arr(0 to 0)(30 downto 0);
-    variable v_ipv6_header    : t_ipv6_header      := C_DEFAULT_IPV6_HEADER;
-    variable v_routing_header : t_extension_header := C_DEFAULT_EXT_HEADER;
+    variable v_length : t_slv_arr(0 to 0)(30 downto 0);
   begin
-    v_length := f_udpv6_create_pkt(v_ipv6_header, udp_header, payload, v_routing_header, true);
+    v_length := f_udpv6_create_pkt(ipv6_header, udp_header, payload, routing_header, true);
     return to_integer(unsigned(v_length(0)));
   end function f_udpv6_create_pkt_len;
 

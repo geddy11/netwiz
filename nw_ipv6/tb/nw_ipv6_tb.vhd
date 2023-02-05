@@ -211,7 +211,7 @@ begin
     assert v_payload(0 to v_len - 1) = C_UDPV6_PKT(48 to 79)
       report "Test 2.4 failed" severity failure;
 
-    v_len                     := f_udpv6_create_pkt_len(v_udp_header, f_udpv6_get_payload(f_ipv6_get_payload(C_UDPV6_PKT)));
+    v_len                     := f_udpv6_create_pkt_len(f_ipv6_get_header(C_UDPV6_PKT), v_udp_header, f_udpv6_get_payload(f_ipv6_get_payload(C_UDPV6_PKT)));
     v_payload(0 to v_len - 1) := f_udpv6_create_pkt(f_ipv6_get_header(C_UDPV6_PKT), v_udp_header, f_udpv6_get_payload(f_ipv6_get_payload(C_UDPV6_PKT)));
     assert v_payload(0 to v_len - 1) = C_UDPV6_PKT(40 to 79)
       report "Test 2.5 failed" severity failure;

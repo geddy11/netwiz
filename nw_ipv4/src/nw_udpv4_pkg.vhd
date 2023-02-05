@@ -119,6 +119,11 @@ package nw_udpv4_pkg is
   function f_udpv4_create_pkt_len(udp_header : t_udp_header;
                                   payload    : t_slv_arr) return natural;
 
+  function f_udpv4_create_pkt_len(ipv4_header : t_ipv4_header;
+                                  udp_header  : t_udp_header;
+                                  payload     : t_slv_arr;
+                                  add_chksum  : boolean := true) return natural;
+
   function f_udpv4_get_header(udp_pkt : t_slv_arr) return t_udp_header;
 
   function f_udpv4_get_payload(udp_pkt : t_slv_arr) return t_slv_arr;
@@ -257,6 +262,33 @@ package body nw_udpv4_pkg is
     variable v_length : t_slv_arr(0 to 0)(30 downto 0);
   begin
     v_length := f_udpv4_create_pkt(C_DEFAULT_IPV4_HEADER, udp_header, payload, false, true);
+    return to_integer(unsigned(v_length(0)));
+  end function f_udpv4_create_pkt_len;
+
+  -------------------------------------------------------------------------------
+  --! \brief Return length of UDP packet.
+  --! \param ipv4_header IPv4 header (required for checksum calculation)
+  --! \param udp_header  UDP header
+  --! \param payload     UDP payload
+  --! \param add_chksum  Add checksum (default true)
+  --! \return            Length of UDP packet
+  --!
+  --! Return the length of the created UDP packet.
+  --!
+  --! **Example use**
+  --! ~~~
+  --! v_len                      := f_udpv4_create_pkt_len(v_ipv4_header, v_udp_header, payload); 
+  --! v_pkt_8bit(0 to v_len - 1) := f_udpv4_create_pkt(_ipv4_header, v_udp_header, payload);
+  --! ~~~
+  -------------------------------------------------------------------------------
+  function f_udpv4_create_pkt_len(ipv4_header : t_ipv4_header;
+                                  udp_header  : t_udp_header;
+                                  payload     : t_slv_arr;
+                                  add_chksum  : boolean := true)
+    return natural is
+    variable v_length : t_slv_arr(0 to 0)(30 downto 0);
+  begin
+    v_length := f_udpv4_create_pkt(ipv4_header, udp_header, payload, add_chksum, true);
     return to_integer(unsigned(v_length(0)));
   end function f_udpv4_create_pkt_len;
 
