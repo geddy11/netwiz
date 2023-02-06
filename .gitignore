@@ -2,3 +2,4 @@ docs
 *~
 script/*
 !script/ghdl_run_all.sh
+!script/modelsim_run_all.do
