@@ -63,7 +63,7 @@ ghdl -a --std=08 -frelaxed-rules --work=nw_ipv4 ../nw_ipv4/src/nw_ipv4_context.v
 ghdl -a --std=08 -frelaxed-rules --work=work ../nw_ipv4/tb/nw_ipv4_tb.vhd
 ghdl -e --std=08 -frelaxed-rules --work=work nw_ipv4_tb
 ghdl -r --std=08 -frelaxed-rules --work=work nw_ipv4_tb -gGC_GHDL=1
-#nw_ipv6
+# nw_ipv6
 echo -e "\nTesting nw_ipv6"
 ghdl -a --std=08 -frelaxed-rules --work=nw_ipv6 ../nw_ipv6/src/nw_ipv6_pkg.vhd
 ghdl -a --std=08 -frelaxed-rules --work=nw_ipv6 ../nw_ipv6/src/nw_udpv6_pkg.vhd
@@ -72,3 +72,10 @@ ghdl -a --std=08 -frelaxed-rules --work=nw_ipv6 ../nw_ipv6/src/nw_ipv6_context.v
 ghdl -a --std=08 -frelaxed-rules --work=work ../nw_ipv6/tb/nw_ipv6_tb.vhd
 ghdl -e --std=08 -frelaxed-rules --work=work nw_ipv6_tb
 ghdl -r --std=08 -frelaxed-rules --work=work nw_ipv6_tb -gGC_GHDL=1
+# nw_codec
+echo -e "\nTesting nw_codec"
+ghdl -a --std=08 -frelaxed-rules --work=nw_codec ../nw_codec/src/nw_sl_codec_pkg.vhd
+ghdl -a --std=08 -frelaxed-rules --work=nw_codec ../nw_codec/src/nw_codec_context.vhd
+ghdl -a --std=08 -frelaxed-rules --work=work ../nw_codec/tb/nw_codec_tb.vhd
+ghdl -e --std=08 -frelaxed-rules --work=work nw_codec_tb
+ghdl -r --std=08 -frelaxed-rules --work=work nw_codec_tb -gGC_GHDL=1

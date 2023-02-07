@@ -74,5 +74,11 @@ vcom -2008 -quiet -work ./nw_ipv6 ../nw_ipv6/src/nw_udpv6_pkg.vhd
 vcom -2008 -quiet -work ./nw_ipv6 ../nw_ipv6/src/nw_icmpv6_pkg.vhd
 vcom -2008 -quiet -work ./nw_ipv6 ../nw_ipv6/src/nw_ipv6_context.vhd
 vcom -2008 -quiet -work ./work ../nw_ipv6/tb/nw_ipv6_tb.vhd
-vsim -quiet -c nw_ipv6_tb -do "onerror {quit -code 1}; run -all; exit"
+vsim -quiet -c nw_ipv6_tb -do "onerror {quit -code 1}; run -all"
 echo "\n"
+# nw_codec
+vlib nw_codec
+vcom -2008 -quiet -work ./nw_codec ../nw_codec/src/nw_sl_codec_pkg.vhd
+vcom -2008 -quiet -work ./nw_codec ../nw_codec/src/nw_codec_context.vhd
+vcom -2008 -quiet -work ./work ../nw_codec/tb/nw_codec_tb.vhd
+vsim -quiet -c nw_codec_tb -do "onerror {quit -code 1}; run -all; exit"
