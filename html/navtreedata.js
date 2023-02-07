@@ -25,6 +25,15 @@
 var NAVTREE =
 [
   [ "Network Wizard for VHDL Test Benches", "index.html", [
+    [ "Codec library", "nw_sl_codec.html", [
+      [ "Intro", "index.html#autotoc_md0", null ],
+      [ "Libraries", "index.html#autotoc_md1", null ],
+      [ "Documentation", "index.html#autotoc_md2", null ],
+      [ "Stateless codec", "nw_sl_codec.html#crc", [
+        [ "Functionality", "nw_sl_codec.html#sl_codec_subsec1", null ],
+        [ "Example use", "nw_sl_codec.html#sl_codec_subsec2", null ]
+      ] ]
+    ] ],
     [ "Ethernet library", "nw_ethernet.html", "nw_ethernet" ],
     [ "IPv4 library", "nw_ipv4.html", "nw_ipv4" ],
     [ "IPv6 library", "nw_ipv6.html", "nw_ipv6" ],
