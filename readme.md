@@ -1,5 +1,7 @@
 ![](./netwiz.png)
 
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/geddy11/netwiz/netwiz_ci.yml)
+
 ## Intro
 NetWiz is a stand-alone VHDL library for network protocol packet generation and manipulation. NetWiz offers a stateless and functional API.
 
