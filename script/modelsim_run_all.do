@@ -19,6 +19,9 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+#
+# run: vsim -c -do modelsim_run_all.do
+#
 echo "\n"
 echo "███    ██ ███████ ████████ ██     ██ ██ ███████ "
 echo "████   ██ ██         ██    ██     ██ ██    ███  "
@@ -81,4 +84,10 @@ vlib nw_codec
 vcom -2008 -quiet -work ./nw_codec ../nw_codec/src/nw_sl_codec_pkg.vhd
 vcom -2008 -quiet -work ./nw_codec ../nw_codec/src/nw_codec_context.vhd
 vcom -2008 -quiet -work ./work ../nw_codec/tb/nw_codec_tb.vhd
-vsim -quiet -c nw_codec_tb -do "onerror {quit -code 1}; run -all; exit"
+vsim -quiet -c nw_codec_tb -do "onerror {quit -code 1}; run -all"
+echo "\n"
+# nw_ptp
+vlib nw_ptp
+vcom -2008 -quiet -work ./nw_ptp ../nw_ptp/src/nw_ptpv2_pkg.vhd
+vcom -2008 -quiet -work ./work ../nw_ptp/tb/nw_ptp_tb.vhd
+vsim -quiet -c nw_ptp_tb -do "onerror {quit -code 1}; run -all; exit"

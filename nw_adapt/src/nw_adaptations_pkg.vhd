@@ -54,5 +54,9 @@ package nw_adaptations_pkg is
   constant C_IPV6_MAX_EXT_HEADERS     : natural := 8;  -- Maximum number of extension headers to support
   constant C_IPV6_MAX_EXT_HEADER_SIZE : natural := 256;  -- Maximum size (bytes) of extension header options
 
+  -------------------------------------------------------------------------------
+  -- PTPv2 options
+  -------------------------------------------------------------------------------
+  constant C_PTPV2_MAX_TLV_BYTES : natural := 256; -- Maximum number of bytes of TLV data (total)
 
 end package nw_adaptations_pkg;

@@ -42,7 +42,7 @@ context nw_util.nw_util_context;
 
 --! \page nw_sl_codec Codec library
 --! \tableofcontents
---! \section crc Stateless codec
+--! \section codec Stateless codec
 --! This library provides functions for a generic stateless codec.  
 --!
 --! \subsection sl_codec_subsec1 Functionality

@@ -79,3 +79,9 @@ ghdl -a --std=08 -frelaxed-rules --work=nw_codec ../nw_codec/src/nw_codec_contex
 ghdl -a --std=08 -frelaxed-rules --work=work ../nw_codec/tb/nw_codec_tb.vhd
 ghdl -e --std=08 -frelaxed-rules --work=work nw_codec_tb
 ghdl -r --std=08 -frelaxed-rules --work=work nw_codec_tb
+# nw_ptp
+echo -e "\nTesting nw_ptp"
+ghdl -a --std=08 -frelaxed-rules --work=nw_ptp ../nw_ptp/src/nw_ptpv2_pkg.vhd
+ghdl -a --std=08 -frelaxed-rules --work=work ../nw_ptp/tb/nw_ptp_tb.vhd
+ghdl -e --std=08 -frelaxed-rules --work=work nw_ptp_tb
+ghdl -r --std=08 -frelaxed-rules --work=work nw_ptp_tb
