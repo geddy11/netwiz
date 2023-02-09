@@ -29,7 +29,7 @@ var NAVTREE =
       [ "Intro", "index.html#autotoc_md0", null ],
       [ "Libraries", "index.html#autotoc_md1", null ],
       [ "Documentation", "index.html#autotoc_md2", null ],
-      [ "Stateless codec", "nw_sl_codec.html#crc", [
+      [ "Stateless codec", "nw_sl_codec.html#codec", [
         [ "Functionality", "nw_sl_codec.html#sl_codec_subsec1", null ],
         [ "Example use", "nw_sl_codec.html#sl_codec_subsec2", null ]
       ] ]
@@ -42,6 +42,12 @@ var NAVTREE =
         [ "Functionality", "nw_pcap.html#pcap_subsec1", null ],
         [ "Limitations", "nw_pcap.html#pcap_subsec2", null ],
         [ "Example use", "nw_pcap.html#pcap_subsec3", null ]
+      ] ]
+    ] ],
+    [ "PTP Library", "nw_ptp.html", [
+      [ "IEEE1588v2", "nw_ptp.html#IEEE1588v2", [
+        [ "Functionality", "nw_ptp.html#ptp_subsec1", null ],
+        [ "Example use", "nw_ptp.html#ptp_subsec2", null ]
       ] ]
     ] ],
     [ "Utilities library", "nw_util.html", "nw_util" ],
