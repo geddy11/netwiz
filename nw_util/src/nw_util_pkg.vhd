@@ -520,7 +520,7 @@ package body nw_util_pkg is
     assert data(data'low)'length = token(token'low)'length report "f_search: the token and data array must have the same data width" severity C_SEVERITY;
     assert data'length >= token'length report "f_search: the token length must be <= data array length" severity C_SEVERITY;
 
-    for i in data'low to data'high - token'length loop
+    for i in data'low to data'high - token'length + 1 loop
       if data(i to i + token'length - 1) = token then
         return i;
       end if;

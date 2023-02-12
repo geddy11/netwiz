@@ -4,7 +4,7 @@
 -- GitHub     : https://github.com/geddy11/netwiz
 -- Standard   : VHDL'08
 -------------------------------------------------------------------------------
--- Description: Test bench for the NetWiz codec package.
+-- Description: Test bench for the NetWiz codec library.
 -------------------------------------------------------------------------------
 -- MIT License
 --
@@ -38,7 +38,6 @@ context nw_util.nw_util_context;
 library nw_codec;
 context nw_codec.nw_codec_context;
 
-
 entity nw_codec_tb is
 end entity nw_codec_tb;
 
@@ -65,18 +64,25 @@ architecture behav of nw_codec_tb is
                                                                                             (word => x"e", code => (others => "0010110")),
                                                                                             (word => x"f", code => (others => "1111111")));
 
+  constant C_TEST1 : t_slv_arr(0 to 10)(7 downto 0) := (x"01", x"01", x"01", x"05", x"01", x"01", x"01", x"01", x"01", x"01", x"01");
+
 begin
 
   p_main : process
     variable v_data : t_slv_arr(0 to 15)(7 downto 0) := (x"00", x"67", x"7e", x"80", x"7d", x"7e", x"fe", x"7d",
                                                          x"45", x"5e", x"5d", x"7d", x"5d", x"ac", x"e1", x"01");
-    variable v_data2 : t_slv_arr(0 to 8)(3 downto 0) := (x"e", x"1", x"6", x"f", x"0", x"b", x"3", x"c", x"2");
-    variable v_enc2  : t_slv_arr(0 to 8)(6 downto 0);
-    variable v_elen  : natural;
-    variable v_dlen  : natural;
-    variable v_enc   : t_slv_arr(0 to 31)(7 downto 0);
-    variable v_dec   : t_slv_arr(0 to 31)(7 downto 0);
-    variable v_dec2  : t_slv_arr(0 to 8)(3 downto 0);
+    variable v_data2    : t_slv_arr(0 to 8)(3 downto 0) := (x"e", x"1", x"6", x"f", x"0", x"b", x"3", x"c", x"2");
+    variable v_enc2     : t_slv_arr(0 to 8)(6 downto 0);
+    variable v_elen     : natural;
+    variable v_dlen     : natural;
+    variable v_enc      : t_slv_arr(0 to 31)(7 downto 0);
+    variable v_dec      : t_slv_arr(0 to 31)(7 downto 0);
+    variable v_dec2     : t_slv_arr(0 to 8)(3 downto 0);
+    variable v_data3    : t_slv_arr(0 to 767)(7 downto 0);
+    variable v_raw      : t_slv_arr(0 to 1023)(7 downto 0);
+    variable v_cobs_enc : t_slv_arr(0 to 1023)(7 downto 0);
+    variable v_cobs_dec : t_slv_arr(0 to 1023)(7 downto 0);
+    variable v_init     : std_logic_vector(31 downto 0) := x"ffffffff";
 
   begin
     wait for 0.747 ns;
@@ -112,6 +118,38 @@ begin
     v_dec2 := f_sl_dec(v_enc2(0 to v_elen - 1), C_HAMMING_7_4);
     assert v_dec2 = v_data2
       report "Test 1.6 failed" severity failure;
+
+    -------------------------------------------------------------------------------
+    -- nw_cobs_pkg functions
+    -------------------------------------------------------------------------------
+    wait for 3.33 ns;
+    msg("Part 2: Verify nw_cobs_pkg functions");
+
+    v_data3(0 to 9) := (x"00", x"00", x"00", x"01", x"01", x"01", x"01", x"00", x"00", x"00");
+    v_elen          := f_cobs_enc_len(v_data3(0 to 9));
+    wait for 1 ns;
+    assert v_elen = 11
+      report "Test 2.1 failed" severity failure;
+
+    v_data(0 to v_elen - 1) := f_cobs_enc(v_data3(0 to 9));
+    assert v_data(0 to v_elen - 1) = C_TEST1
+      report "Test 2.2 failed" severity failure;
+
+    for i in 0 to 1000 loop
+      v_raw(0 to i)               := f_gen_prbs(C_POLY_X32_X22_X2_X1_1, 8, i+1, C_MSB_FIRST, v_init);
+      v_elen                      := f_cobs_enc_len(v_raw(0 to i));
+      v_cobs_enc(0 to v_elen - 1) := f_cobs_enc(v_raw(0 to i));
+      v_dlen                      := f_cobs_dec_len(v_cobs_enc(0 to v_elen - 1));
+      assert v_dlen = i+1
+        report "Test 2.3." & to_string(i+1) & " failed (length)" severity failure;
+
+      v_cobs_dec(0 to v_dlen - 1) := f_cobs_dec(v_cobs_enc(0 to v_elen - 1));
+      wait for 10 ps;
+      assert v_raw(0 to i) = v_cobs_dec(0 to i)
+        report "Test 2.3." & to_string(i+1) & " failed (data)" severity failure;
+
+      v_init := v_raw(0) & v_raw(1) & v_raw(2) & v_raw(3);
+    end loop;
 
     wait for 100 ns;
     -- Finish the simulation

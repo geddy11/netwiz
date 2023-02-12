@@ -49,6 +49,9 @@ context nw_util.nw_util_context;
 --! \li Perform data word stuffing (replace specific words with an escape sequence)
 --! \li Encode data words from lookup table
 --!
+--! Other libraries in Codec are: 
+--! \li \subpage nw_cobs
+--!
 --! \n More details in \ref nw_sl_codec_pkg
 --! \subsection sl_codec_subsec2 Example use
 --! Include the libraries:
@@ -56,21 +59,21 @@ context nw_util.nw_util_context;
 --! library nw_codec;
 --! context nw_codec.nw_codec_context;
 --! ~~~
---! Example 1: Bytestuffing of HDLC frame - replace 0x7e and 0x7d with escape sequences. First, define the codec:
+--! Example 1: Bytestuffing of PPP frame - replace 0x7e and 0x7d with escape sequences. First, define the codec:
 --! ~~~
---! constant C_HDLC_CODEC : t_codec(0 to 1)(word(7 downto 0), code(0 to 1)(7 downto 0)) := ((word => x"7e", code => (x"7d", x"5e")),
---!                                                                                         (word => x"7d", code => (x"7d", x"5d")));
+--! constant C_PPP_CODEC : t_codec(0 to 1)(word(7 downto 0), code(0 to 1)(7 downto 0)) := ((word => x"7e", code => (x"7d", x"5e")),
+--!                                                                                        (word => x"7d", code => (x"7d", x"5d")));
 --! ~~~
 --! Then encode a data array:
 --! ~~~
 --! v_data                    := (x"19", x"7e", x"fa", x"91", x"7d", x"80", x"00"); -- data array to be encoded
---! v_len                     := f_sl_enc_len(v_data, C_HDLC_CODEC); -- get length of encoded data (v_len is now 9)
---! v_encoded(0 to v_len - 1) := f_sl_enc(v_data, C_HDLC_CODEC); -- v_encoded is now (x"19", x"7d", x"5e", x"fa", x"91", x"7d", x"5d", x"80", x"00")
+--! v_len                     := f_sl_enc_len(v_data, C_PPP_CODEC); -- get length of encoded data (v_len is now 9)
+--! v_encoded(0 to v_len - 1) := f_sl_enc(v_data, C_PPP_CODEC); -- v_encoded is now (x"19", x"7d", x"5e", x"fa", x"91", x"7d", x"5d", x"80", x"00")
 --! ~~~
 --! Decode the encoded data:
 --! ~~~
---! v_dlen                     := f_sl_dec_len(v_encoded(0 to v_len - 1), C_HDLC_CODEC); -- get length od decoded data
---! v_decoded(0 to v_dlen - 1) := f_sl_dec(v_encoded(0 to v_len - 1), C_HDLC_CODEC); -- v_decoded is now equal to v_data
+--! v_dlen                     := f_sl_dec_len(v_encoded(0 to v_len - 1), C_PPP_CODEC); -- get length od decoded data
+--! v_decoded(0 to v_dlen - 1) := f_sl_dec(v_encoded(0 to v_len - 1), C_PPP_CODEC); -- v_decoded is now equal to v_data
 --! ~~~
 --! Example 2: Encode data with lookup table - here we will apply Hamming(7,4) coding to a data vector (not an elegant way to perform Hamming coding, but nonetheless).\n
 --! First, define the codec (the loopup table must be complete):
@@ -183,7 +186,7 @@ package body nw_sl_codec_pkg is
   --!
   --! **Example use**
   --! ~~~
-  --! encoded_data := f_sl_enc()
+  --! encoded_data := f_sl_enc(data_8bit, codec);
   --! ~~~
   -------------------------------------------------------------------------------
   function f_sl_enc(data  : t_slv_arr;
@@ -199,11 +202,11 @@ package body nw_sl_codec_pkg is
   --! \param codec Codec to use
   --! \return      Encoded data length
   --!
-  --! Get length of encode data with a custom codec.
+  --! Get length of encoded data with a custom codec.
   --!
   --! **Example use**
   --! ~~~
-  --! v_len := f_sl_enc_len()
+  --! v_len := f_sl_enc_len(data_8bit, codec);
   --! ~~~
   -------------------------------------------------------------------------------
   function f_sl_enc_len(data  : t_slv_arr;
@@ -277,7 +280,7 @@ package body nw_sl_codec_pkg is
   --!
   --! **Example use**
   --! ~~~
-  --! encoded_data := f_sl_enc()
+  --! decoded_data := f_sl_dec(encoded_data, codec);
   --! ~~~
   -------------------------------------------------------------------------------
   function f_sl_dec(data  : t_slv_arr;
@@ -291,13 +294,13 @@ package body nw_sl_codec_pkg is
   --! \brief Get decoded data length
   --! \param data  Data array 
   --! \param codec Codec to use
-  --! \return      Encoded data length
+  --! \return      Decoded data length
   --!
   --! Get length of decoded data with a custom codec.
   --!
   --! **Example use**
   --! ~~~
-  --! v_len := f_sl_enc_len()
+  --! v_len := f_sl_dec_len(encoded_data, codec);
   --! ~~~
   -------------------------------------------------------------------------------
   function f_sl_dec_len(data  : t_slv_arr;

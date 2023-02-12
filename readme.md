@@ -15,6 +15,7 @@ Netwiz consists of several libraries. Libraries not related to a specific networ
     * Configurable settings
   * nw_codec:
     * [nw_sl_codec](@ref nw_sl_codec): Stateless generic codec
+    * [nw_cobs](@ref nw_cobs): Consistent Overhead Byte Stuffing
   * nw_pcap: 
     * [nw_pcap](@ref nw_pcap): Read network packets from PCAP/PCAPNG files (produced by Wireshark, tcmpdump et.al.)
   * nw_util: 
