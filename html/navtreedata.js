@@ -25,15 +25,7 @@
 var NAVTREE =
 [
   [ "Network Wizard for VHDL Test Benches", "index.html", [
-    [ "Codec library", "nw_sl_codec.html", [
-      [ "Intro", "index.html#autotoc_md0", null ],
-      [ "Libraries", "index.html#autotoc_md1", null ],
-      [ "Documentation", "index.html#autotoc_md2", null ],
-      [ "Stateless codec", "nw_sl_codec.html#codec", [
-        [ "Functionality", "nw_sl_codec.html#sl_codec_subsec1", null ],
-        [ "Example use", "nw_sl_codec.html#sl_codec_subsec2", null ]
-      ] ]
-    ] ],
+    [ "Codec library", "nw_sl_codec.html", "nw_sl_codec" ],
     [ "Ethernet library", "nw_ethernet.html", "nw_ethernet" ],
     [ "IPv4 library", "nw_ipv4.html", "nw_ipv4" ],
     [ "IPv6 library", "nw_ipv6.html", "nw_ipv6" ],
@@ -55,7 +47,7 @@ var NAVTREE =
       [ "Design Unit List", "annotated.html", null ],
       [ "Design Units", "classes.html", null ],
       [ "Design Unit Members", "functions.html", [
-        [ "All", "functions.html", null ],
+        [ "All", "functions.html", "functions_dup" ],
         [ "Functions/Procedures/Processes", "functions_func.html", null ],
         [ "Variables", "functions_vars.html", null ]
       ] ]

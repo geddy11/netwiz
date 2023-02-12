@@ -87,14 +87,13 @@ $(document).ready(function(){initNavTree('nw_sl_codec.html',''); initResizable()
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#codec">Stateless codec</a><ul><li class="level2"><a href="#sl_codec_subsec1">Functionality</a></li>
+<ul><ul><li class="level2"><a href="#sl_codec_subsec1">Functionality</a></li>
 <li class="level2"><a href="#sl_codec_subsec2">Example use</a></li>
 </ul>
-</li>
 </ul>
 </div>
 <div class="textblock"><h1><a class="anchor" id="codec"></a>
-Stateless codec</h1>
+Consistent Overhead Byte Stuffing</h1>
 <p>This library provides functions for a generic stateless codec. <br  />
 </p>
 <h2><a class="anchor" id="sl_codec_subsec1"></a>
@@ -103,19 +102,22 @@ Functionality</h2>
 <li>Perform data word stuffing (replace specific words with an escape sequence) </li>
 <li>Encode data words from lookup table</li>
 </ul>
+<p>Other libraries in Codec are: </p><ul>
+<li><a class="el" href="nw_cobs.html">COBS library</a></li>
+</ul>
 <p><br  />
  More details in <a class="el" href="classnw__sl__codec__pkg.html">nw_sl_codec_pkg</a> </p>
 <h2><a class="anchor" id="sl_codec_subsec2"></a>
 Example use</h2>
 <p>Include the libraries: </p><div class="fragment"><div class="line">library nw_codec;</div>
 <div class="line">context nw_codec.nw_codec_context;</div>
-</div><!-- fragment --><p> Example 1: Bytestuffing of HDLC frame - replace 0x7e and 0x7d with escape sequences. First, define the codec: </p><div class="fragment"><div class="line">constant C_HDLC_CODEC : t_codec(0 to 1)(word(7 downto 0), code(0 to 1)(7 downto 0)) := ((word =&gt; x&quot;7e&quot;, code =&gt; (x&quot;7d&quot;, x&quot;5e&quot;)),</div>
-<div class="line">                                                                                        (word =&gt; x&quot;7d&quot;, code =&gt; (x&quot;7d&quot;, x&quot;5d&quot;)));</div>
+</div><!-- fragment --><p> Example 1: Bytestuffing of PPP frame - replace 0x7e and 0x7d with escape sequences. First, define the codec: </p><div class="fragment"><div class="line">constant C_PPP_CODEC : t_codec(0 to 1)(word(7 downto 0), code(0 to 1)(7 downto 0)) := ((word =&gt; x&quot;7e&quot;, code =&gt; (x&quot;7d&quot;, x&quot;5e&quot;)),</div>
+<div class="line">                                                                                       (word =&gt; x&quot;7d&quot;, code =&gt; (x&quot;7d&quot;, x&quot;5d&quot;)));</div>
 </div><!-- fragment --><p> Then encode a data array: </p><div class="fragment"><div class="line">v_data                    := (x&quot;19&quot;, x&quot;7e&quot;, x&quot;fa&quot;, x&quot;91&quot;, x&quot;7d&quot;, x&quot;80&quot;, x&quot;00&quot;); -- data array to be encoded</div>
-<div class="line">v_len                     := f_sl_enc_len(v_data, C_HDLC_CODEC); -- get length of encoded data (v_len is now 9)</div>
-<div class="line">v_encoded(0 to v_len - 1) := f_sl_enc(v_data, C_HDLC_CODEC); -- v_encoded is now (x&quot;19&quot;, x&quot;7d&quot;, x&quot;5e&quot;, x&quot;fa&quot;, x&quot;91&quot;, x&quot;7d&quot;, x&quot;5d&quot;, x&quot;80&quot;, x&quot;00&quot;)</div>
-</div><!-- fragment --><p> Decode the encoded data: </p><div class="fragment"><div class="line">v_dlen                     := f_sl_dec_len(v_encoded(0 to v_len - 1), C_HDLC_CODEC); -- get length od decoded data</div>
-<div class="line">v_decoded(0 to v_dlen - 1) := f_sl_dec(v_encoded(0 to v_len - 1), C_HDLC_CODEC); -- v_decoded is now equal to v_data</div>
+<div class="line">v_len                     := f_sl_enc_len(v_data, C_PPP_CODEC); -- get length of encoded data (v_len is now 9)</div>
+<div class="line">v_encoded(0 to v_len - 1) := f_sl_enc(v_data, C_PPP_CODEC); -- v_encoded is now (x&quot;19&quot;, x&quot;7d&quot;, x&quot;5e&quot;, x&quot;fa&quot;, x&quot;91&quot;, x&quot;7d&quot;, x&quot;5d&quot;, x&quot;80&quot;, x&quot;00&quot;)</div>
+</div><!-- fragment --><p> Decode the encoded data: </p><div class="fragment"><div class="line">v_dlen                     := f_sl_dec_len(v_encoded(0 to v_len - 1), C_PPP_CODEC); -- get length od decoded data</div>
+<div class="line">v_decoded(0 to v_dlen - 1) := f_sl_dec(v_encoded(0 to v_len - 1), C_PPP_CODEC); -- v_decoded is now equal to v_data</div>
 </div><!-- fragment --><p> Example 2: Encode data with lookup table - here we will apply Hamming(7,4) coding to a data vector (not an elegant way to perform Hamming coding, but nonetheless).<br  />
  First, define the codec (the loopup table must be complete): </p><div class="fragment"><div class="line">constant C_HAMMING_7_4: t_codec(0 to 15)(word(3 downto 0), code(0 to 0)(6 downto 0)) := ((word =&gt; x&quot;0&quot;, code =&gt; (others =&gt; &quot;0000000&quot;)),</div>
 <div class="line">                                                                                         (word =&gt; x&quot;1&quot;, code =&gt; (others =&gt; &quot;1101001&quot;)),</div>
