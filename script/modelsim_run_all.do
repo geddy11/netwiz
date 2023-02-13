@@ -66,6 +66,7 @@ vcom -2008 -quiet -work ./nw_ipv4 ../nw_ipv4/src/ip_protocols_pkg.vhd
 vcom -2008 -quiet -work ./nw_ipv4 ../nw_ipv4/src/nw_ipv4_pkg.vhd
 vcom -2008 -quiet -work ./nw_ipv4 ../nw_ipv4/src/nw_udpv4_pkg.vhd
 vcom -2008 -quiet -work ./nw_ipv4 ../nw_ipv4/src/nw_icmpv4_pkg.vhd
+vcom -2008 -quiet -work ./nw_ipv4 ../nw_ipv4/src/nw_tcpv4_pkg.vhd
 vcom -2008 -quiet -work ./nw_ipv4 ../nw_ipv4/src/nw_ipv4_context.vhd
 vcom -2008 -quiet -work ./work ../nw_ipv4/tb/nw_ipv4_tb.vhd
 vsim -quiet -c nw_ipv4_tb -do "onerror {quit -code 1}; run -all"

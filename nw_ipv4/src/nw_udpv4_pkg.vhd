@@ -179,7 +179,7 @@ package body nw_udpv4_pkg is
       v_pseudo(5)        := ipv4_header.dest_ip(23 downto 16);
       v_pseudo(6)        := ipv4_header.dest_ip(15 downto 8);
       v_pseudo(7)        := ipv4_header.dest_ip(7 downto 0);
-      v_pseudo(9)        := x"11";
+      v_pseudo(9)        := x"11"; --UDP
       v_pseudo(10 to 11) := v_data(4 to 5);
       v_chksum           := not f_gen_chksum(f_repack(f_concat(v_pseudo, v_data), 16), 16);
       v_data(6)          := v_chksum(15 downto 8);
@@ -420,7 +420,7 @@ package body nw_udpv4_pkg is
     v_pseudo(5)        := ipv4_header.dest_ip(23 downto 16);
     v_pseudo(6)        := ipv4_header.dest_ip(15 downto 8);
     v_pseudo(7)        := ipv4_header.dest_ip(7 downto 0);
-    v_pseudo(9)        := x"11";
+    v_pseudo(9)        := x"11"; -- UDP
     v_pseudo(10 to 11) := udp_pkt(4 to 5);
     v_chksum           := not f_gen_chksum(f_repack(f_concat(v_pseudo, udp_pkt), 16), 16);
 

@@ -59,6 +59,7 @@ ghdl -a --std=08 -frelaxed-rules --work=nw_ipv4 ../nw_ipv4/src/ip_protocols_pkg.
 ghdl -a --std=08 -frelaxed-rules --work=nw_ipv4 ../nw_ipv4/src/nw_ipv4_pkg.vhd
 ghdl -a --std=08 -frelaxed-rules --work=nw_ipv4 ../nw_ipv4/src/nw_udpv4_pkg.vhd
 ghdl -a --std=08 -frelaxed-rules --work=nw_ipv4 ../nw_ipv4/src/nw_icmpv4_pkg.vhd
+ghdl -a --std=08 -frelaxed-rules --work=nw_ipv4 ../nw_ipv4/src/nw_tcpv4_pkg.vhd
 ghdl -a --std=08 -frelaxed-rules --work=nw_ipv4 ../nw_ipv4/src/nw_ipv4_context.vhd
 ghdl -a --std=08 -frelaxed-rules --work=work ../nw_ipv4/tb/nw_ipv4_tb.vhd
 ghdl -e --std=08 -frelaxed-rules --work=work nw_ipv4_tb

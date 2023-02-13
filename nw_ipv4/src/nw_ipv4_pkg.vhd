@@ -55,6 +55,7 @@ use work.ip_protocols_pkg.all;
 --! Other libraries in IPv4 are: 
 --! \li \subpage nw_udpv4
 --! \li \subpage nw_icmpv4
+--! \li \subpage nw_tcpv4
 --!
 --! \n More details in \ref nw_ipv4_pkg
 --! \subsection ipv4_subsec2 Example use

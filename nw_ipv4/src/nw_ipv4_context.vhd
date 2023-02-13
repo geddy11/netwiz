@@ -37,4 +37,5 @@ context nw_ipv4_context is
   use nw_ipv4.nw_ipv4_pkg.all;
   use nw_ipv4.nw_udpv4_pkg.all;
   use nw_ipv4.nw_icmpv4_pkg.all;
+  use nw_ipv4.nw_tcpv4_pkg.all;
 end context nw_ipv4_context;
