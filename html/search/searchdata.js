@@ -4,8 +4,8 @@ var indexSectionsWithContent =
   1: "_in",
   2: "n",
   3: "fm",
-  4: "abcdefghilmnoprstvw",
-  5: "aceinpu"
+  4: "abcdefghilmnoprstuvw",
+  5: "aceinptu"
 };
 
 var indexSectionNames =

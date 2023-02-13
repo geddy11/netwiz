@@ -15,5 +15,11 @@ var nw_ipv4 =
         [ "Functionality", "nw_icmpv4.html#icmpv4_subsec1", null ],
         [ "Example use", "nw_icmpv4.html#icmpv4_subsec2", null ]
       ] ]
+    ] ],
+    [ "TCP", "nw_tcpv4.html", [
+      [ "TCP for IPv4", "nw_tcpv4.html#tcpv4", [
+        [ "Functionality", "nw_tcpv4.html#tcpv4_subsec1", null ],
+        [ "Example use", "nw_tcpv4.html#tcpv4_subsec2", null ]
+      ] ]
     ] ]
 ];
