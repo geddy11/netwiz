@@ -106,9 +106,9 @@ Functions</h2></td></tr>
 <b><span class="vhdlchar">payload: </span><span class="stringliteral">in </span><span class="vhdlchar">t_slv_arr</span></b><br />
 <b><span class="vhdlchar">add_chksum: </span><span class="stringliteral">in </span><span class="vhdlchar">boolean    true</span></b><br />
 <b> )</b></td></tr>
-<tr class="memdesc:ab0199fd4bd40f4b2589625604dfab9ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create UDPv4 packet.  <a href="#ab0199fd4bd40f4b2589625604dfab9ab"></a><br /></td></tr>
+<tr class="memdesc:ab0199fd4bd40f4b2589625604dfab9ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create UDP for IPv4 packet.  <a href="#ab0199fd4bd40f4b2589625604dfab9ab"></a><br /></td></tr>
 <tr class="memitem:a289929708fc1c90d4337db30ad41aae4"><td class="memItemLeft" align="right" valign="top"><b><b><span class="vhdlchar">t_slv_arr</span><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="class__nw__udpv4__pkg.html#a289929708fc1c90d4337db30ad41aae4">f_udpv4_create_pkt</a><b> ( </b><b><span class="vhdlchar">udp_header: </span><span class="stringliteral">in </span><span class="vhdlchar">t_udp_header</span></b><b> , <span class="vhdlchar">payload: </span><span class="stringliteral">in </span><span class="vhdlchar">t_slv_arr</span></b><b> )</b></td></tr>
-<tr class="memdesc:a289929708fc1c90d4337db30ad41aae4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create UDPv4 packet (no checksum)  <a href="#a289929708fc1c90d4337db30ad41aae4"></a><br /></td></tr>
+<tr class="memdesc:a289929708fc1c90d4337db30ad41aae4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create UDP for IPv4 packet (no checksum)  <a href="#a289929708fc1c90d4337db30ad41aae4"></a><br /></td></tr>
 <tr class="memitem:a4d09c00068f8cae1faa763a73f9f3548"><td class="memItemLeft" align="right" valign="top"><b><b><span class="keywordtype">natural</span><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="class__nw__udpv4__pkg.html#a4d09c00068f8cae1faa763a73f9f3548">f_udpv4_create_pkt_len</a><b> ( </b><b><span class="vhdlchar">udp_header: </span><span class="stringliteral">in </span><span class="vhdlchar">t_udp_header</span></b><b> , <span class="vhdlchar">payload: </span><span class="stringliteral">in </span><span class="vhdlchar">t_slv_arr</span></b><b> )</b></td></tr>
 <tr class="memdesc:a4d09c00068f8cae1faa763a73f9f3548"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return length of UDP packet.  <a href="#a4d09c00068f8cae1faa763a73f9f3548"></a><br /></td></tr>
 <tr class="memitem:a91d8697553633699d1b57780da417aab"><td class="memItemLeft" align="right" valign="top"><b><b><span class="keywordtype">natural</span><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="class__nw__udpv4__pkg.html#a91d8697553633699d1b57780da417aab">f_udpv4_create_pkt_len</a><b> ( </b><br />
@@ -176,7 +176,7 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Create UDPv4 packet. </p>
+<p>Create UDP for IPv4 packet. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">ipv4_header</td><td>IPv4 header (required for checksum calculation) </td></tr>
@@ -187,7 +187,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>UDP packet (8bit array) or length of UDP packet</dd></dl>
-<p>Create UDPv4 packet. Payload must be 8bit data array. A pseudo-header is generated from the IPv4 header which is included in the checksum calculation.</p>
+<p>Create UDP for IPv4 packet. Payload must be 8bit data array. A pseudo-header is generated from the IPv4 header which is included in the checksum calculation.</p>
 <p><b>Example use</b> </p><div class="fragment"><div class="line"><span class="vhdlchar">v_ipv4_header</span> <span class="vhdlchar">:=</span> <span class="vhdlchar">C_DEFAULT_IPV4_HEADER</span>;</div>
 <div class="line"><span class="vhdlchar">v_udp_header</span>  <span class="vhdlchar">:=</span> <span class="vhdlchar">C_DEFAULT_UDP_HEADER</span>;</div>
 <div class="line"><span class="vhdlchar">v_packet_8bit</span> <span class="vhdlchar">:=</span> <span class="vhdlchar">f_udpv4_create_pkt</span><span class="vhdlchar">(</span><span class="vhdlchar">v_ipv4_header</span><span class="vhdlchar">,</span> <span class="vhdlchar">v_udp_header</span><span class="vhdlchar">,</span> <span class="vhdlchar">payload</span><span class="vhdlchar">)</span>; </div>
@@ -228,7 +228,7 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Create UDPv4 packet (no checksum) </p>
+<p>Create UDP for IPv4 packet (no checksum) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">udp_header</td><td>UDP header </td></tr>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Network Wizard for VHDL Test Benches: Main Page</title>
+<title>Network Wizard for VHDL Test Benches: TCP</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -63,7 +63,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-$(document).ready(function(){initNavTree('index.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('nw_tcpv6.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -83,74 +83,55 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 
 <div class="PageDoc"><div class="header">
   <div class="headertitle">
-<div class="title">Network Wizard for VHDL Test Benches Documentation</div>  </div>
+<div class="title">TCP </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="md_readme"></a> <img src="./netwiz.png" alt="" class="inline"/></p>
-<p><img src="https://img.shields.io/github/v/release/geddy11/netwiz?style=plastic" alt="GitHub release (latest SemVer)" class="inline"/> <img src="https://img.shields.io/github/actions/workflow/status/geddy11/netwiz/netwiz_ci.yml?style=plastic" alt="GitHub Workflow Status" class="inline"/> <img src="https://img.shields.io/github/languages/top/geddy11/netwiz?style=plastic" alt="GitHub top language" class="inline"/></p>
-<h2><a class="anchor" id="autotoc_md0"></a>
-Intro</h2>
-<p>NetWiz is a stand-alone VHDL library for network protocol packet generation and manipulation. NetWiz offers a stateless and functional API.</p>
-<p>NetWiz requires VHDL 2008 and is designed for test bench use only, synthesis is not supported. NetWiz is licensed under the MIT license.</p>
-<h2><a class="anchor" id="autotoc_md1"></a>
-Libraries</h2>
-<p>Netwiz consists of several libraries. Libraries not related to a specific network protocol are:</p><ul>
-<li>nw_adapt:<ul>
-<li>Configurable settings</li>
-</ul>
-</li>
-<li>nw_codec:<ul>
-<li><a class="el" href="nw_sl_codec.html">nw_sl_codec</a>: Stateless generic codec</li>
-<li><a class="el" href="nw_cobs.html">nw_cobs</a>: Consistent Overhead Byte Stuffing</li>
-</ul>
-</li>
-<li>nw_pcap:<ul>
-<li><a class="el" href="nw_pcap.html">nw_pcap</a>: Read network packets from PCAP/PCAPNG files (produced by Wireshark, tcmpdump et.al.)</li>
-</ul>
-</li>
-<li>nw_util:<ul>
-<li><a class="el" href="nw_util.html">nw_util</a>: Functions for data array manipulation</li>
-<li><a class="el" href="nw_crc.html">nw_crc</a>: CRC and checksum generation</li>
-<li><a class="el" href="nw_prbs.html">nw_prbs</a>: Pseudo-Random Binary Sequence generation.</li>
-<li><a class="el" href="nw_nrs.html">nw_nrs</a>: Non-Random Sequence generation</li>
+<div class="toc"><h3>Table of Contents</h3>
+<ul><li class="level1"><a href="#tcpv6">TCP for IPv6</a><ul><li class="level2"><a href="#tcpv6_subsec1">Functionality</a></li>
+<li class="level2"><a href="#tcpv6_subsec2">Example use</a></li>
 </ul>
 </li>
 </ul>
-<p>Protocol specific libraries:</p><ul>
-<li>nw_ethernet:<ul>
-<li><a class="el" href="nw_ethernet.html">nw_ethernet</a>: Create and manipulate Ethernet packets</li>
-<li><a class="el" href="nw_arp.html">nw_arp</a>: Create and manipulate ARP packets</li>
+</div>
+<div class="textblock"><h1><a class="anchor" id="tcpv6"></a>
+TCP for IPv6</h1>
+<p>The TCP for IPv6 library provides functions for creating and manipulation TCP packets. </p>
+<h2><a class="anchor" id="tcpv6_subsec1"></a>
+Functionality</h2>
+<ul>
+<li>Create TCP packets of any length </li>
+<li>Create and extract TCP headers </li>
+<li>Verify checksum of TCP packets</li>
 </ul>
-</li>
-<li>nw_ipv4:<ul>
-<li><a class="el" href="nw_ipv4.html">nw_ipv4</a>: Create and manipulate IPv4 packets</li>
-<li><a class="el" href="nw_udpv4.html">nw_udp</a>: Create and manipulate UDP packets for IPv4</li>
-<li><a class="el" href="nw_icmpv4.html">nw_icmp</a>: Create and manipulate ICMPv4 packets</li>
-<li><a class="el" href="nw_tcpv4.html">nw_tcp</a>: Create and manipulate TCP packets for IPv6</li>
-</ul>
-</li>
-<li>nw_ipv6:<ul>
-<li><a class="el" href="nw_ipv6.html">nw_ipv6</a>: Create and manipulate IPv6 packets</li>
-<li><a class="el" href="nw_udpv6.html">nw_udp</a>: Create and manipulate UDP packets for IPv6</li>
-<li><a class="el" href="nw_icmpv6.html">nw_icmp</a>: Create and manipulate ICMPv6 packets</li>
-<li><a class="el" href="nw_tcpv6.html">nw_tcp</a>: Create and manipulate TCP packets for IPv6</li>
-</ul>
-</li>
-<li>nw_ptp:<ul>
-<li><a class="el" href="nw_ptp.html">nw_ptpv2</a>: Create and manipulate IEEE1588v2 packets</li>
-</ul>
-</li>
-</ul>
-<p>Additional protocol libraries are expected to be added in the future.</p>
-<h2><a class="anchor" id="autotoc_md2"></a>
-Documentation</h2>
-<p>The NetWiz API is <a href="https://geddy11/netwiz/docs">documented here</a>. </p>
-</div></div><!-- PageDoc -->
-</div><!-- contents -->
+<p><br  />
+<br  />
+ More details in <a class="el" href="classnw__tcpv6__pkg.html">nw_tcpv6_pkg</a> </p>
+<h2><a class="anchor" id="tcpv6_subsec2"></a>
+Example use</h2>
+<p>Include the libraries: </p><div class="fragment"><div class="line">library nw_util;</div>
+<div class="line">context nw_util.nw_util_context;</div>
+<div class="line">library nw_ipv6;</div>
+<div class="line">context nw_ipv6.nw_ipv6_context;</div>
+</div><!-- fragment --><p> Assume the variable <code>v_payload</code> contains the TCP payload. The variables are defined: </p><div class="fragment"><div class="line">variable v_header      : t_tcp_header; -- TCP header record</div>
+<div class="line">variable v_ipv6_header : t_ipv6_header; -- IPv6 header record</div>
+<div class="line">variable v_tcp_pkt     : t_slv_arr(0 to 1500)(7 downto 0); -- byte array</div>
+<div class="line">variable v_len         : natural;</div>
+</div><!-- fragment --><p> First setup the header, then calculate the total TCP packet length before creating the packet. </p><div class="fragment"><div class="line">v_header                  := C_DEFAULT_TCP_HEADER; -- copy default header</div>
+<div class="line">v_header.seq_no           := x&quot;1033010f&quot;; -- change sequence number</div>
+<div class="line">v_ipv6_header             := C_DEFAULT_IPV6_HEADER; -- IPv6 header needed for pseudo header</div>
+<div class="line">v_ipv6_header.protocol    := C_TCP; -- set protocol</div>
+<div class="line">-- change other header fields as required...</div>
+<div class="line">v_len                     := f_tcpv6_create_pkt_len(v_ipv6_header, v_header, v_payload); -- calculate total packet length</div>
+<div class="line">v_tcp_pkt(0 to v_len - 1) := f_tcpv6_create_pkt(v_ipv6_header, v_header, v_payload); -- create the packet</div>
+</div><!-- fragment --><p> The variable <code>v_tcp_pkt</code> is an 8-bit array. This can of course be rearranged to any word width with <code>f_repack</code> . </p><div class="fragment"><div class="line">v_tcp_pkt_32 := f_repack(v_tcp_pkt, 32, C_MSB_FIRST); -- repack to 32bit words (padded with zeros if required)</div>
+</div><!-- fragment --><p> See further examples in the test bench nw_ipv6_tb.vhd. </p>
+</div></div><!-- contents -->
+</div><!-- PageDoc -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="nw_ipv6.html">IPv6 library</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>

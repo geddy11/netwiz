@@ -15,5 +15,11 @@ var nw_ipv6 =
         [ "Functionality", "nw_icmpv6.html#icmpv6_subsec1", null ],
         [ "Example use", "nw_icmpv6.html#icmpv6_subsec2", null ]
       ] ]
+    ] ],
+    [ "TCP", "nw_tcpv6.html", [
+      [ "TCP for IPv6", "nw_tcpv6.html#tcpv6", [
+        [ "Functionality", "nw_tcpv6.html#tcpv6_subsec1", null ],
+        [ "Example use", "nw_tcpv6.html#tcpv6_subsec2", null ]
+      ] ]
     ] ]
 ];

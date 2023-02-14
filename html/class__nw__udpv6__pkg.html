@@ -106,7 +106,7 @@ Functions</h2></td></tr>
 <b><span class="vhdlchar">payload: </span><span class="stringliteral">in </span><span class="vhdlchar">t_slv_arr</span></b><br />
 <b><span class="vhdlchar">routing_header: </span><span class="stringliteral">in </span><span class="vhdlchar">t_extension_header    C_DEFAULT_EXT_HEADER</span></b><br />
 <b> )</b></td></tr>
-<tr class="memdesc:a42f6b5d5f323b7e54e9b57a1b507edb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create UDPv6 packet.  <a href="#a42f6b5d5f323b7e54e9b57a1b507edb8"></a><br /></td></tr>
+<tr class="memdesc:a42f6b5d5f323b7e54e9b57a1b507edb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create UDP for IPv6 packet.  <a href="#a42f6b5d5f323b7e54e9b57a1b507edb8"></a><br /></td></tr>
 <tr class="memitem:abc5ebb0294a633058bbf1395137eb2a4"><td class="memItemLeft" align="right" valign="top"><b><b><span class="keywordtype">natural</span><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="class__nw__udpv6__pkg.html#abc5ebb0294a633058bbf1395137eb2a4">f_udpv6_create_pkt_len</a><b> ( </b><br />
 <b><span class="vhdlchar">ipv6_header: </span><span class="stringliteral">in </span><span class="vhdlchar">t_ipv6_header</span></b><br />
 <b><span class="vhdlchar">udp_header: </span><span class="stringliteral">in </span><span class="vhdlchar">t_udp_header</span></b><br />
@@ -176,7 +176,7 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Create UDPv6 packet. </p>
+<p>Create UDP for IPv6 packet. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">ipv6_header</td><td>IPv6 header (required for checksum calculation) </td></tr>
@@ -187,7 +187,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>UDP packet (8bit array) or length of UDP packet</dd></dl>
-<p>Create UDPv6 packet. Payload must be 8bit data array. A pseudo-header is generated from the IPv6 header which is included in the checksum calculation. If the IPv6 packet contains a routing extension header, it must be included here as the pseudo header destination address is the final destination.</p>
+<p>Create UDP for IPv6 packet. Payload must be 8bit data array. A pseudo-header is generated from the IPv6 header which is included in the checksum calculation. If the IPv6 packet contains a routing extension header, it must be included here as the pseudo header destination address is the final destination.</p>
 <p><b>Example use</b> </p><div class="fragment"><div class="line"><span class="vhdlchar">v_ipv6_header</span> <span class="vhdlchar">:=</span> <span class="vhdlchar">C_DEFAULT_IPV6_HEADER</span>;</div>
 <div class="line"><span class="vhdlchar">v_udp_header</span>  <span class="vhdlchar">:=</span> <span class="vhdlchar">C_DEFAULT_UDP_HEADER</span>;</div>
 <div class="line"><span class="vhdlchar">v_packet_8bit</span> <span class="vhdlchar">:=</span> <span class="vhdlchar">f_udpv6_create_pkt</span><span class="vhdlchar">(</span><span class="vhdlchar">v_ipv6_header</span><span class="vhdlchar">,</span> <span class="vhdlchar">v_udp_header</span><span class="vhdlchar">,</span> <span class="vhdlchar">payload</span><span class="vhdlchar">)</span>; </div>

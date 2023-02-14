@@ -117,9 +117,10 @@ Example use</h2>
 <div class="line">variable v_tcp_pkt     : t_slv_arr(0 to 1500)(7 downto 0); -- byte array</div>
 <div class="line">variable v_len         : natural;</div>
 </div><!-- fragment --><p> First setup the header, then calculate the total TCP packet length before creating the packet. </p><div class="fragment"><div class="line">v_header                  := C_DEFAULT_TCP_HEADER; -- copy default header</div>
-<div class="line">v_ipv4_header             := C_DEFAULT_IPV4_HEADER; -- IPv4 header needed for pseudo header</div>
 <div class="line">v_header.seq_no           := x&quot;1033010f&quot;; -- change sequence number</div>
-<div class="line">-- change other header fields as required</div>
+<div class="line">v_ipv4_header             := C_DEFAULT_IPV4_HEADER; -- IPv4 header needed for pseudo header</div>
+<div class="line">v_ipv4_header.protocol    := C_TCP; -- set protocol</div>
+<div class="line">-- change other header fields as required...</div>
 <div class="line">v_len                     := f_tcpv4_create_pkt_len(v_ipv4_header, v_header, v_payload); -- calculate total packet length</div>
 <div class="line">v_tcp_pkt(0 to v_len - 1) := f_tcpv4_create_pkt(v_ipv4_header, v_header, v_payload); -- create the packet</div>
 </div><!-- fragment --><p> The variable <code>v_tcp_pkt</code> is an 8-bit array. This can of course be rearranged to any word width with <code>f_repack</code> . </p><div class="fragment"><div class="line">v_tcp_pkt_32 := f_repack(v_tcp_pkt, 32, C_MSB_FIRST); -- repack to 32bit words (padded with zeros if required)</div>
