@@ -120,7 +120,7 @@ end package nw_udpv6_pkg;
 package body nw_udpv6_pkg is
 
   -------------------------------------------------------------------------------
-  -- Create UDPv6 packet (internal)
+  -- Create UDP for IPv6 packet (internal)
   --@cond functions
   -------------------------------------------------------------------------------
   function f_udpv6_create_pkt(ipv6_header    : t_ipv6_header;
@@ -175,14 +175,14 @@ package body nw_udpv6_pkg is
   -- @endcond
 
   -------------------------------------------------------------------------------
-  --! \brief Create UDPv6 packet
+  --! \brief Create UDP for IPv6 packet
   --! \param ipv6_header    IPv6 header (required for checksum calculation)
   --! \param udp_header     UDP header
   --! \param payload        UDP payload
   --! \param routing_header IPv6 routing extension header (default none)
   --! \return               UDP packet (8bit array) or length of UDP packet
   --!
-  --! Create UDPv6 packet. Payload must be 8bit data array. A pseudo-header is generated from the IPv6 header
+  --! Create UDP for IPv6 packet. Payload must be 8bit data array. A pseudo-header is generated from the IPv6 header
   --! which is included in the checksum calculation. If the IPv6 packet contains a routing extension header, 
   --! it must be included here as the pseudo header destination address is the final destination.
   --!

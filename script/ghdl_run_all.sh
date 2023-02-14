@@ -69,6 +69,7 @@ echo -e "\nTesting nw_ipv6"
 ghdl -a --std=08 -frelaxed-rules --work=nw_ipv6 ../nw_ipv6/src/nw_ipv6_pkg.vhd
 ghdl -a --std=08 -frelaxed-rules --work=nw_ipv6 ../nw_ipv6/src/nw_udpv6_pkg.vhd
 ghdl -a --std=08 -frelaxed-rules --work=nw_ipv6 ../nw_ipv6/src/nw_icmpv6_pkg.vhd
+ghdl -a --std=08 -frelaxed-rules --work=nw_ipv6 ../nw_ipv6/src/nw_tcpv6_pkg.vhd
 ghdl -a --std=08 -frelaxed-rules --work=nw_ipv6 ../nw_ipv6/src/nw_ipv6_context.vhd
 ghdl -a --std=08 -frelaxed-rules --work=work ../nw_ipv6/tb/nw_ipv6_tb.vhd
 ghdl -e --std=08 -frelaxed-rules --work=work nw_ipv6_tb

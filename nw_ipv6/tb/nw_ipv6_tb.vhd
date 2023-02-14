@@ -45,7 +45,7 @@ context nw_ethernet.nw_ethernet_context;
 
 entity nw_ipv6_tb is
   generic (
-    GC_GHDL : integer := 0); -- set to 1 when running GHDL
+    GC_GHDL : integer := 0);            -- set to 1 when running GHDL
 end entity nw_ipv6_tb;
 
 architecture behav of nw_ipv6_tb is
@@ -94,6 +94,16 @@ architecture behav of nw_ipv6_tb is
                                                             x"50", x"51", x"52", x"53", x"54", x"55", x"56", x"57",
                                                             x"58", x"59", x"5a", x"5b", x"5c", x"5d", x"5e", x"5f");
 
+  constant C_TCP_IPV6_PKT : t_slv_arr(0 to 71)(7 downto 0) := (x"60", x"01", x"48", x"a4", x"00", x"20", x"06", x"40",
+                                                               x"26", x"07", x"f0", x"10", x"03", x"f9", x"00", x"00",
+                                                               x"00", x"00", x"00", x"00", x"00", x"00", x"10", x"01",
+                                                               x"26", x"07", x"f0", x"10", x"03", x"f9", x"00", x"00",
+                                                               x"00", x"00", x"00", x"00", x"00", x"11", x"00", x"00",
+                                                               x"18", x"db", x"b3", x"c9", x"81", x"27", x"aa", x"b1",
+                                                               x"c3", x"20", x"06", x"58", x"80", x"10", x"0f", x"ff",
+                                                               x"3a", x"01", x"00", x"00", x"01", x"01", x"08", x"0a",
+                                                               x"5a", x"c9", x"fd", x"45", x"2a", x"a6", x"a3", x"dd");
+
 begin
 
   p_main : process
@@ -106,6 +116,7 @@ begin
     variable v_ext_headers   : t_ext_header_list := C_DEFAULT_EXT_HEADER_LIST;
     variable v_addr          : t_slv_arr(0 to 15)(7 downto 0);
     variable v_udp_header    : t_udp_header;
+    variable v_tcp_header    : t_tcp_header;
     variable v_icmpv6_header : t_icmpv6_header;
     variable v_icmpv6_pkt    : t_slv_arr(0 to 99)(7 downto 0);
   begin
@@ -250,12 +261,48 @@ begin
       report "Test 3.7 failed" severity failure;
 
     v_icmpv6_pkt(0 to v_len - 1) := f_icmpv6_create_pkt(v_ipv6_header, v_icmpv6_header, v_payload(0 to v_plen - 1));
-    if GC_GHDL /= 1 then -- this test fails in GHDL (but not Modelsim)
+    if GC_GHDL /= 1 then  -- this test fails in GHDL (but not Modelsim)
       assert v_icmpv6_pkt(0 to v_len - 1) = C_ICMPV6_PKT(62 to 89)
         report "Test 3.8 failed" severity failure;
     else
       msg("Note! Test 3.8 is skipped when running GHDL");
     end if;
+
+    -------------------------------------------------------------------------------
+    -- nw_tcpv6_pkg functions
+    -------------------------------------------------------------------------------
+    wait for 1.47 ns;
+    msg("Part 4: Verify nw_tcpv6_pkg functions");
+    v_payload(0 to 31) := f_ipv6_get_payload(C_TCP_IPV6_PKT);
+    v_tcp_header       := f_tcpv6_get_header(v_payload(0 to 31));
+    assert v_tcp_header.src_port = x"18db" and v_tcp_header.data_offset = x"8"
+      report "Test 4.1 failed" severity failure;
+
+    assert v_tcp_header.flags = C_TCP_FLAG_ACK
+      report "Test 4.2 failed" severity failure;
+
+    assert v_tcp_header.options(0 to 11) = C_TCP_IPV6_PKT(60 to 71)
+      report "Test 4.3 failed" severity failure;
+
+    wait for 1.01 ns;
+    v_ipv6_header := f_ipv6_get_header(C_TCP_IPV6_PKT);
+    assert f_tcpv6_chksum_ok(f_ipv6_get_header(C_TCP_IPV6_PKT), f_ipv6_get_payload(C_TCP_IPV6_PKT))
+      report "Test 4.4 failed" severity failure;
+
+    v_plen := f_tcpv6_get_payload_len(f_ipv6_get_payload(C_TCP_IPV6_PKT));
+    assert v_plen = 0
+      report "Test 4.5 failed" severity failure;
+
+    v_len := f_tcpv6_create_pkt_len(v_ipv6_header, v_tcp_header);
+    assert v_len = 32
+      report "Test 4.6 failed" severity failure;
+
+    v_payload(0 to 31) := f_tcpv6_create_pkt(v_ipv6_header, v_tcp_header);
+
+    assert v_payload(0 to 31) = C_TCP_IPV6_PKT(40 to 71)
+      report "Test 4.7 failed" severity failure;
+
+
 
     wait for 100 ns;
     -- Finish the simulation

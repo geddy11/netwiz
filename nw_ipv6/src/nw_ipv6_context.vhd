@@ -36,4 +36,5 @@ context nw_ipv6_context is
   use nw_ipv6.nw_ipv6_pkg.all;
   use nw_ipv6.nw_udpv6_pkg.all;
   use nw_ipv6.nw_icmpv6_pkg.all;
+  use nw_ipv6.nw_tcpv6_pkg.all;
 end context nw_ipv6_context;

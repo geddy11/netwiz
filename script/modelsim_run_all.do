@@ -76,6 +76,7 @@ vlib nw_ipv6
 vcom -2008 -quiet -work ./nw_ipv6 ../nw_ipv6/src/nw_ipv6_pkg.vhd
 vcom -2008 -quiet -work ./nw_ipv6 ../nw_ipv6/src/nw_udpv6_pkg.vhd
 vcom -2008 -quiet -work ./nw_ipv6 ../nw_ipv6/src/nw_icmpv6_pkg.vhd
+vcom -2008 -quiet -work ./nw_ipv6 ../nw_ipv6/src/nw_tcpv6_pkg.vhd
 vcom -2008 -quiet -work ./nw_ipv6 ../nw_ipv6/src/nw_ipv6_context.vhd
 vcom -2008 -quiet -work ./work ../nw_ipv6/tb/nw_ipv6_tb.vhd
 vsim -quiet -c nw_ipv6_tb -do "onerror {quit -code 1}; run -all"

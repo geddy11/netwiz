@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
--- Title      : Network Wizard TCPv4 package
+-- Title      : Network Wizard TCP for IPv4 package
 -- Project    : netwiz
 -- GitHub     : https://github.com/geddy11/netwiz
 -- Standard   : VHDL'08
@@ -71,9 +71,10 @@ use work.nw_ipv4_pkg.all;
 --! First setup the header, then calculate the total TCP packet length before creating the packet. 
 --! ~~~
 --! v_header                  := C_DEFAULT_TCP_HEADER; -- copy default header
---! v_ipv4_header             := C_DEFAULT_IPV4_HEADER; -- IPv4 header needed for pseudo header
 --! v_header.seq_no           := x"1033010f"; -- change sequence number
---! -- change other header fields as required
+--! v_ipv4_header             := C_DEFAULT_IPV4_HEADER; -- IPv4 header needed for pseudo header
+--! v_ipv4_header.protocol    := C_TCP; -- set protocol
+--! -- change other header fields as required...
 --! v_len                     := f_tcpv4_create_pkt_len(v_ipv4_header, v_header, v_payload); -- calculate total packet length
 --! v_tcp_pkt(0 to v_len - 1) := f_tcpv4_create_pkt(v_ipv4_header, v_header, v_payload); -- create the packet
 --! ~~~
@@ -115,17 +116,17 @@ package nw_tcpv4_pkg is
   constant C_TCP_FLAG_SYN : std_logic_vector(8 downto 0) := "000000010"; -- Synchronize sequence numbers
   constant C_TCP_FLAG_FIN : std_logic_vector(8 downto 0) := "000000001"; -- Last packet from sender
 
-  constant C_DEFAULT_IPV4_HEADER : t_tcp_header := (src_port       => x"0000",
-                                                    dest_port      => x"0000",
-                                                    sequence_no    => x"00000000",
-                                                    ack_no         => x"00000000",
-                                                    data_offset    => x"5",
-                                                    reserved_3     => "000",
-                                                    flags          => "000000000",
-                                                    window_size    => x"0000",
-                                                    chksum         => x"0000",
-                                                    urgent_pointer => x"0000",
-                                                    options        => (others => x"00"));
+  constant C_DEFAULT_TCP_HEADER : t_tcp_header := (src_port       => x"0000",
+                                                   dest_port      => x"0000",
+                                                   sequence_no    => x"00000000",
+                                                   ack_no         => x"00000000",
+                                                   data_offset    => x"5",
+                                                   reserved_3     => "000",
+                                                   flags          => "000000000",
+                                                   window_size    => x"0000",
+                                                   chksum         => x"0000",
+                                                   urgent_pointer => x"0000",
+                                                   options        => (others => x"00"));
   --! @endcond
 
   -------------------------------------------------------------------------------
@@ -161,7 +162,7 @@ end package nw_tcpv4_pkg;
 package body nw_tcpv4_pkg is
 
   -------------------------------------------------------------------------------
-  -- Create UDPv4 packet (internal)
+  -- Create TCP for IPv4 packet (internal)
   -------------------------------------------------------------------------------
   function f_tcpv4_create_pkt(ipv4_header : t_ipv4_header;
                               tcp_header  : t_tcp_header;
@@ -237,7 +238,7 @@ package body nw_tcpv4_pkg is
   end function f_tcpv4_create_pkt;
 
   -------------------------------------------------------------------------------
-  --! \brief Create TCPv4 packet
+  --! \brief Create TCP for IPv4 packet
   --! \param ipv4_header IPv4 header (required for checksum calculation)
   --! \param udp_header  TCP header
   --! \param payload     TCP payload
@@ -287,7 +288,7 @@ package body nw_tcpv4_pkg is
   end function f_tcpv4_create_pkt_len;
 
   -------------------------------------------------------------------------------
-  --! \brief Create TCPv4 packet
+  --! \brief Create TCP for IPv4 packet
   --! \param ipv4_header IPv4 header (required for checksum calculation)
   --! \param udp_header  TCP header
   --! \return            TCP packet (8bit array)

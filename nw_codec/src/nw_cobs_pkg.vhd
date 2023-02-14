@@ -42,7 +42,7 @@ context nw_util.nw_util_context;
 
 --! \page nw_cobs COBS library
 --! \tableofcontents
---! \section codec Consistent Overhead Byte Stuffing
+--! \section cobs Consistent Overhead Byte Stuffing
 --! This library provides functions for the COBS algorithm.  
 --!
 --! \subsection cobs_subsec1 Functionality

@@ -139,7 +139,7 @@ end package nw_udpv4_pkg;
 package body nw_udpv4_pkg is
 
   -------------------------------------------------------------------------------
-  -- Create UDPv4 packet (internal)
+  -- Create UDP for IPv4 packet (internal)
   --@cond functions
   -------------------------------------------------------------------------------
   function f_udpv4_create_pkt(ipv4_header : t_ipv4_header;
@@ -195,14 +195,14 @@ package body nw_udpv4_pkg is
   -- @endcond
 
   -------------------------------------------------------------------------------
-  --! \brief Create UDPv4 packet
+  --! \brief Create UDP for IPv4 packet
   --! \param ipv4_header IPv4 header (required for checksum calculation)
   --! \param udp_header  UDP header
   --! \param payload     UDP payload
   --! \param add_chksum  Add checksum (default true)
   --! \return            UDP packet (8bit array) or length of UDP packet
   --!
-  --! Create UDPv4 packet. Payload must be 8bit data array. A pseudo-header is generated from the IPv4 header
+  --! Create UDP for IPv4 packet. Payload must be 8bit data array. A pseudo-header is generated from the IPv4 header
   --! which is included in the checksum calculation.
   --!
   --! **Example use**
@@ -222,7 +222,7 @@ package body nw_udpv4_pkg is
   end function f_udpv4_create_pkt;
 
   -------------------------------------------------------------------------------
-  --! \brief Create UDPv4 packet (no checksum)
+  --! \brief Create UDP for IPv4 packet (no checksum)
   --! \param udp_header UDP header
   --! \param payload    UDP payload
   --! \return           UDP packet (8bit array) or length of UDP packet

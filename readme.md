@@ -30,13 +30,14 @@ Netwiz consists of several libraries. Libraries not related to a specific networ
     * [nw_arp](@ref nw_arp): Create and manipulate ARP packets
   * nw_ipv4:
     * [nw_ipv4](@ref nw_ipv4): Create and manipulate IPv4 packets
-    * [nw_udp](@ref nw_udpv4): Create and manipulate UDPv4 packets
+    * [nw_udp](@ref nw_udpv4): Create and manipulate UDP packets for IPv4
     * [nw_icmp](@ref nw_icmpv4): Create and manipulate ICMPv4 packets
-    * [nw_tcp](@ref nw_tcpv4): Create and manipulate TCP packets
+    * [nw_tcp](@ref nw_tcpv4): Create and manipulate TCP packets for IPv6
   * nw_ipv6:
     * [nw_ipv6](@ref nw_ipv6): Create and manipulate IPv6 packets
-    * [nw_udp](@ref nw_udpv6): Create and manipulate UDPv6 packets
+    * [nw_udp](@ref nw_udpv6): Create and manipulate UDP packets for IPv6
     * [nw_icmp](@ref nw_icmpv6): Create and manipulate ICMPv6 packets
+    * [nw_tcp](@ref nw_tcpv6): Create and manipulate TCP packets for IPv6
   * nw_ptp:
     * [nw_ptpv2](@ref nw_ptp): Create and manipulate IEEE1588v2 packets
 

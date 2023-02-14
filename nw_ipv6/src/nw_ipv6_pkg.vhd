@@ -57,6 +57,7 @@ use nw_ipv4.ip_protocols_pkg.all;
 --! Other libraries in IPv6 are: 
 --! \li \subpage nw_udpv6
 --! \li \subpage nw_icmpv6
+--! \li \subpage nw_tcpv6
 --!
 --! \n More details in \ref nw_ipv6_pkg
 --! \subsection ipv6_subsec2 Example use
