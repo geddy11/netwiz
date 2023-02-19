@@ -143,6 +143,10 @@ Functions</h2></td></tr>
 <tr class="memdesc:abfc2a504190a69aca5b9e19596c41c9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert slv array to unsigned array.  <a href="#abfc2a504190a69aca5b9e19596c41c9c"></a><br /></td></tr>
 <tr class="memitem:a625377a7f656b244a6b443b991a83e6c"><td class="memItemLeft" align="right" valign="top"><b><b><span class="vhdlchar">t_slv_arr</span><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="class__nw__util__pkg.html#a625377a7f656b244a6b443b991a83e6c">f_to_slv_arr</a><b> ( </b><b><span class="vhdlchar">data: </span><span class="stringliteral">in </span><span class="vhdlchar">t_unsigned_arr</span></b><b> )</b></td></tr>
 <tr class="memdesc:a625377a7f656b244a6b443b991a83e6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert unsigned array to slv array.  <a href="#a625377a7f656b244a6b443b991a83e6c"></a><br /></td></tr>
+<tr class="memitem:a1bdfe81fcc6f66778dcc5d1e19d74d6e"><td class="memItemLeft" align="right" valign="top"><b><b><span class="vhdlchar">t_slv_arr</span><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="class__nw__util__pkg.html#a1bdfe81fcc6f66778dcc5d1e19d74d6e">f_str_2_slv_arr</a><b> ( </b><b><span class="vhdlchar">str: </span><span class="stringliteral">in </span><b><span class="keywordtype">string</span><span class="vhdlchar"> </span></b></b><b> )</b></td></tr>
+<tr class="memdesc:a1bdfe81fcc6f66778dcc5d1e19d74d6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert string to slv array.  <a href="#a1bdfe81fcc6f66778dcc5d1e19d74d6e"></a><br /></td></tr>
+<tr class="memitem:a26463cc13ca2c1782318f6675a6490a4"><td class="memItemLeft" align="right" valign="top"><b><b><span class="keywordtype">string</span><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="class__nw__util__pkg.html#a26463cc13ca2c1782318f6675a6490a4">f_slv_arr_2_str</a><b> ( </b><b><span class="vhdlchar">data: </span><span class="stringliteral">in </span><span class="vhdlchar">t_slv_arr</span></b><b> )</b></td></tr>
+<tr class="memdesc:a26463cc13ca2c1782318f6675a6490a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert slv array to string.  <a href="#a26463cc13ca2c1782318f6675a6490a4"></a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="Procedures"></a>
 Procedures</h2></td></tr>
@@ -817,6 +821,89 @@ Procedures</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>slv array</dd></dl>
 <p>This function converts each word in the data array from unsigned to std_logic_vector type.</p>
 <p><b>Example use</b> </p><div class="fragment"><div class="line"><span class="vhdlchar">v_data</span> <span class="vhdlchar">:=</span> <span class="vhdlchar">f_to_slv_arr</span><span class="vhdlchar">(</span><span class="vhdlchar">v_udata</span><span class="vhdlchar">)</span>;</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a1bdfe81fcc6f66778dcc5d1e19d74d6e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1bdfe81fcc6f66778dcc5d1e19d74d6e">&#9670;&nbsp;</a></span>f_str_2_slv_arr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"> <b><span class="vhdlchar">t_slv_arr</span><span class="vhdlchar"> </span></b> f_str_2_slv_arr</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">str</span><span class="vhdlchar"> </span></b><span class="stringliteral">in</span> <em><b><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="keywordtype">string</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">Function</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Convert string to slv array. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">str</td><td>String </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>String as slv array</dd></dl>
+<p>This function converts a string to array of std_logic_vector(7 downto 0).</p>
+<p><b>Example use</b> </p><div class="fragment"><div class="line"><span class="vhdlchar">v_array</span><span class="vhdlchar">(</span><span class="vhdllogic"></span><span class="vhdllogic">0</span> <span class="keywordflow">to</span> <span class="vhdllogic"></span><span class="vhdllogic">5</span><span class="vhdlchar">)</span> <span class="vhdlchar">:=</span> <span class="vhdlchar">f_str_2_slv_arr</span><span class="vhdlchar">(</span><span class="keyword">&quot;NetWiz&quot;</span><span class="vhdlchar">)</span>;<span class="comment"> -- v_array is now (x&quot;4e&quot;, x&quot;65&quot;, x&quot;74&quot;, x&quot;57&quot;, x&quot;76&quot;, x&quot;7a&quot;)</span></div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a26463cc13ca2c1782318f6675a6490a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26463cc13ca2c1782318f6675a6490a4">&#9670;&nbsp;</a></span>f_slv_arr_2_str()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"> <b><span class="keywordtype">string</span><span class="vhdlchar"> </span></b> f_slv_arr_2_str</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">data</span><span class="vhdlchar"> </span></b><span class="stringliteral">in</span> <em><b><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar">t_slv_arr</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">Function</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Convert slv array to string. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>8bit data array </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Data as string</dd></dl>
+<p>This function converts an 8bit slv array to string.</p>
+<p><b>Example use</b> </p><div class="fragment"><div class="line"><span class="vhdlchar">v_array</span> <span class="vhdlchar">:=</span> <span class="vhdlchar">(</span><span class="vhdlchar">x</span><span class="vhdllogic">&quot;4e&quot;</span><span class="vhdlchar">,</span> <span class="vhdlchar">x</span><span class="vhdllogic">&quot;65&quot;</span><span class="vhdlchar">,</span> <span class="vhdlchar">x</span><span class="vhdllogic">&quot;74&quot;</span><span class="vhdlchar">,</span> <span class="vhdlchar">x</span><span class="vhdllogic">&quot;57&quot;</span><span class="vhdlchar">,</span> <span class="vhdlchar">x</span><span class="vhdllogic">&quot;76&quot;</span><span class="vhdlchar">,</span> <span class="vhdlchar">x</span><span class="vhdllogic">&quot;7a&quot;</span><span class="vhdlchar">)</span>;</div>
+<div class="line"><span class="vhdlchar">v_str</span>   <span class="vhdlchar">:=</span> <span class="vhdlchar">f_slv_arr_2_str</span><span class="vhdlchar">(</span><span class="vhdlchar">v_array</span><span class="vhdlchar">)</span>;<span class="comment"> -- v_str is now &quot;NetWiz&quot;</span></div>
 </div><!-- fragment --> 
 </div>
 </div>
