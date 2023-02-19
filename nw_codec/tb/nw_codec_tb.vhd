@@ -83,9 +83,12 @@ begin
     variable v_cobs_enc : t_slv_arr(0 to 1023)(7 downto 0);
     variable v_cobs_dec : t_slv_arr(0 to 1023)(7 downto 0);
     variable v_init     : std_logic_vector(31 downto 0) := x"ffffffff";
+    variable v_str      : string(1 to 16);
+
 
   begin
     wait for 0.747 ns;
+
     -------------------------------------------------------------------------------
     -- nw_sl_codec_pkg functions
     -------------------------------------------------------------------------------
@@ -150,6 +153,104 @@ begin
 
       v_init := v_raw(0) & v_raw(1) & v_raw(2) & v_raw(3);
     end loop;
+
+    -------------------------------------------------------------------------------
+    -- nw_base_pkg functions
+    -------------------------------------------------------------------------------
+    msg("Part 3: Verify nw_base_pkg functions");
+
+    msg("NetWiz base64 encoded is: " & f_slv_arr_2_str(f_base_enc(f_str_2_slv_arr("NetWiz"), BASE64)));
+    assert "Zg==" = f_slv_arr_2_str(f_base_enc(f_str_2_slv_arr("f"), BASE64))
+      report "Test 3.1 failed" severity failure;
+    assert "Zm8=" = f_slv_arr_2_str(f_base_enc(f_str_2_slv_arr("fo"), BASE64))
+      report "Test 3.2 failed" severity failure;
+    assert "Zm9v" = f_slv_arr_2_str(f_base_enc(f_str_2_slv_arr("foo"), BASE64))
+      report "Test 3.3 failed" severity failure;
+    assert "Zm9vYg==" = f_slv_arr_2_str(f_base_enc(f_str_2_slv_arr("foob"), BASE64))
+      report "Test 3.4 failed" severity failure;
+    assert "Zm9vYmE=" = f_slv_arr_2_str(f_base_enc(f_str_2_slv_arr("fooba"), BASE64))
+      report "Test 3.5 failed" severity failure;
+    assert "Zm9vYmFy" = f_slv_arr_2_str(f_base_enc(f_str_2_slv_arr("foobar"), BASE64))
+      report "Test 3.6 failed" severity failure;
+
+    msg("NetWiz base32 encoded is: " & f_slv_arr_2_str(f_base_enc(f_str_2_slv_arr("NetWiz"), BASE32)));
+
+    assert "MY======" = f_slv_arr_2_str(f_base_enc(f_str_2_slv_arr("f"), BASE32))
+      report "Test 3.7 failed" severity failure;
+    assert "MZXQ====" = f_slv_arr_2_str(f_base_enc(f_str_2_slv_arr("fo"), BASE32))
+      report "Test 3.8 failed" severity failure;
+    assert "MZXW6===" = f_slv_arr_2_str(f_base_enc(f_str_2_slv_arr("foo"), BASE32))
+      report "Test 3.9 failed" severity failure;
+    assert "MZXW6YQ=" = f_slv_arr_2_str(f_base_enc(f_str_2_slv_arr("foob"), BASE32))
+      report "Test 3.10 failed" severity failure;
+    assert "MZXW6YTB" = f_slv_arr_2_str(f_base_enc(f_str_2_slv_arr("fooba"), BASE32))
+      report "Test 3.11 failed" severity failure;
+    assert "MZXW6YTBOI======" = f_slv_arr_2_str(f_base_enc(f_str_2_slv_arr("foobar"), BASE32))
+      report "Test 3.12 failed" severity failure;
+
+    msg("NetWiz base16 encoded is: " & f_slv_arr_2_str(f_base_enc(f_str_2_slv_arr("NetWiz"), BASE16)));
+
+    assert "66" = f_slv_arr_2_str(f_base_enc(f_str_2_slv_arr("f"), BASE16))
+      report "Test 3.13 failed" severity failure;
+    assert "666F" = f_slv_arr_2_str(f_base_enc(f_str_2_slv_arr("fo"), BASE16))
+      report "Test 3.14 failed" severity failure;
+    assert "666F6F" = f_slv_arr_2_str(f_base_enc(f_str_2_slv_arr("foo"), BASE16))
+      report "Test 3.15 failed" severity failure;
+    assert "666F6F62" = f_slv_arr_2_str(f_base_enc(f_str_2_slv_arr("foob"), BASE16))
+      report "Test 3.16 failed" severity failure;
+    assert "666F6F6261" = f_slv_arr_2_str(f_base_enc(f_str_2_slv_arr("fooba"), BASE16))
+      report "Test 3.17 failed" severity failure;
+    assert "666F6F626172" = f_slv_arr_2_str(f_base_enc(f_str_2_slv_arr("foobar"), BASE16))
+      report "Test 3.18 failed" severity failure;
+
+
+    v_elen := f_base_enc_len(f_str_2_slv_arr("foobar"), BASE64);
+    assert 8 = v_elen
+      report "Test 3.19 failed" severity failure;
+    v_elen := f_base_enc_len(f_str_2_slv_arr("foobar"), BASE32);
+    assert 16 = v_elen
+      report "Test 3.20 failed" severity failure;
+    v_elen := f_base_enc_len(f_str_2_slv_arr("foobar"), BASE16);
+    assert 12 = v_elen
+      report "Test 3.21 failed" severity failure;
+
+    assert f_slv_arr_2_str(f_base_dec(f_str_2_slv_arr("Zm9vYmFy"), BASE64)) = "foobar"
+      report "Test 3.22 failed" severity failure;
+
+    assert f_slv_arr_2_str(f_base_dec(f_str_2_slv_arr("Zm9vYmE="), BASE64)) = "fooba"
+      report "Test 3.23 failed" severity failure;
+
+    assert f_slv_arr_2_str(f_base_dec(f_str_2_slv_arr("Zm9vYg=="), BASE64)) = "foob"
+      report "Test 3.24 failed" severity failure;
+
+    assert f_slv_arr_2_str(f_base_dec(f_str_2_slv_arr("MZXW6YTBOI======"), BASE32)) = "foobar"
+      report "Test 3.25 failed" severity failure;
+    assert f_slv_arr_2_str(f_base_dec(f_str_2_slv_arr("MZXW6YQ="), BASE32)) = "foob"
+      report "Test 3.26 failed" severity failure;
+    assert f_slv_arr_2_str(f_base_dec(f_str_2_slv_arr("MY======"), BASE32)) = "f"
+      report "Test 3.27 failed" severity failure;
+    assert f_slv_arr_2_str(f_base_dec(f_str_2_slv_arr("MZXQ===="), BASE32)) = "fo"
+      report "Test 3.28 failed" severity failure;
+    assert f_slv_arr_2_str(f_base_dec(f_str_2_slv_arr("MZXW6==="), BASE32)) = "foo"
+      report "Test 3.29 failed" severity failure;
+
+    wait for 1 ns;
+
+    v_dlen := f_base_dec_len(f_str_2_slv_arr("MZXW6YTBOI======"), BASE32);
+    assert v_dlen = 6
+      report "Test 3.30 failed" severity failure;
+    v_dlen := f_base_dec_len(f_str_2_slv_arr("MZXQ===="), BASE32);
+    assert v_dlen = 2
+      report "Test 3.31 failed" severity failure;
+    v_dlen := f_base_dec_len(f_str_2_slv_arr("MZXW6==="), BASE32);
+    assert v_dlen = 3
+      report "Test 3.32 failed" severity failure;
+    v_dlen := f_base_dec_len(f_str_2_slv_arr("MZXW6YQ="), BASE32);
+    assert v_dlen = 4
+      report "Test 3.33 failed" severity failure;
+    v_dlen := f_base_dec_len(f_str_2_slv_arr("JZSXIV3JPIQHE5LMMVZSCIJB"), BASE32);
+    assert v_dlen = 15
+      report "Test 3.34 failed" severity failure;
 
     wait for 100 ns;
     -- Finish the simulation

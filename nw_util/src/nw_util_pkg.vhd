@@ -149,7 +149,9 @@ package nw_util_pkg is
   function f_to_slv_arr(data      : t_unsigned_arr) return t_slv_arr;
 
 
-  function f_str_2_slv(value : string) return std_logic_vector;
+  function f_str_2_slv(value    : string) return std_logic_vector;
+  function f_str_2_slv_arr(str  : string) return t_slv_arr;
+  function f_slv_arr_2_str(data : t_slv_arr) return string;
   --! @endcond
 
   -------------------------------------------------------------------------------
@@ -157,7 +159,7 @@ package nw_util_pkg is
   --! @cond procedures
   -------------------------------------------------------------------------------
   procedure msg (
-    constant msg_txt : in string);          -- message to be printed
+    constant msg_txt : in string);      -- message to be printed
   --! @endcond
 
 end package nw_util_pkg;
@@ -716,6 +718,51 @@ package body nw_util_pkg is
     end loop;
     return v_ret;
   end function f_to_slv_arr;
+
+  -------------------------------------------------------------------------------
+  --! \brief Convert string to slv array
+  --! \param str    String
+  --! \return       String as slv array
+  --!
+  --! This function converts a string to array of std_logic_vector(7 downto 0). 
+  --!
+  --! **Example use**
+  --! ~~~
+  --! v_array(0 to 5) := f_str_2_slv_arr("NetWiz"); -- v_array is now (x"4e", x"65", x"74", x"57", x"76", x"7a")
+  --! ~~~
+  -------------------------------------------------------------------------------
+  function f_str_2_slv_arr(str : string)
+    return t_slv_arr is
+    variable v_data : t_slv_arr(0 to str'length - 1)(7 downto 0);
+  begin
+    for i in 1 to str'length loop
+      v_data(i - 1) := std_logic_vector(to_unsigned(character'pos(str(i)), 8));
+    end loop;
+    return v_data;
+  end function f_str_2_slv_arr;
+
+  -------------------------------------------------------------------------------
+  --! \brief Convert slv array to string
+  --! \param data   8bit data array
+  --! \return       Data as string
+  --!
+  --! This function converts an 8bit slv array to string. 
+  --!
+  --! **Example use**
+  --! ~~~
+  --! v_array := (x"4e", x"65", x"74", x"57", x"76", x"7a");
+  --! v_str   := f_slv_arr_2_str(v_array); -- v_str is now "NetWiz"
+  --! ~~~
+  -------------------------------------------------------------------------------
+  function f_slv_arr_2_str(data : t_slv_arr)
+    return string is
+    variable v_str : string(1 to data'length);
+  begin
+    for i in 0 to data'length - 1 loop
+      v_str(i + 1) := character'val(to_integer(unsigned(data(data'low + i))));
+    end loop;
+    return v_str;
+  end function f_slv_arr_2_str;
 
   -----------------------------------------------------------------------------
   --! \brief Print message in simulation log

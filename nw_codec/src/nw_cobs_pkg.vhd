@@ -40,7 +40,7 @@ library nw_util;
 context nw_util.nw_util_context;
 --! @endcond
 
---! \page nw_cobs COBS library
+--! \page nw_cobs COBS
 --! \tableofcontents
 --! \section cobs Consistent Overhead Byte Stuffing
 --! This library provides functions for the COBS algorithm.  
