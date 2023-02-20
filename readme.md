@@ -45,5 +45,5 @@ Netwiz consists of several libraries. Libraries not related to a specific networ
   Additional protocol libraries are expected to be added in the future.
 
   ## Documentation
-  The NetWiz API is [documented here](https://geddy11/netwiz/docs).
+  The NetWiz API is [documented here](https://geddy11.github.io/netwiz/).
 
