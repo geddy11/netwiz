@@ -33,4 +33,4 @@ jobs:
         with:
           dir: docs/html
           branch: gh-pages
-          token: ${{ secrets.GH_ACTION }}
+          token: ${{ secrets.GH_PUB }}
