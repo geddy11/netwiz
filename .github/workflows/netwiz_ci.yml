@@ -28,3 +28,9 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           config_file: Doxyfile
           folder: docs
+      - name: Publish generated content to GitHub Pages
+        uses: tsunematsu21/actions-publish-gh-pages@v1.0.1
+        with:
+          dir: docs/html
+          branch: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
