@@ -36,4 +36,5 @@ context nw_codec_context is
   use nw_codec.nw_sl_codec_pkg.all;
   use nw_codec.nw_cobs_pkg.all;
   use nw_codec.nw_base_pkg.all;
+  use nw_codec.nw_bitstuff_pkg.all;
 end context nw_codec_context;

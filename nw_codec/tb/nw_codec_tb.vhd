@@ -71,20 +71,23 @@ begin
   p_main : process
     variable v_data : t_slv_arr(0 to 15)(7 downto 0) := (x"00", x"67", x"7e", x"80", x"7d", x"7e", x"fe", x"7d",
                                                          x"45", x"5e", x"5d", x"7d", x"5d", x"ac", x"e1", x"01");
-    variable v_data2    : t_slv_arr(0 to 8)(3 downto 0) := (x"e", x"1", x"6", x"f", x"0", x"b", x"3", x"c", x"2");
-    variable v_enc2     : t_slv_arr(0 to 8)(6 downto 0);
-    variable v_elen     : natural;
-    variable v_dlen     : natural;
-    variable v_enc      : t_slv_arr(0 to 31)(7 downto 0);
-    variable v_dec      : t_slv_arr(0 to 31)(7 downto 0);
-    variable v_dec2     : t_slv_arr(0 to 8)(3 downto 0);
-    variable v_data3    : t_slv_arr(0 to 767)(7 downto 0);
-    variable v_raw      : t_slv_arr(0 to 1023)(7 downto 0);
-    variable v_cobs_enc : t_slv_arr(0 to 1023)(7 downto 0);
-    variable v_cobs_dec : t_slv_arr(0 to 1023)(7 downto 0);
-    variable v_init     : std_logic_vector(31 downto 0) := x"ffffffff";
-    variable v_str      : string(1 to 16);
-
+    variable v_data2     : t_slv_arr(0 to 8)(3 downto 0) := (x"e", x"1", x"6", x"f", x"0", x"b", x"3", x"c", x"2");
+    variable v_enc2      : t_slv_arr(0 to 8)(6 downto 0);
+    variable v_elen      : natural;
+    variable v_dlen      : natural;
+    variable v_enc       : t_slv_arr(0 to 31)(7 downto 0);
+    variable v_dec       : t_slv_arr(0 to 31)(7 downto 0);
+    variable v_dec2      : t_slv_arr(0 to 8)(3 downto 0);
+    variable v_data3     : t_slv_arr(0 to 767)(7 downto 0);
+    variable v_raw       : t_slv_arr(0 to 1023)(7 downto 0);
+    variable v_cobs_enc  : t_slv_arr(0 to 1023)(7 downto 0);
+    variable v_cobs_dec  : t_slv_arr(0 to 1023)(7 downto 0);
+    variable v_init      : std_logic_vector(31 downto 0) := x"ffffffff";
+    variable v_str       : string(1 to 16);
+    variable v_data_1bit : t_slv_arr(0 to 255)(0 downto 0);
+    variable v_data4     : t_slv_arr(0 to 15)(7 downto 0) := (x"00", x"67", x"7e", x"80", x"7d", x"7e", x"fe", x"7d",
+                                                              x"45", x"5e", x"5d", x"7d", x"5d", x"ac", x"e1", x"01");
+    variable v_dec3      : t_slv_arr(0 to 15)(7 downto 0);
 
   begin
     wait for 0.747 ns;
@@ -251,6 +254,25 @@ begin
     v_dlen := f_base_dec_len(f_str_2_slv_arr("JZSXIV3JPIQHE5LMMVZSCIJB"), BASE32);
     assert v_dlen = 15
       report "Test 3.34 failed" severity failure;
+
+    -------------------------------------------------------------------------------
+    -- nw_bitstuff_pkg functions
+    -------------------------------------------------------------------------------
+    msg("Part 4: Verify nw_bitstuff_pkg functions");
+
+    v_elen := f_bitstuff_enc_len(f_repack(v_data4, 1), 5);
+    assert v_elen = 134
+      report "Test 4.1 failed" severity failure;
+
+    v_data_1bit(0 to v_elen - 1) := f_bitstuff_enc(f_repack(v_data4, 1), 5);
+
+    v_dlen := f_bitstuff_dec_len(v_data_1bit(0 to v_elen - 1), 5);
+    assert v_dlen = 128
+      report "Test 4.2 failed" severity failure;
+
+    v_dec3 := f_repack(f_bitstuff_dec(v_data_1bit(0 to v_elen - 1), 5), 8);
+    assert v_dec3(0 to 15) = v_data4(0 to 15)
+      report "Test 4.3 failed" severity failure;
 
     wait for 100 ns;
     -- Finish the simulation

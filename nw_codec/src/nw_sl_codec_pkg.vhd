@@ -52,6 +52,7 @@ context nw_util.nw_util_context;
 --! Other libraries in Codec are: 
 --! \li \subpage nw_cobs
 --! \li \subpage nw_base
+--! \li \subpage nw_bstuff
 --!
 --! \n More details in \ref nw_sl_codec_pkg
 --! \subsection sl_codec_subsec2 Example use

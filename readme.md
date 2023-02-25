@@ -5,7 +5,7 @@
 ![GitHub top language](https://img.shields.io/github/languages/top/geddy11/netwiz?style=plastic)
 
 ## Intro
-NetWiz is a stand-alone VHDL library for network protocol packet generation and manipulation. NetWiz offers a stateless and functional [API](https://geddy11.github.io/netwiz/).
+NetWiz is a stand-alone VHDL library for network protocol packet generation and manipulation. NetWiz offers a stateless and functional [API](https://geddy11.github.io/netwiz/functions_func.html).
 
 NetWiz requires VHDL 2008 and is designed for test bench use only, synthesis is not supported. NetWiz is licensed under the MIT license.
 
@@ -16,6 +16,7 @@ Netwiz consists of several libraries. Libraries not related to a specific networ
   * nw_codec:
     * [nw_sl_codec](@ref nw_sl_codec): Stateless generic codec
     * [nw_cobs](@ref nw_cobs): Consistent Overhead Byte Stuffing
+    * [nw_bitstuff](@ref nw_bstuff): Bit stuffing
     * [nw_base](@ref nw_base): Base64/32/16 codec
   * nw_pcap: 
     * [nw_pcap](@ref nw_pcap): Read network packets from PCAP/PCAPNG files (produced by Wireshark, tcmpdump et.al.)
