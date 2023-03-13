@@ -5,7 +5,7 @@
 ![GitHub top language](https://img.shields.io/github/languages/top/geddy11/netwiz?style=plastic)
 
 ## Intro
-NetWiz is a stand-alone VHDL library for network protocol packet generation and manipulation. NetWiz offers a stateless and functional [API](https://geddy11.github.io/netwiz/functions_func.html).
+NetWiz is a stand-alone VHDL library for network protocol packet generation and manipulation. NetWiz offers a stateless and functional **[API](https://geddy11.github.io/netwiz/functions_func.html)**.
 
 NetWiz requires VHDL 2008 and is designed for test bench use only, synthesis is not supported. NetWiz is licensed under the MIT license.
 
@@ -42,9 +42,11 @@ Netwiz consists of several libraries. Libraries not related to a specific networ
     * [nw_tcp](@ref nw_tcpv6): Create and manipulate TCP packets for IPv6
   * nw_ptp:
     * [nw_ptpv2](@ref nw_ptp): Create and manipulate IEEE1588v2 packets
+  * nw_usb:
+    * [nw_usb](@ref nw_usb): Create and manipulate USB packets
 
   Additional protocol libraries are expected to be added in the future.
 
   ## Documentation
-  The NetWiz API is [documented here](https://geddy11.github.io/netwiz/).
+  The NetWiz API is **[documented here](https://geddy11.github.io/netwiz/)**.
 

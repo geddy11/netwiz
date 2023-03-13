@@ -95,4 +95,10 @@ echo "\n"
 vlib nw_ptp
 vcom -2008 -quiet -work ./nw_ptp ../nw_ptp/src/nw_ptpv2_pkg.vhd
 vcom -2008 -quiet -work ./work ../nw_ptp/tb/nw_ptp_tb.vhd
-vsim -quiet -c nw_ptp_tb -do "onerror {quit -code 1}; run -all; exit"
+vsim -quiet -c nw_ptp_tb -do "onerror {quit -code 1}; run -all"
+# nw_usb
+vlib nw_usb
+vcom -2008 -quiet -work ./nw_usb ../nw_usb/src/nw_usb_pkg.vhd
+vcom -2008 -quiet -work ./nw_usb ../nw_usb/src/nw_usb_context.vhd
+vcom -2008 -quiet -work ./work ../nw_usb/tb/nw_usb_tb.vhd
+vsim -quiet -c nw_usb_tb -do "onerror {quit -code 1}; run -all; exit"
