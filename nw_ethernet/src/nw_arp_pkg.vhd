@@ -61,6 +61,8 @@ use work.nw_ethernet_pkg.all;
 --! library nw_ethernet;
 --! context nw_ethernet.nw_ethernet_context;
 --! ~~~
+--! Define a few variables:
+--! ~~~
 --! variable v_header  : t_arp_header; -- header record
 --! variable v_arp_pkt : t_slv_arr(0 to 27)(7 downto 0); -- byte array
 --! variable v_len     : natural;
