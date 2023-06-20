@@ -110,9 +110,17 @@ Example use</h2>
 <div class="line">context nw_util.nw_util_context;</div>
 <div class="line">library nw_ethernet;</div>
 <div class="line">context nw_ethernet.nw_ethernet_context;</div>
-</div><!-- fragment --><p> variable v_header : t_arp_header; &ndash; header record variable v_arp_pkt : t_slv_arr(0 to 27)(7 downto 0); &ndash; byte array variable v_len : natural; </p><div class="fragment"><div class="line">First setup the header, then calculate the total ethernet packet length before creating the packet.</div>
-</div><!-- fragment --><p> v_header := C_DEFAULT_ARP_HEADER; &ndash; copy default header v_header.sender_hw_addr := f_eth_mac_2_slv_arr("08:00:27:27:1a:d5"); &ndash; change sender MAC v_len := f_arp_create_pkt_len(v_header); &ndash; calculate total packet length (28) v_arp_pkt(0 to v_len - 1) := f_arp_create_pkt(v_header); &ndash; create the ARP packet </p><div class="fragment"><div class="line">Next step is to can be to put the ARP packet into an Ethernet frame:</div>
-</div><!-- fragment --><p> v_eth_header := C_DEFAULT_ETH_HEADER; v_len := f_eth_create_pkt_len(v_eth_header, v_arp_pkt); &ndash; calculate total packet length v_eth_pkt(0 to v_len - 1) := f_eth_create_pkt(v_eth_header, v_arp_pkt); &ndash; create the packet ~~~ See further examples in the test bench nw_ethernet_tb.vhd. </p>
+</div><!-- fragment --><p> Define a few variables: </p><div class="fragment"><div class="line">variable v_header  : t_arp_header; -- header record</div>
+<div class="line">variable v_arp_pkt : t_slv_arr(0 to 27)(7 downto 0); -- byte array</div>
+<div class="line">variable v_len     : natural;</div>
+</div><!-- fragment --><p> First setup the header, then calculate the total ethernet packet length before creating the packet. </p><div class="fragment"><div class="line">v_header                  := C_DEFAULT_ARP_HEADER; -- copy default header</div>
+<div class="line">v_header.sender_hw_addr   := f_eth_mac_2_slv_arr(&quot;08:00:27:27:1a:d5&quot;); -- change sender MAC</div>
+<div class="line">v_len                     := f_arp_create_pkt_len(v_header); -- calculate total packet length (28)</div>
+<div class="line">v_arp_pkt(0 to v_len - 1) := f_arp_create_pkt(v_header); -- create the ARP packet</div>
+</div><!-- fragment --><p> Next step is to can be to put the ARP packet into an Ethernet frame: </p><div class="fragment"><div class="line">v_eth_header              := C_DEFAULT_ETH_HEADER;</div>
+<div class="line">v_len                     := f_eth_create_pkt_len(v_eth_header, v_arp_pkt); -- calculate total packet length</div>
+<div class="line">v_eth_pkt(0 to v_len - 1) := f_eth_create_pkt(v_eth_header, v_arp_pkt); -- create the packet</div>
+</div><!-- fragment --><p> See further examples in the test bench nw_ethernet_tb.vhd. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->
