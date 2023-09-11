@@ -25,6 +25,23 @@
 var NAVTREE =
 [
   [ "Network Wizard for VHDL Test Benches", "index.html", [
+    [ "Changelog", "md_CHANGELOG.html", [
+      [ "Intro", "index.html#autotoc_md9", null ],
+      [ "Libraries", "index.html#autotoc_md10", null ],
+      [ "Documentation", "index.html#autotoc_md11", null ],
+      [ "[1.2.1] - 2023-06-26", "md_CHANGELOG.html#autotoc_md1", [
+        [ "Fixed", "md_CHANGELOG.html#autotoc_md2", null ]
+      ] ],
+      [ "[1.2.0] - 2023-05-31", "md_CHANGELOG.html#autotoc_md3", [
+        [ "Added", "md_CHANGELOG.html#autotoc_md4", null ]
+      ] ],
+      [ "[1.1.0] - 2023-02-25", "md_CHANGELOG.html#autotoc_md5", [
+        [ "Added", "md_CHANGELOG.html#autotoc_md6", null ]
+      ] ],
+      [ "[1.0.0] - 2023-02-20", "md_CHANGELOG.html#autotoc_md7", [
+        [ "Added", "md_CHANGELOG.html#autotoc_md8", null ]
+      ] ]
+    ] ],
     [ "Codec library", "nw_sl_codec.html", "nw_sl_codec" ],
     [ "Ethernet library", "nw_ethernet.html", "nw_ethernet" ],
     [ "IPv4 library", "nw_ipv4.html", "nw_ipv4" ],
