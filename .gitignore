@@ -1,4 +1,5 @@
 docs
+html
 *~
 script/*
 !script/ghdl_run_all.sh
