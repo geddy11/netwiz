@@ -65,6 +65,7 @@ architecture behav of nw_codec_tb is
                                                                                             (word => x"f", code => (others => "1111111")));
 
   constant C_TEST1 : t_slv_arr(0 to 10)(7 downto 0) := (x"01", x"01", x"01", x"05", x"01", x"01", x"01", x"01", x"01", x"01", x"01");
+  constant C_TEST5_3: t_slv_arr(0 to 15)(7 downto 0) := (x"00", x"87", x"99", x"1e", x"aa", x"2d", x"33", x"b4", x"4b", x"cc", x"d2", x"55", x"e1", x"66", x"78", x"ff");
 
 begin
 
@@ -88,9 +89,41 @@ begin
     variable v_data4     : t_slv_arr(0 to 15)(7 downto 0) := (x"00", x"67", x"7e", x"80", x"7d", x"7e", x"fe", x"7d",
                                                               x"45", x"5e", x"5d", x"7d", x"5d", x"ac", x"e1", x"01");
     variable v_dec3      : t_slv_arr(0 to 15)(7 downto 0);
+    variable v_ptr : t_slv_arr_ptr;
+    variable v_data4enc: t_slv_arr(0 to 15)(11 downto 0);
+    variable v_h74 : t_slv_arr(0 to 0)(6 downto 0);
+    variable v_h84 : t_slv_arr(0 to 0)(7 downto 0);
+    variable v_tmp : t_slv_arr(0 to 0)(3 downto 0);
+    
+
 
   begin
     wait for 0.747 ns;
+
+    -------------------------------------------------------------------------------
+    -- nw_hamming_pkg functions
+    -------------------------------------------------------------------------------
+    msg("Part 5: Verify nw_hamming_pkg functions");
+    v_elen := f_hamming_enc_width(v_data4, false);
+    assert v_elen = 12
+      report "Test 5.1 failed" severity failure;
+
+    v_data4enc := f_hamming_enc(v_data4, false);
+    v_ptr := f_hamming_enc(v_data4, false);
+    assert v_data4enc = v_ptr.all
+      report "Test 5.2 failed" severity failure;
+
+    for i in 0 to 15 loop
+      v_tmp(0) := std_logic_vector(to_unsigned(i, 4));
+      v_h74    := f_hamming_enc(v_tmp, false);
+      assert v_h74(0) = C_TEST5_3(i)(6 downto 0)
+         report "Test 5.3a failed" severity failure;
+
+      v_h84 := f_hamming_enc(v_tmp, true);
+      assert v_h84(0) = C_TEST5_3(i)
+        report "Test 5.3b failed" severity failure;
+      wait for 1 ns;
+    end loop;
 
     -------------------------------------------------------------------------------
     -- nw_sl_codec_pkg functions

@@ -87,6 +87,7 @@ vcom -2008 -quiet -work ./nw_codec ../nw_codec/src/nw_sl_codec_pkg.vhd
 vcom -2008 -quiet -work ./nw_codec ../nw_codec/src/nw_cobs_pkg.vhd
 vcom -2008 -quiet -work ./nw_codec ../nw_codec/src/nw_base_pkg.vhd
 vcom -2008 -quiet -work ./nw_codec ../nw_codec/src/nw_bitstuff_pkg.vhd
+vcom -2008 -quiet -work ./nw_codec ../nw_codec/src/nw_hamming_pkg.vhd
 vcom -2008 -quiet -work ./nw_codec ../nw_codec/src/nw_codec_context.vhd
 vcom -2008 -quiet -work ./work ../nw_codec/tb/nw_codec_tb.vhd
 vsim -quiet -c nw_codec_tb -do "onerror {quit -code 1}; run -all"
