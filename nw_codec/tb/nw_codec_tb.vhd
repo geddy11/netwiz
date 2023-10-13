@@ -86,8 +86,8 @@ begin
     variable v_init      : std_logic_vector(31 downto 0) := x"ffffffff";
     variable v_str       : string(1 to 16);
     variable v_data_1bit : t_slv_arr(0 to 255)(0 downto 0);
-    variable v_data4 : t_slv_arr(0 to 15)(7 downto 0) := (x"00", x"67", x"7e", x"80", x"7d", x"7e", x"fe", x"7d",
-                                                          x"45", x"5e", x"5d", x"7d", x"5d", x"ac", x"e1", x"01");
+    variable v_data4     : t_slv_arr(0 to 15)(7 downto 0) := (x"00", x"67", x"7e", x"80", x"7d", x"7e", x"fe", x"7d",
+                                                              x"45", x"5e", x"5d", x"7d", x"5d", x"ac", x"e1", x"01");
     variable v_dec3     : t_slv_arr(0 to 15)(7 downto 0);
     variable v_ptr      : t_slv_arr_ptr;
     variable v_data4enc : t_slv_arr(0 to 15)(11 downto 0);

@@ -62,8 +62,26 @@ context nw_util.nw_util_context;
 --! library nw_codec;
 --! context nw_codec.nw_codec_context;
 --! ~~~
---! Example 1: 
---! 
+--! Example 1: Encode/decode 32bit data array without extra parity bit. 
+--! ~~~
+--! v_ewidth   := f_hamming_enc_width(data_array_32bit, false); -- determine word width of encoded array
+--! v_enc_data := new t_slv_arr(0 to data_array_32bit'length - 1)(v_ewidth - 1 downto 0); -- allocate array
+--! v_enc_data := f_hamming_enc(data_array_32bit, false); -- encode data
+--! ...
+--! v_dwidth   := f_hamming_dec_width(v_enc_data, false); -- determine width of decoded data (32bit + 1 status bit)
+--! v_dec_data := new t_slv_arr(0 to data_array_32bit'length - 1)(v_dwidth - 1 downto 0); -- allocate array
+--! v_dec_data := f_hamming_dec(v_enc_data, false); -- decode data (MSB holds error status)
+--! ~~~
+--! Example 2: Encode/decode 128bit data array with extra parity bit (SECDED). 
+--! ~~~
+--! v_ewidth   := f_hamming_enc_width(data_array_128bit, true); -- determine word width of encoded array
+--! v_enc_data := new t_slv_arr(0 to data_array_128bit'length - 1)(v_ewidth - 1 downto 0); -- allocate array
+--! v_enc_data := f_hamming_enc(data_array_128bit, true); -- encode data
+--! ...
+--! v_dwidth   := f_hamming_dec_width(v_enc_data, true); -- determine width of decoded data (128bit + 2 status bits)
+--! v_dec_data := new t_slv_arr(0 to data_array_128bit'length - 1)(v_dwidth - 1 downto 0); -- allocate array
+--! v_dec_data := f_hamming_dec(v_enc_data, true); -- decode data (two MSBs hold error status)
+--! ~~~
 --! See further examples in the test bench nw_codec_tb.vhd.
 package nw_hamming_pkg is
 
@@ -228,10 +246,11 @@ package body nw_hamming_pkg is
   --! \return             Encoded data array pointer
   --!
   --! Encode data with a Hamming encoder. The returned pointer should be deallocated after use to avoid memory leaks.
+  --! The encoded data is non-systematic (data and parity bits mixed).
   --!
   --! **Example use**
   --! ~~~
-  --! encoded_data_ptr := f_hamming_enc(data, true);
+  --! encoded_data_ptr := f_hamming_enc(data);
   --! ~~~
   -------------------------------------------------------------------------------
   function f_hamming_enc(data         : t_slv_arr;
@@ -291,7 +310,7 @@ package body nw_hamming_pkg is
   --! \param extra_parity Add extra parity bit (default=false)
   --! \return             Encoded data array
   --!
-  --! Encode data with a Hamming encoder. 
+  --! Encode data with a Hamming encoder. Same as above, but returns a data array instead of pointer.
   --!
   --! **Example use**
   --! ~~~
@@ -314,7 +333,7 @@ package body nw_hamming_pkg is
   --! \param extra_parity Add extra parity bit (default=false) 
   --! \return             Encoded data array width
   --!
-  --! Get encoded data width.
+  --! Get encoded data width. The encoded data width is the sum of data bits in input data and the number of parity bits required.
   --!
   --! **Example use**
   --! ~~~
@@ -355,7 +374,9 @@ package body nw_hamming_pkg is
   --! v_statpos        := decoded_data(0)'high;
   --! for i in decoded_data'range loop
   --!   if decoded_data(i)(v_statpos) = '1' then -- double error detected
+  --!     ...
   --!   elsif decoded_data(i)(v_statpos - 1) = '1' then -- sigle error corrected
+  --!     ...
   --!   end if;  
   --! end loop;
   --! -- deallocate the array when finished
@@ -443,7 +464,7 @@ package body nw_hamming_pkg is
   --! \param extra_parity Has extra parity bit (default=false)
   --! \return             Decoded data array with status
   --!
-  --! Decode data with a Hamming decoder. 
+  --! Decode data with a Hamming decoder. Same as above, but returns a data array instead of pointer.
   --!
   --! **Example use**
   --! ~~~
@@ -466,7 +487,7 @@ package body nw_hamming_pkg is
   --! \param extra_parity Use extra parity bit (default=false) 
   --! \return             Width of decoded data including status bits
   --!
-  --! Get decoded data width. 
+  --! Get decoded data width, which is the original data width plus one or two status bits.
   --!
   --! **Example use**
   --! ~~~
