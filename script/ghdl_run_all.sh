@@ -80,6 +80,7 @@ ghdl -a --std=08 -frelaxed-rules --work=nw_codec ../nw_codec/src/nw_sl_codec_pkg
 ghdl -a --std=08 -frelaxed-rules --work=nw_codec ../nw_codec/src/nw_cobs_pkg.vhd
 ghdl -a --std=08 -frelaxed-rules --work=nw_codec ../nw_codec/src/nw_base_pkg.vhd
 ghdl -a --std=08 -frelaxed-rules --work=nw_codec ../nw_codec/src/nw_bitstuff_pkg.vhd
+ghdl -a --std=08 -frelaxed-rules --work=nw_codec ../nw_codec/src/nw_hamming_pkg.vhd
 ghdl -a --std=08 -frelaxed-rules --work=nw_codec ../nw_codec/src/nw_codec_context.vhd
 ghdl -a --std=08 -frelaxed-rules --work=work ../nw_codec/tb/nw_codec_tb.vhd
 ghdl -e --std=08 -frelaxed-rules --work=work nw_codec_tb
