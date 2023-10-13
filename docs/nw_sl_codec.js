@@ -21,5 +21,11 @@ var nw_sl_codec =
         [ "Functionality", "nw_bstuff.html#bstuff_subsec1", null ],
         [ "Example use", "nw_bstuff.html#bstuff_subsec2", null ]
       ] ]
+    ] ],
+    [ "Hamming codec", "nw_hamming.html", [
+      [ "Hamming codec", "nw_hamming.html#hamming", [
+        [ "Functionality", "nw_hamming.html#hamming__subsec1", null ],
+        [ "Example use", "nw_hamming.html#hamming_subsec2", null ]
+      ] ]
     ] ]
 ];
