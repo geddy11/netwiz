@@ -94,8 +94,8 @@ package nw_hamming_pkg is
   function f_calc_parity(data        : t_slv_arr;
                          even_parity : boolean := true) return t_slv_arr;
 
-  function f_hamming_enc(data         : t_slv_arr;
-                         extra_parity : boolean := false) return t_slv_arr;
+  impure function f_hamming_enc(data         : t_slv_arr;
+                                extra_parity : boolean := false) return t_slv_arr;
 
   impure function f_hamming_enc(data         : t_slv_arr;
                                 extra_parity : boolean := false) return t_slv_arr_ptr;
@@ -103,8 +103,8 @@ package nw_hamming_pkg is
   function f_hamming_enc_width(data         : t_slv_arr;
                                extra_parity : boolean := false) return natural;
 
-  function f_hamming_dec(data         : t_slv_arr;
-                         extra_parity : boolean := false) return t_slv_arr;
+  impure function f_hamming_dec(data         : t_slv_arr;
+                                extra_parity : boolean := false) return t_slv_arr;
 
   impure function f_hamming_dec(data         : t_slv_arr;
                                 extra_parity : boolean := false) return t_slv_arr_ptr;
@@ -317,8 +317,8 @@ package body nw_hamming_pkg is
   --! encoded_data := f_hamming_enc(data, true);
   --! ~~~
   -------------------------------------------------------------------------------
-  function f_hamming_enc(data         : t_slv_arr;
-                         extra_parity : boolean := false)
+  impure function f_hamming_enc(data         : t_slv_arr;
+                                extra_parity : boolean := false)
     return t_slv_arr is
     variable v_ptr : t_slv_arr_ptr;
   begin
@@ -471,8 +471,8 @@ package body nw_hamming_pkg is
   --! decoded_data := f_hamming_dec(data, true);
   --! ~~~
   -------------------------------------------------------------------------------
-  function f_hamming_dec(data         : t_slv_arr;
-                         extra_parity : boolean := false)
+  impure function f_hamming_dec(data         : t_slv_arr;
+                                extra_parity : boolean := false)
     return t_slv_arr is
     variable v_ptr : t_slv_arr_ptr;
   begin
