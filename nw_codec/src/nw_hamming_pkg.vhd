@@ -97,8 +97,8 @@ package nw_hamming_pkg is
   function f_hamming_enc(data         : t_slv_arr;
                          extra_parity : boolean := false) return t_slv_arr;
 
-  function f_hamming_enc(data         : t_slv_arr;
-                         extra_parity : boolean := false) return t_slv_arr_ptr;
+  impure function f_hamming_enc(data         : t_slv_arr;
+                                extra_parity : boolean := false) return t_slv_arr_ptr;
 
   function f_hamming_enc_width(data         : t_slv_arr;
                                extra_parity : boolean := false) return natural;
@@ -106,8 +106,8 @@ package nw_hamming_pkg is
   function f_hamming_dec(data         : t_slv_arr;
                          extra_parity : boolean := false) return t_slv_arr;
 
-  function f_hamming_dec(data         : t_slv_arr;
-                         extra_parity : boolean := false) return t_slv_arr_ptr;
+  impure function f_hamming_dec(data         : t_slv_arr;
+                                extra_parity : boolean := false) return t_slv_arr_ptr;
 
   function f_hamming_dec_width(data         : t_slv_arr;
                                extra_parity : boolean := false) return natural;
@@ -253,8 +253,8 @@ package body nw_hamming_pkg is
   --! encoded_data_ptr := f_hamming_enc(data);
   --! ~~~
   -------------------------------------------------------------------------------
-  function f_hamming_enc(data         : t_slv_arr;
-                         extra_parity : boolean := false)
+  impure function f_hamming_enc(data         : t_slv_arr;
+                                extra_parity : boolean := false)
     return t_slv_arr_ptr is
     variable v_r      : integer;
     variable v_m      : integer := data(data'low)'length;
@@ -383,8 +383,8 @@ package body nw_hamming_pkg is
   --! deallocate(decoded_data_ptr);
   --! ~~~
   -------------------------------------------------------------------------------
-  function f_hamming_dec(data         : t_slv_arr;
-                         extra_parity : boolean := false)
+  impure function f_hamming_dec(data         : t_slv_arr;
+                                extra_parity : boolean := false)
     return t_slv_arr_ptr is
     variable v_r       : integer;
     variable v_n       : integer;
