@@ -49,6 +49,12 @@ context nw_util.nw_util_context;
 --! \li Perform data word stuffing (replace specific words with an escape sequence)
 --! \li Encode data words from lookup table
 --!
+--! Other libraries in Codec are: 
+--! \li \subpage nw_cobs
+--! \li \subpage nw_base
+--! \li \subpage nw_bstuff
+--! \li \subpage nw_hamming
+--!
 --! \n More details in \ref nw_sl_codec_pkg
 --! \subsection sl_codec_subsec2 Example use
 --! Include the libraries:

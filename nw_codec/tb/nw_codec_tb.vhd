@@ -64,8 +64,8 @@ architecture behav of nw_codec_tb is
                                                                                             (word => x"e", code => (others => "0010110")),
                                                                                             (word => x"f", code => (others => "1111111")));
 
-  constant C_TEST1 : t_slv_arr(0 to 10)(7 downto 0) := (x"01", x"01", x"01", x"05", x"01", x"01", x"01", x"01", x"01", x"01", x"01");
-  constant C_TEST5_3: t_slv_arr(0 to 15)(7 downto 0) := (x"00", x"87", x"99", x"1e", x"aa", x"2d", x"33", x"b4", x"4b", x"cc", x"d2", x"55", x"e1", x"66", x"78", x"ff");
+  constant C_TEST1   : t_slv_arr(0 to 10)(7 downto 0) := (x"01", x"01", x"01", x"05", x"01", x"01", x"01", x"01", x"01", x"01", x"01");
+  constant C_TEST5_3 : t_slv_arr(0 to 15)(7 downto 0) := (x"00", x"87", x"99", x"1e", x"aa", x"2d", x"33", x"b4", x"4b", x"cc", x"d2", x"55", x"e1", x"66", x"78", x"ff");
 
 begin
 
@@ -86,44 +86,26 @@ begin
     variable v_init      : std_logic_vector(31 downto 0) := x"ffffffff";
     variable v_str       : string(1 to 16);
     variable v_data_1bit : t_slv_arr(0 to 255)(0 downto 0);
-    variable v_data4     : t_slv_arr(0 to 15)(7 downto 0) := (x"00", x"67", x"7e", x"80", x"7d", x"7e", x"fe", x"7d",
-                                                              x"45", x"5e", x"5d", x"7d", x"5d", x"ac", x"e1", x"01");
-    variable v_dec3      : t_slv_arr(0 to 15)(7 downto 0);
-    variable v_ptr : t_slv_arr_ptr;
-    variable v_data4enc: t_slv_arr(0 to 15)(11 downto 0);
-    variable v_h74 : t_slv_arr(0 to 0)(6 downto 0);
-    variable v_h84 : t_slv_arr(0 to 0)(7 downto 0);
-    variable v_tmp : t_slv_arr(0 to 0)(3 downto 0);
-    
+    variable v_data4 : t_slv_arr(0 to 15)(7 downto 0) := (x"00", x"67", x"7e", x"80", x"7d", x"7e", x"fe", x"7d",
+                                                          x"45", x"5e", x"5d", x"7d", x"5d", x"ac", x"e1", x"01");
+    variable v_dec3     : t_slv_arr(0 to 15)(7 downto 0);
+    variable v_ptr      : t_slv_arr_ptr;
+    variable v_data4enc : t_slv_arr(0 to 15)(11 downto 0);
+    variable v_data4dec : t_slv_arr(0 to 15)(8 downto 0);
+    variable v_h74      : t_slv_arr(0 to 0)(6 downto 0);
+    variable v_h84      : t_slv_arr(0 to 0)(7 downto 0);
+    variable v_tmp      : t_slv_arr(0 to 0)(3 downto 0);
 
+    variable v_par        : t_slv_arr(0 to 15)(3 downto 0);
+    variable v_tmp2       : std_logic_vector(11 downto 0);
+    variable v_pass       : boolean;
+    variable v_data_17bit : t_slv_arr(0 to 31)(16 downto 0);
+    variable v_data_23bit : t_slv_arr(0 to 31)(22 downto 0);
+    variable v_data_19bit : t_slv_arr(0 to 31)(18 downto 0);
 
   begin
     wait for 0.747 ns;
 
-    -------------------------------------------------------------------------------
-    -- nw_hamming_pkg functions
-    -------------------------------------------------------------------------------
-    msg("Part 5: Verify nw_hamming_pkg functions");
-    v_elen := f_hamming_enc_width(v_data4, false);
-    assert v_elen = 12
-      report "Test 5.1 failed" severity failure;
-
-    v_data4enc := f_hamming_enc(v_data4, false);
-    v_ptr := f_hamming_enc(v_data4, false);
-    assert v_data4enc = v_ptr.all
-      report "Test 5.2 failed" severity failure;
-
-    for i in 0 to 15 loop
-      v_tmp(0) := std_logic_vector(to_unsigned(i, 4));
-      v_h74    := f_hamming_enc(v_tmp, false);
-      assert v_h74(0) = C_TEST5_3(i)(6 downto 0)
-         report "Test 5.3a failed" severity failure;
-
-      v_h84 := f_hamming_enc(v_tmp, true);
-      assert v_h84(0) = C_TEST5_3(i)
-        report "Test 5.3b failed" severity failure;
-      wait for 1 ns;
-    end loop;
 
     -------------------------------------------------------------------------------
     -- nw_sl_codec_pkg functions
@@ -306,6 +288,113 @@ begin
     v_dec3 := f_repack(f_bitstuff_dec(v_data_1bit(0 to v_elen - 1), 5), 8);
     assert v_dec3(0 to 15) = v_data4(0 to 15)
       report "Test 4.3 failed" severity failure;
+
+    -------------------------------------------------------------------------------
+    -- nw_hamming_pkg functions
+    -------------------------------------------------------------------------------
+    msg("Part 5: Verify nw_hamming_pkg functions");
+
+    v_elen := f_hamming_enc_width(v_data4, false);
+    assert v_elen = 12
+      report "Test 5.1 failed" severity failure;
+
+    v_data4enc := f_hamming_enc(v_data4, false);
+    v_ptr      := f_hamming_enc(v_data4, false);
+    assert v_data4enc = v_ptr.all
+      report "Test 5.2 failed" severity failure;
+
+    -- in long TBs with many calls to f_hamming_enc(), deallocate is recommended to avoind memory leakage
+    deallocate(v_ptr);
+
+    for i in 0 to 15 loop
+      v_tmp(0) := std_logic_vector(to_unsigned(i, 4));
+      v_h74    := f_hamming_enc(v_tmp, false);
+      assert v_h74(0) = C_TEST5_3(i)(6 downto 0)
+        report "Test 5.3a failed" severity failure;
+
+      v_h84 := f_hamming_enc(v_tmp, true);
+      assert v_h84(0) = C_TEST5_3(i)
+        report "Test 5.3b failed" severity failure;
+      wait for 1 ns;
+    end loop;
+
+    v_dlen := f_hamming_dec_width(v_h74, false);
+    assert v_dlen = 5
+      report "Test 5.4a failed" severity failure;
+
+    v_dlen := f_hamming_dec_width(C_TEST5_3, true);
+    assert v_dlen = 6
+      report "Test 5.4b failed" severity failure;
+
+    wait for 5.42 ns;
+
+    -- insert single bit errors in array with no extra parity bit
+    for i in 0 to 11 loop
+      v_data4enc(i)(i) := not v_data4enc(i)(i);
+    end loop;
+    v_data4dec := f_hamming_dec(v_data4enc, false);
+    v_pass     := true;
+    for i in 0 to 15 loop
+      if i < 12 then                    -- check parity status bit
+        if v_data4dec(i)(8) = '0' then
+          v_pass := false;
+        end if;
+      else
+        if v_data4dec(i)(8) = '1' then
+          v_pass := false;
+        end if;
+      end if;
+      if v_data4dec(i)(7 downto 0) /= v_data4(i) then
+        v_pass := false;
+      end if;
+    end loop;
+    assert v_pass
+      report "Test 5.5 failed" severity failure;
+
+    -- insert double bit errors in array with extra parity bit
+    v_data_17bit := f_gen_prbs(C_POLY_X17_X14_1, 17, 32, C_MSB_FIRST, "11111111111111111");  -- random data
+    v_elen       := f_hamming_enc_width(v_data_17bit, true);
+    assert v_elen = 23
+      report "Test 5.5 failed" severity failure;
+
+    v_data_23bit := f_hamming_enc(v_data_17bit, true);  -- encode
+    v_dlen       := f_hamming_dec_width(v_data_23bit, true);
+    assert v_dlen = 19
+      report "Test 5.6 failed" severity failure;
+
+    for i in 0 to 21 loop               -- double errors
+      v_data_23bit(i)(i)   := not v_data_23bit(i)(i);
+      v_data_23bit(i)(i+1) := not v_data_23bit(i)(i+1);
+    end loop;
+    for i in 23 to 31 loop              -- single errors
+      v_data_23bit(i)(i - 20) := not v_data_23bit(i)(i - 20);
+    end loop;
+
+    v_data_19bit := f_hamming_dec(v_data_23bit, true);  -- decode
+    v_pass       := true;
+    for i in 0 to 31 loop
+      if i < 22 then                                    -- double errors
+        if v_data_19bit(i)(18 downto 17) /= "10" then
+          v_pass := false;
+        end if;
+      elsif i = 22 then                                 -- no error
+        if v_data_19bit(i)(18 downto 17) /= "00" then
+          v_pass := false;
+        end if;
+        if v_data_17bit(i) /= v_data_19bit(i)(16 downto 0) then
+          v_pass := false;
+        end if;
+      else                                              -- single errors
+        if v_data_19bit(i)(18 downto 17) /= "01" then
+          v_pass := false;
+        end if;
+        if v_data_17bit(i) /= v_data_19bit(i)(16 downto 0) then
+          v_pass := false;
+        end if;
+      end if;
+    end loop;
+    assert v_pass
+      report "Test 5.7 failed" severity failure;
 
     wait for 100 ns;
     -- Finish the simulation
