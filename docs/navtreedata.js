@@ -26,6 +26,9 @@ var NAVTREE =
 [
   [ "Network Wizard for VHDL Test Benches", "index.html", [
     [ "Changelog", "md_CHANGELOG.html", [
+      [ "Intro", "index.html#autotoc_md11", null ],
+      [ "Libraries", "index.html#autotoc_md12", null ],
+      [ "Documentation", "index.html#autotoc_md13", null ],
       [ "[1.3.0] - 2023-10-13", "md_CHANGELOG.html#autotoc_md1", [
         [ "Added", "md_CHANGELOG.html#autotoc_md2", null ]
       ] ],
@@ -66,9 +69,8 @@ var NAVTREE =
       ] ]
     ] ],
     [ "Utilities library", "nw_util.html", "nw_util" ],
-    [ "README", "md_README.html", null ],
     [ "Design Unit List", "annotated.html", [
-      [ "Design Unit List", "annotated.html", "annotated_dup" ],
+      [ "Design Unit List", "annotated.html", null ],
       [ "Design Units", "classes.html", null ],
       [ "Design Unit Members", "functions.html", [
         [ "All", "functions.html", "functions_dup" ],
