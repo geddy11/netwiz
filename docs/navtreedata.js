@@ -26,23 +26,26 @@ var NAVTREE =
 [
   [ "Network Wizard for VHDL Test Benches", "index.html", [
     [ "Changelog", "md_CHANGELOG.html", [
-      [ "Intro", "index.html#autotoc_md11", null ],
-      [ "Libraries", "index.html#autotoc_md12", null ],
-      [ "Documentation", "index.html#autotoc_md13", null ],
-      [ "[1.3.0] - 2023-10-13", "md_CHANGELOG.html#autotoc_md1", [
-        [ "Added", "md_CHANGELOG.html#autotoc_md2", null ]
+      [ "Intro", "index.html#autotoc_md13", null ],
+      [ "Libraries", "index.html#autotoc_md14", null ],
+      [ "Documentation", "index.html#autotoc_md15", null ],
+      [ "[1.3.1] - 2023-10-16", "md_CHANGELOG.html#autotoc_md1", [
+        [ "Changed", "md_CHANGELOG.html#autotoc_md2", null ]
       ] ],
-      [ "[1.2.1] - 2023-06-26", "md_CHANGELOG.html#autotoc_md3", [
-        [ "Fixed", "md_CHANGELOG.html#autotoc_md4", null ]
+      [ "[1.3.0] - 2023-10-13", "md_CHANGELOG.html#autotoc_md3", [
+        [ "Added", "md_CHANGELOG.html#autotoc_md4", null ]
       ] ],
-      [ "[1.2.0] - 2023-05-31", "md_CHANGELOG.html#autotoc_md5", [
-        [ "Added", "md_CHANGELOG.html#autotoc_md6", null ]
+      [ "[1.2.1] - 2023-06-26", "md_CHANGELOG.html#autotoc_md5", [
+        [ "Fixed", "md_CHANGELOG.html#autotoc_md6", null ]
       ] ],
-      [ "[1.1.0] - 2023-02-25", "md_CHANGELOG.html#autotoc_md7", [
+      [ "[1.2.0] - 2023-05-31", "md_CHANGELOG.html#autotoc_md7", [
         [ "Added", "md_CHANGELOG.html#autotoc_md8", null ]
       ] ],
-      [ "[1.0.0] - 2023-02-20", "md_CHANGELOG.html#autotoc_md9", [
+      [ "[1.1.0] - 2023-02-25", "md_CHANGELOG.html#autotoc_md9", [
         [ "Added", "md_CHANGELOG.html#autotoc_md10", null ]
+      ] ],
+      [ "[1.0.0] - 2023-02-20", "md_CHANGELOG.html#autotoc_md11", [
+        [ "Added", "md_CHANGELOG.html#autotoc_md12", null ]
       ] ]
     ] ],
     [ "Codec library", "nw_sl_codec.html", "nw_sl_codec" ],
