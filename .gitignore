@@ -3,6 +3,5 @@ html
 _NVC_LIB
 *~
 script/*
-!script/ghdl_run_all.sh
-!script/modelsim_run_all.do
-!script/ncv_run_all.sh
+!script/*.sh
+!script/*.do
