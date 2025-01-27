@@ -9,43 +9,21 @@ on:
 
 jobs:
   ghdl_sim:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-    - uses: ghdl/setup-ghdl-ci@nightly
+    - uses: ghdl/setup-ghdl@v1
       with:
-        backend: llvm
+        version: nightly
+        backend: mcode
+        investigate: true
     - name: checkout
       uses: actions/checkout@v3
     - name: sim
       working-directory: ./script
       run: bash ghdl_run_all.sh
-  # while we wait for the official nvc githib action, we simply install nvc in the GHDL container.
-  # nvc_simold:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: ghdl/setup-ghdl-ci@nightly
-  #     with:
-  #       backend: llvm
-  #   - name: checkout
-  #     uses: actions/checkout@v3
-  #   # nvc install from source
-  #   - name: clone
-  #     run: git clone https://github.com/nickg/nvc.git
-  #   - name: prepare
-  #     working-directory: ./nvc
-  #     run: ./autogen.sh && mkdir build
-  #   - name: update 
-  #     run: sudo apt-get install build-essential automake autoconf flex check llvm-dev pkg-config zlib1g-dev libdw-dev libffi-dev libzstd-dev
-  #   - name: compile
-  #     working-directory: ./nvc/build
-  #     run: ../configure && make && sudo make install
-  #   # simulate
-  #   - name: sim
-  #     working-directory: ./script
-  #     run: bash nvc_run_all.sh
   
   nvc_sim:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
     - uses: nickg/setup-nvc-ci@v1
       with:
