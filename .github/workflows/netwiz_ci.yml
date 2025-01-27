@@ -56,9 +56,6 @@ jobs:
       working-directory: ./script
       run: bash nvc_run_all.sh
 
-
-- run: |
-    nvc --version    # NVC binary added to path
   document:
     needs: [ghdl_sim, nvc_sim]
     runs-on: ubuntu-latest
