@@ -9,13 +9,11 @@ on:
 
 jobs:
   ghdl_sim:
-    runs-on: ubuntu-24.04
+    runs-on: 22.04
     steps:
-    - uses: ghdl/setup-ghdl@v1
+    - uses: ghdl/setup-ghdl-ci@nightly
       with:
-        version: nightly
-        backend: mcode
-        investigate: true
+        backend: llvm
     - name: checkout
       uses: actions/checkout@v3
     - name: sim
@@ -23,7 +21,7 @@ jobs:
       run: bash ghdl_run_all.sh
   
   nvc_sim:
-    runs-on: ubuntu-24.04
+    runs-on: 24.04
     steps:
     - uses: nickg/setup-nvc-ci@v1
       with:
