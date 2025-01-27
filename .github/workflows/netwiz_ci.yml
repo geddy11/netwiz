@@ -15,7 +15,7 @@ jobs:
       with:
         backend: llvm
     - name: checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     - name: sim
       working-directory: ./script
       run: bash ghdl_run_all.sh
@@ -27,7 +27,7 @@ jobs:
       with:
         version: latest
     - name: checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     - name: sim
       working-directory: ./script
       run: bash nvc_run_all.sh
