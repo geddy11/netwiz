@@ -13,7 +13,7 @@ jobs:
     steps:
     - uses: ghdl/setup-ghdl@v1
       with:
-        version: nightly
+        version: 5.0.1
         backend: mcode
         investigate: true
     - name: checkout
