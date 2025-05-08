@@ -9,7 +9,7 @@ on:
 
 jobs:
   ghdl_sim:
-    runs-on: 22.04
+    runs-on: ubuntu-22.04
     steps:
     - uses: ghdl/setup-ghdl-ci@nightly
       with:
