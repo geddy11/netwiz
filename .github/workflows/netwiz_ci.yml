@@ -9,13 +9,12 @@ on:
 
 jobs:
   ghdl_sim:
-    runs-on: ubuntu-24.04
+    runs-on: 22.04
     steps:
-    - uses: ghdl/setup-ghdl@v1
+    - uses: ghdl/setup-ghdl-ci@nightly
       with:
-        version: 5.0.1
-        backend: mcode
-        investigate: true
+        version: 4.1.0
+        backend: llvm
     - name: checkout
       uses: actions/checkout@v4
     - name: sim_ghdl
