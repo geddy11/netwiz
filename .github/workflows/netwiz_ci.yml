@@ -13,7 +13,6 @@ jobs:
     steps:
     - uses: ghdl/setup-ghdl-ci@nightly
       with:
-        version: 4.1.0
         backend: llvm
     - name: checkout
       uses: actions/checkout@v4
