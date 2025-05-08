@@ -9,9 +9,9 @@ on:
 
 jobs:
   ghdl_sim:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-    - uses: ghdl/setup-ghdl-ci@nightly
+    - uses: ghdl/setup-ghdl@nightly
       with:
         backend: llvm
     - name: checkout
