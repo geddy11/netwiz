@@ -19,7 +19,9 @@ jobs:
       uses: actions/checkout@v4
     - name: sim_ghdl
       working-directory: ./script
-      run: bash ghdl_run_all.sh
+      run: |
+        echo $PATH
+        bash ghdl_run_all.sh
   
   nvc_sim:
     runs-on: ubuntu-latest
@@ -31,9 +33,7 @@ jobs:
       uses: actions/checkout@v4
     - name: sim_nvc
       working-directory: ./script
-      run: | 
-        echo $PATH
-        bash nvc_run_all.sh
+      run: bash nvc_run_all.sh
 
   document:
     needs: [ghdl_sim, nvc_sim]
