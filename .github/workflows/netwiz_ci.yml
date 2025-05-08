@@ -11,7 +11,7 @@ jobs:
   ghdl_sim:
     runs-on: ubuntu-24.04
     steps:
-    - uses: ghdl/setup-ghdl@nightly
+    - uses: ghdl/setup-ghdl@v1
       with:
         version: nightly
         backend: mcode
