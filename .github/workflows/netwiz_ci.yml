@@ -22,7 +22,7 @@ jobs:
       run: |
         echo $PATH
         pwd
-        ls -al ..
+        ls -al ../..
         bash ghdl_run_all.sh
   
   nvc_sim:
