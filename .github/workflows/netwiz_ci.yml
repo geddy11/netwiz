@@ -13,7 +13,9 @@ jobs:
     steps:
     - uses: ghdl/setup-ghdl@nightly
       with:
-        backend: llvm
+        version: nightly
+        backend: mcode
+        investigate: true
     - name: checkout
       uses: actions/checkout@v4
     - name: sim_ghdl
