@@ -21,6 +21,7 @@ jobs:
       working-directory: ./script
       run: |
         echo $PATH
+        ls -al /home/runner/work/netwiz/netwiz/install/bin
         bash ghdl_run_all.sh
   
   nvc_sim:
