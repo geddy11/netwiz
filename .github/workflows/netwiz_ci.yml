@@ -9,7 +9,7 @@ on:
 
 jobs:
   ghdl_sim:
-    runs-on: 22.04
+    runs-on: ubuntu-latest
     steps:
     - uses: ghdl/setup-ghdl-ci@nightly
       with:
@@ -21,9 +21,9 @@ jobs:
       run: bash ghdl_run_all.sh
   
   nvc_sim:
-    runs-on: 24.04
+    runs-on: ubuntu-latest
     steps:
-    - uses: nickg/setup-nvc-ci@v1
+    - uses: nickg/setup-nvc@v1
       with:
         version: latest
     - name: checkout
