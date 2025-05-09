@@ -17,7 +17,8 @@ jobs:
         sudo apt-get install -y gcc clang libgnat-10 libllvm14 libc-dev zlib1g-dev 
         sudo apt-get install -y wget libglib2.0-0
         wget https://github.com/ghdl/ghdl/releases/download/v4.1.0/ghdl-gha-ubuntu-22.04-llvm.tgz
-        tar zxf ghdl-gha-ubuntu-22.04-llvm.tgz -C /usr
+        sudo tar zxf ghdl-gha-ubuntu-22.04-llvm.tgz -C /usr
+        ghdl --version
     - name: checkout
       uses: actions/checkout@v4
     - name: sim_ghdl
