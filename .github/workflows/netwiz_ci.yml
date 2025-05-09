@@ -13,9 +13,9 @@ jobs:
     steps:
     - name: install_ghdl
       run: |
-        apt-get update
-        apt-get install -y gcc clang libgnat-10 libllvm14 libc-dev zlib1g-dev 
-        apt-get install -y wget libglib2.0-0
+        sudo apt-get update
+        sudo apt-get install -y gcc clang libgnat-10 libllvm14 libc-dev zlib1g-dev 
+        sudo apt-get install -y wget libglib2.0-0
         wget https://github.com/ghdl/ghdl/releases/download/v4.1.0/ghdl-gha-ubuntu-22.04-llvm.tgz
         tar zxf ghdl-gha-ubuntu-22.04-llvm.tgz -C /usr
     - name: checkout
