@@ -2,8 +2,8 @@ var NAVTREEINDEX0 =
 {
 "annotated.html":[9,0],
 "classes.html":[9,1],
-"functions.html":[9,2,0],
 "functions.html":[9,2,0,0],
+"functions.html":[9,2,0],
 "functions_b.html":[9,2,0,1],
 "functions_c.html":[9,2,0,2],
 "functions_d.html":[9,2,0,3],

@@ -48,10 +48,96 @@ var NAVTREE =
         [ "Added", "md_CHANGELOG.html#autotoc_md12", null ]
       ] ]
     ] ],
-    [ "Codec library", "nw_sl_codec.html", "nw_sl_codec" ],
-    [ "Ethernet library", "nw_ethernet.html", "nw_ethernet" ],
-    [ "IPv4 library", "nw_ipv4.html", "nw_ipv4" ],
-    [ "IPv6 library", "nw_ipv6.html", "nw_ipv6" ],
+    [ "Codec library", "nw_sl_codec.html", [
+      [ "Stateless codec", "nw_sl_codec.html#codec", [
+        [ "Functionality", "nw_sl_codec.html#sl_codec_subsec1", null ],
+        [ "Example use", "nw_sl_codec.html#sl_codec_subsec2", null ]
+      ] ],
+      [ "COBS", "nw_cobs.html", [
+        [ "Consistent Overhead Byte Stuffing", "nw_cobs.html#cobs", [
+          [ "Functionality", "nw_cobs.html#cobs_subsec1", null ],
+          [ "Example use", "nw_cobs.html#cobs_subsec2", null ]
+        ] ]
+      ] ],
+      [ "Base16/32/64", "nw_base.html", [
+        [ "Base16, Base32, and Base64 data encoding/decoding", "nw_base.html#base", [
+          [ "Functionality", "nw_base.html#base_subsec1", null ],
+          [ "Example use", "nw_base.html#base_subsec2", null ]
+        ] ]
+      ] ],
+      [ "Bit stuffing", "nw_bstuff.html", [
+        [ "Bit Stuffing", "nw_bstuff.html#bitstuff", [
+          [ "Functionality", "nw_bstuff.html#bstuff_subsec1", null ],
+          [ "Example use", "nw_bstuff.html#bstuff_subsec2", null ]
+        ] ]
+      ] ],
+      [ "Hamming codec", "nw_hamming.html", [
+        [ "Hamming codec", "nw_hamming.html#hamming", [
+          [ "Functionality", "nw_hamming.html#hamming__subsec1", null ],
+          [ "Example use", "nw_hamming.html#hamming_subsec2", null ]
+        ] ]
+      ] ]
+    ] ],
+    [ "Ethernet library", "nw_ethernet.html", [
+      [ "Ethernet", "nw_ethernet.html#Ethernet", [
+        [ "Functionality", "nw_ethernet.html#eth_subsec1", null ],
+        [ "Example use", "nw_ethernet.html#eth_subsec2", null ]
+      ] ],
+      [ "ARP", "nw_arp.html", [
+        [ "Address Resolution Protocol", "nw_arp.html#ARP", [
+          [ "Functionality", "nw_arp.html#arp_subsec1", null ],
+          [ "Example use", "nw_arp.html#arp_subsec2", null ]
+        ] ]
+      ] ]
+    ] ],
+    [ "IPv4 library", "nw_ipv4.html", [
+      [ "IPv4", "nw_ipv4.html#IPv4", [
+        [ "Functionality", "nw_ipv4.html#ipv4_subsec1", null ],
+        [ "Example use", "nw_ipv4.html#ipv4_subsec2", null ]
+      ] ],
+      [ "UDP", "nw_udpv4.html", [
+        [ "UDP for IPv4", "nw_udpv4.html#udpv4", [
+          [ "Functionality", "nw_udpv4.html#udpv4_subsec1", null ],
+          [ "Example use", "nw_udpv4.html#udpv4_subsec2", null ]
+        ] ]
+      ] ],
+      [ "ICMP", "nw_icmpv4.html", [
+        [ "ICMP for IPv4", "nw_icmpv4.html#icmpv4", [
+          [ "Functionality", "nw_icmpv4.html#icmpv4_subsec1", null ],
+          [ "Example use", "nw_icmpv4.html#icmpv4_subsec2", null ]
+        ] ]
+      ] ],
+      [ "TCP", "nw_tcpv4.html", [
+        [ "TCP for IPv4", "nw_tcpv4.html#tcpv4", [
+          [ "Functionality", "nw_tcpv4.html#tcpv4_subsec1", null ],
+          [ "Example use", "nw_tcpv4.html#tcpv4_subsec2", null ]
+        ] ]
+      ] ]
+    ] ],
+    [ "IPv6 library", "nw_ipv6.html", [
+      [ "IPv6", "nw_ipv6.html#IPv6", [
+        [ "Functionality", "nw_ipv6.html#ipv6_subsec1", null ],
+        [ "Example use", "nw_ipv6.html#ipv6_subsec2", null ]
+      ] ],
+      [ "UDP", "nw_udpv6.html", [
+        [ "UDP for IPv6", "nw_udpv6.html#udpv6", [
+          [ "Functionality", "nw_udpv6.html#udpv6_subsec1", null ],
+          [ "Example use", "nw_udpv6.html#udpv6_subsec2", null ]
+        ] ]
+      ] ],
+      [ "ICMP", "nw_icmpv6.html", [
+        [ "ICMP for IPv6", "nw_icmpv6.html#icmpv6", [
+          [ "Functionality", "nw_icmpv6.html#icmpv6_subsec1", null ],
+          [ "Example use", "nw_icmpv6.html#icmpv6_subsec2", null ]
+        ] ]
+      ] ],
+      [ "TCP", "nw_tcpv6.html", [
+        [ "TCP for IPv6", "nw_tcpv6.html#tcpv6", [
+          [ "Functionality", "nw_tcpv6.html#tcpv6_subsec1", null ],
+          [ "Example use", "nw_tcpv6.html#tcpv6_subsec2", null ]
+        ] ]
+      ] ]
+    ] ],
     [ "PCAP library", "nw_pcap.html", [
       [ "PCAP", "nw_pcap.html#PCAP", [
         [ "Functionality", "nw_pcap.html#pcap_subsec1", null ],
@@ -71,10 +157,33 @@ var NAVTREE =
         [ "Example use", "nw_usb.html#usb_subsec2", null ]
       ] ]
     ] ],
-    [ "Utilities library", "nw_util.html", "nw_util" ],
-    [ "Design Unit List", "annotated.html", [
+    [ "Utilities library", "nw_util.html", [
+      [ "Utilities", "nw_util.html#util", [
+        [ "Functionality", "nw_util.html#util_subsec1", null ],
+        [ "Example use", "nw_util.html#util_subsec2", null ]
+      ] ],
+      [ "Checksum and CRC", "nw_crc.html", [
+        [ "CRC & Checksum", "nw_crc.html#crc", [
+          [ "Functionality", "nw_crc.html#crc_subsec1", null ],
+          [ "Example use", "nw_crc.html#crc_subsec2", null ]
+        ] ]
+      ] ],
+      [ "PRBS", "nw_prbs.html", [
+        [ "Pseudo-Random Binary Sequences", "nw_prbs.html#prbs", [
+          [ "Functionality", "nw_prbs.html#prbs_subsec1", null ],
+          [ "Example use", "nw_prbs.html#prbs_subsec2", null ]
+        ] ]
+      ] ],
+      [ "NRS", "nw_nrs.html", [
+        [ "Non-Random Sequences", "nw_nrs.html#nrs", [
+          [ "Functionality", "nw_nrs.html#nrs_subsec1", null ],
+          [ "Example use", "nw_nrs.html#nrs_subsec2", null ]
+        ] ]
+      ] ]
+    ] ],
+    [ "Design Units", "annotated.html", [
       [ "Design Unit List", "annotated.html", null ],
-      [ "Design Units", "classes.html", null ],
+      [ "Design Unit Index", "classes.html", null ],
       [ "Design Unit Members", "functions.html", [
         [ "All", "functions.html", "functions_dup" ],
         [ "Functions/Procedures/Processes", "functions_func.html", null ],

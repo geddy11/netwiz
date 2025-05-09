@@ -25,9 +25,9 @@
 var menudata={children:[
 {text:"Main Page",url:"index.html"},
 {text:"Related Pages",url:"pages.html"},
-{text:"Design Unit List",url:"annotated.html",children:[
+{text:"Design Units",url:"annotated.html",children:[
 {text:"Design Unit List",url:"annotated.html"},
-{text:"Design Units",url:"classes.html"},
+{text:"Design Unit Index",url:"classes.html"},
 {text:"Design Unit Members",url:"functions.html",children:[
 {text:"All",url:"functions.html",children:[
 {text:"a",url:"functions.html#index_a"},

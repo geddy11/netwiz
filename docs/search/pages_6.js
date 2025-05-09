@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['nrs_700',['NRS',['../nw_nrs.html',1,'nw_util']]]
+  ['for_20vhdl_20test_20benches_0',['Network Wizard for VHDL Test Benches',['../index.html',1,'']]]
 ];

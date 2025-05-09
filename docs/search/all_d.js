@@ -1,11 +1,14 @@
 var searchData=
 [
-  ['operation_7e6_269',['operation~6',['../classnw__arp__pkg.html#ab13986a9203b5c55243263271f098ae7',1,'nw_arp_pkg']]],
-  ['option_5fclass_7e24_270',['option_class~24',['../classnw__ipv4__pkg.html#a8516ae62d86ff00b9f1953d4f63395fe',1,'nw_ipv4_pkg']]],
-  ['option_5fdata_7e27_271',['option_data~27',['../classnw__ipv4__pkg.html#ae6b2151f5656bb5e15d05dfbd47d82f2',1,'nw_ipv4_pkg']]],
-  ['option_5flength_7e26_272',['option_length~26',['../classnw__ipv4__pkg.html#a9596135574efe82820470720e563d78d',1,'nw_ipv4_pkg']]],
-  ['option_5fnumber_7e25_273',['option_number~25',['../classnw__ipv4__pkg.html#a31e43ee90d21203c2be454826f5c56ab',1,'nw_ipv4_pkg']]],
-  ['options_7e41_274',['options~41',['../classnw__ipv4__pkg.html#a09c835b2156f58627d836ddfeb739b32',1,'nw_ipv4_pkg']]],
-  ['options_7e52_275',['options~52',['../classnw__tcpv4__pkg.html#a30f515eed54d0e09d482e0d1097d98dd',1,'nw_tcpv4_pkg']]],
-  ['origin_5ftimestamp_7e103_276',['origin_timestamp~103',['../classnw__ptpv2__pkg.html#aece17cb834838f160bf9bc8e04ea26b4',1,'nw_ptpv2_pkg']]]
+  ['hamming_20codec_0',['hamming codec',['../nw_hamming.html',1,'Hamming codec'],['../nw_hamming.html#hamming',1,'Hamming codec']]],
+  ['handshake_5fpkt_7e147_1',['handshake_pkt~147',['../classnw__usb__pkg.html#a56a041056584a71ec93d9479877c4e8a',1,'nw_usb_pkg']]],
+  ['hdr_5fext_5flen_7e70_2',['hdr_ext_len~70',['../classnw__ipv6__pkg.html#a21e04ce19cc12bddee644440d73464b3',1,'nw_ipv6_pkg']]],
+  ['header_5fcnt_7e84_3',['header_cnt~84',['../classnw__ipv6__pkg.html#a0f56c49fb5f8dfed55fbddf68c2dac25',1,'nw_ipv6_pkg']]],
+  ['header_5ftype_7e68_4',['header_type~68',['../classnw__ipv6__pkg.html#a4bcbaedb34cf98ade5cb3ecc1909b622',1,'nw_ipv6_pkg']]],
+  ['headers_7e85_5',['headers~85',['../classnw__ipv6__pkg.html#a3b06f4af684f85337734fce7da025802',1,'nw_ipv6_pkg']]],
+  ['header_7e102_6',['header~102',['../classnw__ptpv2__pkg.html#a8d3585552da3a1090db0f1c3b13950e5',1,'nw_ptpv2_pkg']]],
+  ['hlen_7e4_7',['hlen~4',['../classnw__arp__pkg.html#a690d959c90b61de3b939a0f295580913',1,'nw_arp_pkg']]],
+  ['hop_5flimit_7e65_8',['hop_limit~65',['../classnw__ipv6__pkg.html#a08417d5de47c243df7468e04574d3fba',1,'nw_ipv6_pkg']]],
+  ['htype_7e2_9',['htype~2',['../classnw__arp__pkg.html#a25e8dce970082ee86d22b3ab5c38b86c',1,'nw_arp_pkg']]],
+  ['hub_5faddr_7e137_10',['hub_addr~137',['../classnw__usb__pkg.html#a7129fd61c205b65f7c2c25173eecb72c',1,'nw_usb_pkg']]]
 ];

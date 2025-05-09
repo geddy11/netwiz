@@ -1,7 +1,12 @@
 var searchData=
 [
-  ['grandmaster_5fclock_5fquality_7e111_182',['grandmaster_clock_quality~111',['../classnw__ptpv2__pkg.html#a2a558ea02408a8cb59e105ef714f6255',1,'nw_ptpv2_pkg']]],
-  ['grandmaster_5fidentity_7e113_183',['grandmaster_identity~113',['../classnw__ptpv2__pkg.html#a32de42cd11fe109d4c1d8084078a5248',1,'nw_ptpv2_pkg']]],
-  ['grandmaster_5fpriority_5f1_7e110_184',['grandmaster_priority_1~110',['../classnw__ptpv2__pkg.html#a2ce5dbe5b1dd412a1c1b34b1c8bfa533',1,'nw_ptpv2_pkg']]],
-  ['grandmaster_5fpriority_5f2_7e112_185',['grandmaster_priority_2~112',['../classnw__ptpv2__pkg.html#a311c8df29d47e6d5d7344aee0eff89e0',1,'nw_ptpv2_pkg']]]
+  ['base16_2032_2064_0',['Base16/32/64',['../nw_base.html',1,'nw_sl_codec']]],
+  ['base16_20base32_20and_20base64_20data_20encoding_20decoding_1',['Base16, Base32, and Base64 data encoding/decoding',['../nw_base.html#base',1,'']]],
+  ['base32_20and_20base64_20data_20encoding_20decoding_2',['Base16, Base32, and Base64 data encoding/decoding',['../nw_base.html#base',1,'']]],
+  ['base64_20data_20encoding_20decoding_3',['Base16, Base32, and Base64 data encoding/decoding',['../nw_base.html#base',1,'']]],
+  ['benches_4',['Network Wizard for VHDL Test Benches',['../index.html',1,'']]],
+  ['binary_20sequences_5',['Pseudo-Random Binary Sequences',['../nw_prbs.html#prbs',1,'']]],
+  ['bit_20stuffing_6',['bit stuffing',['../nw_bstuff.html',1,'Bit stuffing'],['../nw_bstuff.html#bitstuff',1,'Bit Stuffing']]],
+  ['boundary_5fhops_7e118_7',['boundary_hops~118',['../classnw__ptpv2__pkg.html#ae502e4b876e915424c2064bfca4e8436',1,'nw_ptpv2_pkg']]],
+  ['byte_20stuffing_8',['Consistent Overhead Byte Stuffing',['../nw_cobs.html#cobs',1,'']]]
 ];
