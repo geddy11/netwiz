@@ -26,26 +26,29 @@ var NAVTREE =
 [
   [ "Network Wizard for VHDL Test Benches", "index.html", [
     [ "Changelog", "md_CHANGELOG.html", [
-      [ "Intro", "index.html#autotoc_md13", null ],
-      [ "Libraries", "index.html#autotoc_md14", null ],
-      [ "Documentation", "index.html#autotoc_md15", null ],
-      [ "[1.3.1] - 2023-10-16", "md_CHANGELOG.html#autotoc_md1", [
-        [ "Changed", "md_CHANGELOG.html#autotoc_md2", null ]
+      [ "Intro", "index.html#autotoc_md15", null ],
+      [ "Libraries", "index.html#autotoc_md16", null ],
+      [ "Documentation", "index.html#autotoc_md17", null ],
+      [ "[1.4.0] - 2026-01-03", "md_CHANGELOG.html#autotoc_md1", [
+        [ "Added", "md_CHANGELOG.html#autotoc_md2", null ]
       ] ],
-      [ "[1.3.0] - 2023-10-13", "md_CHANGELOG.html#autotoc_md3", [
-        [ "Added", "md_CHANGELOG.html#autotoc_md4", null ]
+      [ "[1.3.1] - 2023-10-16", "md_CHANGELOG.html#autotoc_md3", [
+        [ "Changed", "md_CHANGELOG.html#autotoc_md4", null ]
       ] ],
-      [ "[1.2.1] - 2023-06-26", "md_CHANGELOG.html#autotoc_md5", [
-        [ "Fixed", "md_CHANGELOG.html#autotoc_md6", null ]
+      [ "[1.3.0] - 2023-10-13", "md_CHANGELOG.html#autotoc_md5", [
+        [ "Added", "md_CHANGELOG.html#autotoc_md6", null ]
       ] ],
-      [ "[1.2.0] - 2023-05-31", "md_CHANGELOG.html#autotoc_md7", [
-        [ "Added", "md_CHANGELOG.html#autotoc_md8", null ]
+      [ "[1.2.1] - 2023-06-26", "md_CHANGELOG.html#autotoc_md7", [
+        [ "Fixed", "md_CHANGELOG.html#autotoc_md8", null ]
       ] ],
-      [ "[1.1.0] - 2023-02-25", "md_CHANGELOG.html#autotoc_md9", [
+      [ "[1.2.0] - 2023-05-31", "md_CHANGELOG.html#autotoc_md9", [
         [ "Added", "md_CHANGELOG.html#autotoc_md10", null ]
       ] ],
-      [ "[1.0.0] - 2023-02-20", "md_CHANGELOG.html#autotoc_md11", [
+      [ "[1.1.0] - 2023-02-25", "md_CHANGELOG.html#autotoc_md11", [
         [ "Added", "md_CHANGELOG.html#autotoc_md12", null ]
+      ] ],
+      [ "[1.0.0] - 2023-02-20", "md_CHANGELOG.html#autotoc_md13", [
+        [ "Added", "md_CHANGELOG.html#autotoc_md14", null ]
       ] ]
     ] ],
     [ "Codec library", "nw_sl_codec.html", [
@@ -145,10 +148,16 @@ var NAVTREE =
         [ "Example use", "nw_pcap.html#pcap_subsec3", null ]
       ] ]
     ] ],
-    [ "PTP Library", "nw_ptp.html", [
+    [ "PTP library", "nw_ptp.html", [
       [ "IEEE1588v2", "nw_ptp.html#IEEE1588v2", [
         [ "Functionality", "nw_ptp.html#ptp_subsec1", null ],
         [ "Example use", "nw_ptp.html#ptp_subsec2", null ]
+      ] ]
+    ] ],
+    [ "RTP library", "nw_rtp.html", [
+      [ "RTP (Real-Time Transfer Protocol)", "nw_rtp.html#rtp", [
+        [ "Functionality", "nw_rtp.html#rtp_subsec1", null ],
+        [ "Example use", "nw_rtp.html#rtp_subsec2", null ]
       ] ]
     ] ],
     [ "USB Library", "nw_usb.html", [

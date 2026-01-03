@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['vhdl_20test_20benches_0',['Network Wizard for VHDL Test Benches',['../index.html',1,'']]]
+  ['udp_0',['udp',['../nw_udpv4.html',1,'UDP'],['../nw_udpv6.html',1,'UDP']]],
+  ['usb_20library_1',['USB Library',['../nw_usb.html',1,'']]],
+  ['utilities_20library_2',['Utilities library',['../nw_util.html',1,'']]]
 ];

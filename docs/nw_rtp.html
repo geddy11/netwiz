@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Network Wizard for VHDL Test Benches: Design Unit Members</title>
+<title>Network Wizard for VHDL Test Benches: RTP library</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -64,7 +64,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(document).ready(function(){initNavTree('functions_p.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('nw_rtp.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -89,22 +89,48 @@ $(document).ready(function(){initNavTree('functions_p.html',''); initResizable()
 </div>
 </div>
 
+<div><div class="header">
+  <div class="headertitle"><div class="title">RTP library</div></div>
+</div><!--header-->
 <div class="contents">
-<div class="textblock">Here is a list of all documented class members with links to the class documentation for each member:</div>
-
-<h3><a id="index_p" name="index_p"></a>- p -</h3><ul>
-<li>padding&#160;:&#160;<a class="el" href="classnw__rtp__pkg.html#a2637dcd3f8c2d0c6ca7752a5ee92c8d9">nw_rtp_pkg</a></li>
-<li>payload_length&#160;:&#160;<a class="el" href="classnw__ipv6__pkg.html#ae96cd3ce11f2b85630654ac3ca2c65fc">nw_ipv6_pkg</a></li>
-<li>payload_type&#160;:&#160;<a class="el" href="classnw__rtp__pkg.html#ae6d1acc1bdd7cbe35e9971cbc08e51c5">nw_rtp_pkg</a></li>
-<li>pcp&#160;:&#160;<a class="el" href="classnw__ethernet__pkg.html#a197b9eb218810427b17bc0baa20125a7">nw_ethernet_pkg</a></li>
-<li>pid&#160;:&#160;<a class="el" href="classnw__usb__pkg.html#afb752162669c97e197f076fdbda07b69">nw_usb_pkg</a></li>
-<li>pkt_type&#160;:&#160;<a class="el" href="classnw__usb__pkg.html#ad9503e562284e4d04aa25570fb797220">nw_usb_pkg</a></li>
-<li>plen&#160;:&#160;<a class="el" href="classnw__arp__pkg.html#aa6eb73af22e87ef97ad18af41dfdedd3">nw_arp_pkg</a></li>
-<li>port_number&#160;:&#160;<a class="el" href="classnw__usb__pkg.html#af455e31c47931eb606af99381f151c09">nw_usb_pkg</a></li>
-<li>protocol&#160;:&#160;<a class="el" href="classnw__ipv4__pkg.html#a64608860b7e37ffdd9acec8b43188322">nw_ipv4_pkg</a></li>
-<li>ptype&#160;:&#160;<a class="el" href="classnw__arp__pkg.html#ac7c0eedab790d9526a7631a4f64704d7">nw_arp_pkg</a></li>
+<div class="toc"><h3>Table of Contents</h3>
+<ul><li class="level1"><a href="#rtp">RTP (Real-Time Transfer Protocol)</a><ul><li class="level2"><a href="#rtp_subsec1">Functionality</a></li>
+<li class="level2"><a href="#rtp_subsec2">Example use</a></li>
 </ul>
-</div><!-- contents -->
+</li>
+</ul>
+</div>
+<div class="textblock"><h1><a class="anchor" id="rtp"></a>
+RTP (Real-Time Transfer Protocol)</h1>
+<p>The RTP library provides functions for creating and manipulation RTP packets. </p>
+<h2><a class="anchor" id="rtp_subsec1"></a>
+Functionality</h2>
+<ul>
+<li>Create RTP packets of any length </li>
+<li>Create and extract RTP headers</li>
+</ul>
+<p><br  />
+<br  />
+ More details in <a class="el" href="classnw__rtp__pkg.html">nw_rtp_pkg</a> </p>
+<h2><a class="anchor" id="rtp_subsec2"></a>
+Example use</h2>
+<p>Include the libraries: </p><div class="fragment"><div class="line">library nw_util;</div>
+<div class="line">context nw_util.nw_util_context;</div>
+<div class="line">library nw_rtp;</div>
+</div><!-- fragment --><p> Assume the variable <code>v_payload</code> contains the RTP payload. The variables are defined: </p><div class="fragment"><div class="line">variable v_header  : t_rtp_header; -- RTP header record</div>
+<div class="line">variable v_rtp_pkt : t_slv_arr(0 to 1500)(7 downto 0); -- byte array</div>
+<div class="line">variable v_len     : natural;</div>
+</div><!-- fragment --><p> First setup the header, then calculate the total RTP packet length before creating the packet. </p><div class="fragment"><div class="line">v_header                  := C_DEFAULT_RTP_HEADER; -- copy default header</div>
+<div class="line">v_header.cc               := x&quot;0010&quot;; -- two CSRC identifiers</div>
+<div class="line">v_header.csrc(0)          := x&quot;10005678&quot;; -- CSRC #1</div>
+<div class="line">v_header.csrc(1)          := x&quot;1000abcd&quot;; -- CSRC #2</div>
+<div class="line">v_header.payload_type     := &quot;0100011&quot;; -- payload type</div>
+<div class="line">v_len                     := f_rtp_create_pkt_len(v_header, v_payload); -- calculate total packet length</div>
+<div class="line">v_rtp_pkt(0 to v_len - 1) := f_rtp_create_pkt(v_header, v_payload); -- create the packet</div>
+</div><!-- fragment --><p> The variable <code>v_rtp_pkt</code> is an 8-bit array. This can of course be rearranged to any word width with <code>f_repack</code> . </p><div class="fragment"><div class="line">v_rtp_pkt_64 := f_repack(v_rtp_pkt, 64, C_MSB_FIRST); -- repack to 64bit words (padded with zeros if required)</div>
+</div><!-- fragment --><p> See further examples in the test bench nw_rtp_tb.vhd. </p>
+</div></div><!-- contents -->
+</div><!-- PageDoc -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
