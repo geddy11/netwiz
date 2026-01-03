@@ -82,3 +82,7 @@ echo -e "\nTesting nw_usb"
 nvc --std=2008 --work=nw_usb -L . -a ../nw_usb/src/nw_usb_pkg.vhd
 nvc --std=2008 --work=nw_usb -L . -a ../nw_usb/src/nw_usb_context.vhd
 nvc --std=2008 --work=work -L . -a ../nw_usb/tb/nw_usb_tb.vhd -e nw_usb_tb -r
+# nw_rtp
+echo -e "\nTesting nw_rtp"
+nvc --std=2008 --work=nw_rtp -L . -a ../nw_rtp/src/nw_rtp_pkg.vhd
+nvc --std=2008 --work=work -L . -a ../nw_rtp/tb/nw_rtp_tb.vhd -e nw_rtp_tb -r
