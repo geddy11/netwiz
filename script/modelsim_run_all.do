@@ -102,4 +102,10 @@ vlib nw_usb
 vcom -2008 -quiet -work ./nw_usb ../nw_usb/src/nw_usb_pkg.vhd
 vcom -2008 -quiet -work ./nw_usb ../nw_usb/src/nw_usb_context.vhd
 vcom -2008 -quiet -work ./work ../nw_usb/tb/nw_usb_tb.vhd
-vsim -quiet -c nw_usb_tb -do "onerror {quit -code 1}; run -all; exit"
+vsim -quiet -c nw_usb_tb -do "onerror {quit -code 1}; run -all"
+echo "\n"
+# nw_rtp
+vlib nw_rtp
+vcom -2008 -quiet -work ./nw_rtp ../nw_rtp/src/nw_rtp_pkg.vhd
+vcom -2008 -quiet -work ./work ../nw_rtp/tb/nw_rtp_tb.vhd
+vsim -quiet -c nw_rtp_tb -do "onerror {quit -code 1}; run -all; exit"

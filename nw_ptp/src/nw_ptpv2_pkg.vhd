@@ -42,7 +42,7 @@ context nw_util.nw_util_context;
 
 --! @endcond
 
---! \page nw_ptp PTP Library
+--! \page nw_ptp PTP library
 --! \tableofcontents
 --! \section IEEE1588v2
 --! The PTP library provides functions for creating and manipulating IEEE1588v2 packets.
