@@ -3,8 +3,8 @@
 <p style="text-align: center;">
 <a href="https://github.com/geddy11/netwiz/actions/workflows/netwiz_ci.yml"><img alt="Actions Status" src="https://github.com/geddy11/netwiz/actions/workflows/netwiz_ci.yml/badge.svg"></a>
 <a href="https://github.com/geddy11/netwiz/actions/workflows/pages/pages-build-deployment"><img alt="Doc build" src="https://github.com/geddy11/netwiz/actions/workflows/pages/pages-build-deployment/badge.svg"></a>
-<a href="https://img.shields.io/github/languages/top/geddy11/netwiz?style=plastic"><img
-alt="Top language" src="https://img.shields.io/github/languages/top/geddy11/netwiz"></a>
+<a href="https://github.com/geddy11/netwiz/releases"><img alt="GitHub Release" src="https://img.shields.io/github/v/release/geddy11/netwiz"></a>
+<a><img alt="Top language" src="https://img.shields.io/github/languages/top/geddy11/netwiz"></a>
 <a href="https://doi.org/10.5281/zenodo.18139293"><img alt="Zenodo DOI" src="https://zenodo.org/badge/DOI/10.5281/zenodo.18139293.svg" alt="DOI"></a>
 </p>
 
