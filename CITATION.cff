@@ -8,6 +8,9 @@ authors:
   - given-names: Geir
     family-names: Drange
     orcid: 'https://orcid.org/0009-0009-6795-8583'
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.18139293
 repository-code: 'https://github.com/geddy11/netwiz'
 url: 'https://geddy11.github.io/netwiz/index.html'
 abstract: >-

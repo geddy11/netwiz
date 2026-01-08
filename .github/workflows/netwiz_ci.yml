@@ -23,11 +23,7 @@ jobs:
       uses: actions/checkout@v4
     - name: sim_ghdl
       working-directory: ./script
-      run: |
-        echo $PATH
-        pwd
-        ls -al ../..
-        bash ghdl_run_all.sh
+      run: bash ghdl_run_all.sh
   
   nvc_sim:
     runs-on: ubuntu-latest
