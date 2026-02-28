@@ -60,6 +60,7 @@ begin
     variable v_crc   : std_logic_vector(31 downto 0);
     variable v_a_16  : t_slv_arr(0 to 9)(15 downto 0)      := (x"4500", x"0073", x"0000", x"4000", x"4011", x"0000", x"c0a8", x"0001", x"c0a8", x"00c7");
     variable v_nrs   : t_slv_arr(0 to 255)(7 downto 0);
+    variable v_seed  : std_logic_vector(39 downto 0);
   begin
     wait for 1 ns;
     -------------------------------------------------------------------------------
@@ -100,8 +101,16 @@ begin
     assert f_gen_prbs(C_POLY_X8_X6_X5_X4_1, 8, 32, C_MSB_FIRST, x"ff") = f_bitflip(f_gen_prbs(C_POLY_X8_X6_X5_X4_1, 8, 32, C_LSB_FIRST, x"ff"))
       report "Test 2.1 failed" severity failure;
 
-    assert f_gen_prbs(C_POLY_X5_X3_1, 1, 31) = f_repack(C_PRBS_5, 1)
+    assert f_gen_prbs(C_POLY_X5_X3_1, 1, 31, C_MSB_FIRST, "11111") = f_repack(C_PRBS_5, 1)
       report "Test 2.2 failed" severity failure;
+
+    assert f_gen_prbs(C_POLY_X5_X3_1, 1, 31, C_MSB_FIRST, "11111") /= f_gen_prbs(C_POLY_X5_X3_1, 1, 31)
+      report "Test 2.3 failed" severity failure;
+
+    v_seed := f_gen_seed(40);
+    wait for 0.12345 ns;
+    assert v_seed /= f_gen_seed(40)
+      report "Test 2.4 failed" severity failure;
 
     -------------------------------------------------------------------------------
     -- nw_crc_pkg functions

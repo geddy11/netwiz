@@ -33,6 +33,7 @@
 library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
+use IEEE.math_real.all;
 
 library nw_adapt;
 use nw_adapt.nw_adaptations_pkg.all;
@@ -69,6 +70,10 @@ use work.nw_util_pkg.all;
 --! Say we want to generate 1024 unique MAC addresses to verify a MAC lookup table, from the range \c 7c:10:xx:xx:xx:xx:
 --! ~~~
 --! mac_array(0 to 1023) := f_stack(f_gen_nrs(x"7c10", 1024, "0"), f_gen_prbs(C_POLY_X32_X22_X2_X1_1, 32, 1024));
+--! ~~~
+--! A random seed can be generated with f_gen_seed(), which uses the current simulation time as basis:
+--! ~~~
+--! seed_32bit := f_gen_seed(32);
 --! ~~~
 --! See further examples in the test bench nw_util_tb.vhd.
 package nw_prbs_pkg is
@@ -115,16 +120,24 @@ package nw_prbs_pkg is
   -- PRBS functions
   --! @cond functions
   -------------------------------------------------------------------------------
-  function f_gen_prbs(poly       : std_logic_vector;
-                      data_width : positive;
-                      length     : positive;
-                      msb_first  : boolean;
-                      init       : std_logic_vector) return t_slv_arr;
+  function f_gen_prbs(
+    poly       : std_logic_vector;
+    data_width : positive;
+    length     : positive;
+    msb_first  : boolean;
+    init       : std_logic_vector
+  ) return t_slv_arr;
 
-  function f_gen_prbs(poly       : std_logic_vector;
-                      data_width : positive;
-                      length     : positive;
-                      msb_first  : boolean := true) return t_slv_arr;
+  impure function f_gen_prbs(
+    poly       : std_logic_vector;
+    data_width : positive;
+    length     : positive;
+    msb_first  : boolean := true
+  ) return t_slv_arr;
+
+  impure function f_gen_seed(
+    data_width: positive
+  ) return std_logic_vector;
   --! @endcond
 
 end package nw_prbs_pkg;
@@ -148,12 +161,13 @@ package body nw_prbs_pkg is
   --! array_8bit := f_gen_prbs(C_POLY_X6_X5_1, 8, 6, C_MSB_FIRST, "1111111");
   --! ~~~
   -------------------------------------------------------------------------------
-  function f_gen_prbs(poly       : std_logic_vector;  -- Polynomial to use
-                      data_width : positive;          -- data width
-                      length     : positive;          -- number of data words 
-                      msb_first  : boolean;
-                      init       : std_logic_vector)  -- LSFR init value
-    return t_slv_arr is
+  function f_gen_prbs(
+    poly       : std_logic_vector;  -- Polynomial to use
+    data_width : positive;          -- data width
+    length     : positive;          -- number of data words 
+    msb_first  : boolean;
+    init       : std_logic_vector  -- LSFR init value
+  ) return t_slv_arr is
     constant C_MSB      : natural                               := poly'length - 1;
     constant C_TAPS     : std_logic_vector(C_MSB downto 0)      := poly;
     constant C_INIT_MSB : natural                               := init'length - 1;
@@ -187,22 +201,55 @@ package body nw_prbs_pkg is
   --! \param msb_first   Pack bits MSB in data words first (True, default), or LSB (False)
   --! \return            PRBS sequence in data array
   --!
-  --! This is an overloaded verison of f_gen_prbs with init value set to all 1's.
+  --! This is an overloaded verison of f_gen_prbs with init value set to a random seed using f_gen_seed().
   --!
   --! **Example use**
   --! ~~~
   --! array_8bit := f_gen_prbs(C_POLY_X6_X5_1, 8, 6);
   --! ~~~
   -------------------------------------------------------------------------------
-  function f_gen_prbs(poly       : std_logic_vector;
-                      data_width : positive;
-                      length     : positive;
-                      msb_first  : boolean := true)
-    return t_slv_arr is
+  impure function f_gen_prbs(
+    poly       : std_logic_vector;
+    data_width : positive;
+    length     : positive;
+    msb_first  : boolean := true
+  ) return t_slv_arr is
     constant C_MSB  : natural                          := poly'length - 1;
     constant C_INIT : std_logic_vector(C_MSB downto 0) := (others => '1');
   begin
-    return f_gen_prbs(poly, data_width, length, msb_first, C_INIT);
+    return f_gen_prbs(poly, data_width, length, msb_first, f_gen_seed(poly'length));
   end function f_gen_prbs;
+
+  -------------------------------------------------------------------------------
+  --! \brief Create random seed
+  --! \param data_width  Seed vector length
+  --! \return            Random seed
+  --!
+  --! A random, non-zero seed is returned. The seed is based on the current simulation time.
+  --!
+  --! **Example use**
+  --! ~~~
+  --! seed_16bit := f_gen_seed(16);
+  --! ~~~
+  -------------------------------------------------------------------------------
+  impure function f_gen_seed(
+    data_width: positive
+  ) return std_logic_vector is
+    constant C_MOD  : real                                    := 2.147483e9;
+    constant C_ZERO : std_logic_vector(data_width-1 downto 0) := (others => '0');
+    constant C_MSB  : integer                                 := minimum(32, data_width) - 1;
+
+    variable v_now    : real;
+    variable v_seed   : std_logic_vector(data_width-1 downto 0) := (others => '1');
+    variable v_seed32 : std_logic_vector(31 downto 0);
+  begin
+    v_now                  := real(now / std.env.resolution_limit) mod C_MOD;
+    v_seed32               := std_logic_vector(to_unsigned(1+integer(v_now), 32));
+    v_seed(C_MSB downto 0) := not v_seed32(C_MSB downto 0);
+    if v_seed = C_ZERO then
+      return not v_seed;
+    end if;
+    return v_seed;
+  end function f_gen_seed;
 
 end package body nw_prbs_pkg;
