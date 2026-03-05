@@ -208,7 +208,7 @@ package body nw_ethernet_pkg is
                             payload    : t_slv_arr;
                             get_length : boolean := false)
     return t_slv_arr is
-    variable v_data   : t_slv_arr(0 to maximum(payload'length + 21, 63))(7 downto 0);
+    variable v_data   : t_slv_arr(0 to maximum(payload'length + 21, 63))(7 downto 0) := (others => (others => '0'));
     variable v_len    : natural;
     variable v_crc    : t_slv_arr(0 to 0)(31 downto 0);
     variable v_length : t_slv_arr(0 to 0)(30 downto 0);
@@ -238,12 +238,7 @@ package body nw_ethernet_pkg is
       v_len         := v_len + 1;
     end loop;
     -- pad if required
-    if v_len < 60 then
-      for i in v_len to 59 loop
-        v_data(v_len) := x"00";
-      end loop;
-      v_len := 60;
-    end if;
+    v_len := maximum(60, v_len);
     -- add CRC
     v_crc(0)                   := not f_swap_endian(f_bitflip(f_gen_crc(C_ETH_CRC32, v_data(0 to v_len - 1), x"ffffffff", C_LSB_FIRST)));
     v_data(v_len to v_len + 3) := f_repack(v_crc, 8, C_MSB_FIRST);
