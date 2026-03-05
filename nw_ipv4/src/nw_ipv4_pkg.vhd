@@ -359,7 +359,7 @@ package body nw_ipv4_pkg is
       v_data(22 to 23) := header.options.option_data(0 to 1);
     end if;
     if to_integer(unsigned(header.ihl)) > 6 then
-      for i in 0 to to_integer(unsigned(header.ihl)) - 6 loop
+      for i in 0 to to_integer(unsigned(header.ihl)) - 7 loop
         for j in 0 to 3 loop
           v_data(24 + 4 * i + j) := header.options.option_data(2 + 4 * i + j);
         end loop;
