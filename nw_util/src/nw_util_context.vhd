@@ -38,4 +38,5 @@ context nw_util_context is
   use nw_util.nw_prbs_pkg.all;
   use nw_util.nw_nrs_pkg.all;
   use nw_util.nw_crc_pkg.all;
+  use nw_util.nw_axis_pkg.all;
 end context nw_util_context;

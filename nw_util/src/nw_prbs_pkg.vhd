@@ -51,30 +51,36 @@ use work.nw_util_pkg.all;
 --!
 --! \subsection prbs_subsec1 Functionality
 --! \li Predefined polynomials for maximum-length sequences
---! \li Any data width and length
+--! \li Any data width and length PRBS
+--! \li Random seed generation. Seed is generated from current simulation time.
+--! \li Random integer, std_logic_vector and selection functions
 --!
 --! \n More details in \ref nw_prbs_pkg
 --! \subsection prbs_subsec2 Example use
 --! Include the libraries:
---! ~~~
+--! ```vhdl
 --! library nw_util;
 --! context nw_util.nw_util_context;
---! ~~~
+--! ```
 --! Generate a data array of 8bit pseudo-random numbers:
---! ~~~
+--! ```vhdl
 --! array_8bit(0 to 127) := f_gen_prbs(C_POLY_X16_X15_X13_X4_1, 8, 128);
 --! array_8bit(0 to 127) := f_gen_prbs(C_POLY_X16_X15_X13_X4_1, 8, 128, C_LSB_FIRST); -- same sequence, but words bitflipped
 --! array_8bit(0 to 127) := f_gen_prbs(C_POLY_X16_X15_X13_X4_1, 8, 128, C_LSB_FIRST, x"8123"); -- same polynomial, but different init value
---! ~~~
+--! ```
 --! Maximum length sequences can also be utilized to generate a range of unique, random numbers. 
 --! Say we want to generate 1024 unique MAC addresses to verify a MAC lookup table, from the range \c 7c:10:xx:xx:xx:xx:
---! ~~~
+--! ```vhdl
 --! mac_array(0 to 1023) := f_stack(f_gen_nrs(x"7c10", 1024, "0"), f_gen_prbs(C_POLY_X32_X22_X2_X1_1, 32, 1024));
---! ~~~
+--! ```
 --! A random seed can be generated with f_gen_seed(), which uses the current simulation time as basis:
---! ~~~
---! seed_32bit := f_gen_seed(32);
---! ~~~
+--! ```vhdl
+--! for i in 0 to 7 loop
+--!   seed_32bit := f_gen_seed(32);
+--!   msg("Seed is " & to_string(seed_32bit));
+--!   wait for std.env.resolution_limit; -- wait for minimum simulation time to get a new seed
+--! end loop;
+--! ```
 --! See further examples in the test bench nw_util_tb.vhd.
 package nw_prbs_pkg is
 
@@ -138,6 +144,19 @@ package nw_prbs_pkg is
   impure function f_gen_seed(
     data_width: positive
   ) return std_logic_vector;
+
+  impure function f_randnat(
+    minval : natural := 0;
+    maxval : natural := integer'high
+  ) return integer;
+
+  impure function f_randslv(
+    data_width : positive 
+  ) return std_logic_vector;
+
+  impure function f_randsel(
+    data : t_slv_arr
+  ) return std_logic_vector;
   --! @endcond
 
 end package nw_prbs_pkg;
@@ -157,9 +176,9 @@ package body nw_prbs_pkg is
   --! Example maximum length polynomials up to order 32 can be found as constants. Init value cannot be zero (would return all zero array). 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! array_8bit := f_gen_prbs(C_POLY_X6_X5_1, 8, 6, C_MSB_FIRST, "1111111");
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_gen_prbs(
     poly       : std_logic_vector;  -- Polynomial to use
@@ -204,9 +223,9 @@ package body nw_prbs_pkg is
   --! This is an overloaded verison of f_gen_prbs with init value set to a random seed using f_gen_seed().
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! array_8bit := f_gen_prbs(C_POLY_X6_X5_1, 8, 6);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   impure function f_gen_prbs(
     poly       : std_logic_vector;
@@ -228,9 +247,9 @@ package body nw_prbs_pkg is
   --! A random, non-zero seed is returned. The seed is based on the current simulation time.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! seed_16bit := f_gen_seed(16);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   impure function f_gen_seed(
     data_width: positive
@@ -245,11 +264,82 @@ package body nw_prbs_pkg is
   begin
     v_now                  := real(now / std.env.resolution_limit) mod C_MOD;
     v_seed32               := std_logic_vector(to_unsigned(1+integer(v_now), 32));
-    v_seed(C_MSB downto 0) := not v_seed32(C_MSB downto 0);
+    v_seed(C_MSB downto 0) := f_bitflip(v_seed32(C_MSB downto 0));   
     if v_seed = C_ZERO then
       return not v_seed;
     end if;
     return v_seed;
   end function f_gen_seed;
+
+  -------------------------------------------------------------------------------
+  --! \brief Return random integer (natural)
+  --! \param minval  Minimum value
+  --! \param maxval  Maximum value
+  --! \return        Random integer
+  --!
+  --! Return a random integer >= 0. 
+  --!
+  --! **Example use**
+  --! ```vhdl
+  --! val := f_randnat(0, 42);
+  --! ```
+  -------------------------------------------------------------------------------
+  impure function f_randnat(
+    minval : natural := 0;
+    maxval : natural := integer'high
+  ) return integer is
+    variable v_tmp : t_slv_arr(0 to 0)(30 downto 0);
+  begin
+    assert maxval >= minval
+      report "f_randnat: maxval must be >= minval" severity error; -- C_SEVERITY;
+
+    v_tmp := f_gen_prbs(C_POLY_X29_X27_1, 31, 1, true, f_gen_seed(29));
+    if minval = 0 and maxval = integer'high then
+      return to_integer(unsigned(v_tmp(0)));
+    end if;
+    return minval + (to_integer(unsigned(v_tmp(0)))) mod (maxval - minval + 1);
+  end function f_randnat;
+
+  -------------------------------------------------------------------------------
+  --! \brief Return random std_logic_vector
+  --! \param data_width  Vector width
+  --! \return            Random std_logic_vector
+  --!
+  --! Return a random std_logic_vector. 
+  --!
+  --! **Example use**
+  --! ```vhdl
+  --! val_64bit := f_randslv(64);
+  --! ```
+  -------------------------------------------------------------------------------
+  impure function f_randslv(
+    data_width : positive 
+  ) return std_logic_vector is
+    variable v_tmp : t_slv_arr(0 to 0)(data_width - 1 downto 0);
+  begin
+    v_tmp := f_gen_prbs(C_POLY_X32_X22_X2_X1_1, data_width, 1, true, f_gen_seed(32));
+    return v_tmp(0);
+  end function f_randslv;
+
+  -------------------------------------------------------------------------------
+  --! \brief Return random element
+  --! \param data  Array 
+  --! \return      Random element
+  --!
+  --! Return a random element from std_logic_vector array.
+  --!
+  --! **Example use**
+  --! ```vhdl
+  --! constant C_SELECTION : t_slv_arr(0 to 4)(7 downto 0) := (x"12", x"15", x"20", x"33", x"42");
+  --!
+  --! val_8bit := f_randsel(C_SELECTION);
+  --! ```
+  -------------------------------------------------------------------------------
+  impure function f_randsel(
+    data : t_slv_arr
+  ) return std_logic_vector is
+  begin
+    return data(f_randnat(data'low, data'high));
+  end function f_randsel;
 
 end package body nw_prbs_pkg;

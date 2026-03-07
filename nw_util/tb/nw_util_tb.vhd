@@ -32,10 +32,8 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 
-
 library nw_util;
 context nw_util.nw_util_context;
-
 
 entity nw_util_tb is
 end entity nw_util_tb;

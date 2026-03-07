@@ -35,8 +35,13 @@ nvc --std=2008 --work=nw_util -L . -a ../nw_util/src/nw_util_pkg.vhd
 nvc --std=2008 --work=nw_util -L . -a ../nw_util/src/nw_crc_pkg.vhd
 nvc --std=2008 --work=nw_util -L . -a ../nw_util/src/nw_nrs_pkg.vhd
 nvc --std=2008 --work=nw_util -L . -a ../nw_util/src/nw_prbs_pkg.vhd
+nvc --std=2008 --work=nw_util -L . -a ../nw_util/src/nw_axis_pkg.vhd
+nvc --std=2008 --work=nw_util -L . -a ../nw_util/src/nw_axis_sink.vhd
+nvc --std=2008 --work=nw_util -L . -a ../nw_util/src/nw_axis_source.vhd
 nvc --std=2008 --work=nw_util -L . -a ../nw_util/src/nw_util_context.vhd
 nvc --std=2008 -L . -a  ../nw_util/tb/nw_util_tb.vhd -e nw_util_tb -r
+nvc --std=2008 -L . -a  ../nw_util/tb/nw_axis_tb.vhd -e nw_axis_tb -r
+
 # nw_pcap
 echo -e "\nTesting nw_pcap:"
 nvc --std=2008 --work=nw_pcap -L . -a ../nw_pcap/src/nw_pcap_pkg.vhd
@@ -86,3 +91,6 @@ nvc --std=2008 --work=work -L . -a ../nw_usb/tb/nw_usb_tb.vhd -e nw_usb_tb -r
 echo -e "\nTesting nw_rtp"
 nvc --std=2008 --work=nw_rtp -L . -a ../nw_rtp/src/nw_rtp_pkg.vhd
 nvc --std=2008 --work=work -L . -a ../nw_rtp/tb/nw_rtp_tb.vhd -e nw_rtp_tb -r
+# netwiz
+echo -e "\nTesting netwiz"
+nvc --std=2008 --work=netwiz -L . -a ../netwiz/src/netwiz_context.vhd
