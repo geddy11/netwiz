@@ -11,11 +11,6 @@ jobs:
   ghdl_sim:
     runs-on: ubuntu-22.04
     steps:
-    # - uses: ghdl/setup-ghdl@v1
-    #   with:
-    #     version: 6.0.0
-    #     backend: llvm
-      #  investigate: true
     - name: setup_ghdl
       run: |
        sudo apt-get update

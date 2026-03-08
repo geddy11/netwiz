@@ -261,12 +261,8 @@ begin
       report "Test 3.7 failed" severity failure;
 
     v_icmpv6_pkt(0 to v_len - 1) := f_icmpv6_create_pkt(v_ipv6_header, v_icmpv6_header, v_payload(0 to v_plen - 1));
-    --if GC_GHDL /= 1 then  -- this test fails in GHDL (but not Modelsim)
-      assert v_icmpv6_pkt(0 to v_len - 1) = C_ICMPV6_PKT(62 to 89)
-        report "Test 3.8 failed" severity failure;
-    --else
-      --msg("Note! Test 3.8 is skipped when running GHDL");
-    --end if;
+    assert v_icmpv6_pkt(0 to v_len - 1) = C_ICMPV6_PKT(62 to 89)
+      report "Test 3.8 failed" severity failure;
 
     -------------------------------------------------------------------------------
     -- nw_tcpv6_pkg functions
