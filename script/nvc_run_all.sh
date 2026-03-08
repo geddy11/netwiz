@@ -32,13 +32,13 @@ nvc --std=2008 --work=nw_adapt -a ../nw_adapt/src/nw_adaptations_pkg.vhd
 echo -e "\nTesting nw_util:"
 nvc --std=2008 --work=nw_util -a ../nw_util/src/nw_types_pkg.vhd
 nvc --std=2008 --work=nw_util -L . -a ../nw_util/src/nw_util_pkg.vhd
+nvc --std=2008 --work=nw_util -L . -a ../nw_util/src/nw_util_context.vhd
 nvc --std=2008 --work=nw_util -L . -a ../nw_util/src/nw_crc_pkg.vhd
 nvc --std=2008 --work=nw_util -L . -a ../nw_util/src/nw_nrs_pkg.vhd
 nvc --std=2008 --work=nw_util -L . -a ../nw_util/src/nw_prbs_pkg.vhd
 nvc --std=2008 --work=nw_util -L . -a ../nw_util/src/nw_axis_pkg.vhd
 nvc --std=2008 --work=nw_util -L . -a ../nw_util/src/nw_axis_sink.vhd
 nvc --std=2008 --work=nw_util -L . -a ../nw_util/src/nw_axis_source.vhd
-nvc --std=2008 --work=nw_util -L . -a ../nw_util/src/nw_util_context.vhd
 nvc --std=2008 -L . -a  ../nw_util/tb/nw_util_tb.vhd -e nw_util_tb -r
 nvc --std=2008 -L . -a  ../nw_util/tb/nw_axis_tb.vhd -e nw_axis_tb -r
 
