@@ -37,7 +37,9 @@ use IEEE.numeric_std.all;
 library nw_adapt;
 use nw_adapt.nw_adaptations_pkg.all;
 library nw_util;
-context nw_util.nw_util_context;
+use nw_util.nw_types_pkg.all;
+use nw_util.nw_util_pkg.all;
+use nw_util.nw_prbs_pkg.all;
 --! @endcond
 
 --! \page nw_axis_source AXI-Stream source
