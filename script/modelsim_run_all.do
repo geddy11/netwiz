@@ -41,10 +41,16 @@ vcom -2008 -quiet -work ./nw_util ../nw_util/src/nw_util_pkg.vhd
 vcom -2008 -quiet -work ./nw_util ../nw_util/src/nw_crc_pkg.vhd
 vcom -2008 -quiet -work ./nw_util ../nw_util/src/nw_nrs_pkg.vhd
 vcom -2008 -quiet -work ./nw_util ../nw_util/src/nw_prbs_pkg.vhd
+vcom -2008 -quiet -work ./nw_util ../nw_util/src/nw_axis_pkg.vhd
+vcom -2008 -quiet -work ./nw_util ../nw_util/src/nw_axis_source.vhd
+vcom -2008 -quiet -work ./nw_util ../nw_util/src/nw_axis_sink.vhd
 vcom -2008 -quiet -work ./nw_util ../nw_util/src/nw_util_context.vhd
 vlib work
 vcom -2008 -quiet -work ./work ../nw_util/tb/nw_util_tb.vhd
 vsim  -quiet -c nw_util_tb -do "onerror {quit -code 1}; run -all"
+echo "\n"
+vcom -2008 -quiet -work ./work ../nw_util/tb/nw_axis_tb.vhd
+vsim  -quiet -c nw_axis_tb -do "onerror {quit -code 1}; run -all"
 echo "\n"
 # nw_pcap
 vlib nw_pcap
@@ -109,3 +115,8 @@ vlib nw_rtp
 vcom -2008 -quiet -work ./nw_rtp ../nw_rtp/src/nw_rtp_pkg.vhd
 vcom -2008 -quiet -work ./work ../nw_rtp/tb/nw_rtp_tb.vhd
 vsim -quiet -c nw_rtp_tb -do "onerror {quit -code 1}; run -all; exit"
+# netwiz
+vlib netwiz
+vcom -2008 -quiet -work ./netwiz ../netwiz/src/netwiz_context.vhd
+vcom -2008 -quiet -work ./work ../netwiz/tb/ethernet_fuzzer_tb.vhd
+vsim -quiet -c ethernet_fuzzer_tb -do "onerror {quit -code 1}; run -all; exit"

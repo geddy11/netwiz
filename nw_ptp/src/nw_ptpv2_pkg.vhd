@@ -54,22 +54,22 @@ context nw_util.nw_util_context;
 --! \n More details in \ref nw_ptpv2_pkg
 --! \subsection ptp_subsec2 Example use
 --! Include the libraries:
---! ~~~
+--! ```vhdl
 --! library nw_util;
 --! context nw_util.nw_util_context;
 --! library nw_ptp;
 --! use nw_ptp.nw_ptpv2.all;
 --! library ne_ethernet;
 --! context nw_ethernet.nw_ethernet_context;
---! ~~~
+--! ```
 --! In many other NetWiz protocols a packet consists of a header and a payload. The PTP packet (or message) is contained completely in a record.
---! ~~~
+--! ```vhdl
 --! variable v_msg : t_ptpv2_msg; -- message record
 --! variable v_len : natural;
 --! variable v_pkt : t_slv_arr(0 to 127)(7 downto 0);
---! ~~~
+--! ```
 --! Example 1: Create a Sync message in an Ethernet packet.
---! ~~~
+--! ```vhdl
 --! v_msg                              := C_DEFAULT_PTPV2_MSG; -- copy default msg
 --! v_msg.header.message_type          := C_MSG_SYNC; -- Sync message
 --! v_msg.header.sequence_id           := x"1234"; -- Sequence ID
@@ -82,7 +82,7 @@ context nw_util.nw_util_context;
 --! -- Create Ethernet packet with Sync message
 --! v_len                := f_eth_create_pkt_len(v_eth_header, f_ptpv2_create_pkt(v_msg)); -- get length of packet
 --! v_pkt(0 to v_len -1) := f_eth_create_pkt(v_eth_header, f_ptpv2_create_pkt(v_msg)); -- v_pkt now holds Ethernet+Sync
---! ~~~
+--! ```
 --! See further examples in the test bench nw_ptp_tb.vhd.
 package nw_ptpv2_pkg is
 
@@ -416,10 +416,10 @@ package body nw_ptpv2_pkg is
   --! Create PTPv2 message from message record. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_msg  := C_DEFAULT_PTPV2_MSG;
   --! v_data := f_ptpv2_create_pkt(v_msg);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_ptpv2_create_pkt(message : t_ptpv2_msg)
     return t_slv_arr is
@@ -435,10 +435,10 @@ package body nw_ptpv2_pkg is
   --! Return the length of the created PTP message.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len                  := f_ptpv2_create_pkt_len(v_msg); 
   --! v_data(0 to v_len - 1) := f_ptpv2_create_pkt(v_msg);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_ptpv2_create_pkt_len(message : t_ptpv2_msg)
     return natural is
@@ -456,9 +456,9 @@ package body nw_ptpv2_pkg is
   --! Extract PTPv2 message from payload. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_ptp_msg := f_ptpv2_get_msg(data_array_8bit); 
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_ptpv2_get_msg(ptp_pkt : t_slv_arr)
     return t_ptpv2_msg is

@@ -29,6 +29,8 @@ Netwiz consists of several libraries. Libraries not related to a specific networ
     * [nw_crc](@ref nw_crc): CRC and checksum generation 
     * [nw_prbs](@ref nw_prbs): Pseudo-Random Binary Sequence generation.
     * [nw_nrs](@ref nw_nrs): Non-Random Sequence generation
+    * [nw_axis_source](@ref nw_axis_source): AXI-Stream source
+    * [nw_axis_sink](@ref nw_axis_sink): AXI-Stream sink
   
   Protocol specific libraries:
   * nw_ethernet:

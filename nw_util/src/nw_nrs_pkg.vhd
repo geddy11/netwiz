@@ -52,15 +52,15 @@ use work.nw_types_pkg.all;
 --! \n More details in \ref nw_nrs_pkg
 --! \subsection nrs_subsec2 Example use
 --! Include the libraries:
---! ~~~
+--! ```vhdl
 --! library nw_util;
 --! context nw_util.nw_util_context;
---! ~~~
+--! ```
 --! Call f_gen_nrs() with desired parameters:
---! ~~~
+--! ```vhdl
 --! array_8bit(0 to 127) := f_gen_nrs(x"80", 128); -- array_8bit is now (x"80", x"81", x"82", ...)
 --! array_48bit(0 to 15) := f_gen_nrs(x"ff0000", 16, x"10000", False); -- array_48bit is now (x"ff0000", x"fe0000", x"fd0000", ...)
---! ~~~
+--! ```
 --! See further examples in the test bench nw_util_tb.vhd.
 package nw_nrs_pkg is
 
@@ -90,9 +90,9 @@ package body nw_nrs_pkg is
   --! the step value for each word. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! array_8bit(0 to 127) := f_gen_nrs(x"00", 128); -- array_8bit is now (x"00", x"01", x"02", ...)
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_gen_nrs(start_val : std_logic_vector;
                      len       : positive;

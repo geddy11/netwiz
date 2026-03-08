@@ -11,14 +11,16 @@ jobs:
   ghdl_sim:
     runs-on: ubuntu-22.04
     steps:
-    - name: install_ghdl
+    - name: setup_ghdl
       run: |
-        sudo apt-get update
-        sudo apt-get install -y gcc clang libgnat-10 libllvm14 libc-dev zlib1g-dev 
-        sudo apt-get install -y wget libglib2.0-0
-        wget https://github.com/ghdl/ghdl/releases/download/v4.1.0/ghdl-gha-ubuntu-22.04-llvm.tgz
-        sudo tar zxf ghdl-gha-ubuntu-22.04-llvm.tgz -C /usr
-        ghdl --version
+       sudo apt-get update
+       sudo apt-get install -y gcc clang libgnat-10 libllvm14 libc-dev zlib1g-dev 
+       sudo apt-get install -y wget libglib2.0-0
+       #wget https://github.com/ghdl/ghdl/releases/download/v4.1.0/ghdl-gha-ubuntu-22.04-llvm.tgz
+       #sudo tar zxf ghdl-gha-ubuntu-22.04-llvm.tgz -C /usr
+       wget https://github.com/ghdl/ghdl/releases/download/v4.1.0/ghdl-gha-ubuntu-22.04-mcode.tgz
+       sudo tar zxf ghdl-gha-ubuntu-22.04-mcode.tgz -C /usr
+       ghdl --version
     - name: checkout
       uses: actions/checkout@v4
     - name: sim_ghdl

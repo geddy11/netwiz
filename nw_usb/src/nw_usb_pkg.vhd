@@ -54,28 +54,28 @@ context nw_util.nw_util_context;
 --! \n More details in \ref nw_usb_pkg
 --! \subsection usb_subsec2 Example use
 --! Include the libraries:
---! ~~~
+--! ```vhdl
 --! library nw_util;
 --! context nw_util.nw_util_context;
 --! library nw_usb;
 --! context nw_usb.nw_usb_context;
---! ~~~
+--! ```
 --! In many other NetWiz protocols a packet consists of a header and a payload. The USB packet is contained completely in a record.
 --! The CRC5 or CRC16 is added according to packet type.
---! ~~~
+--! ```vhdl
 --! variable v_usb_pkt : t_usb_packet; -- packet record
 --! variable v_len     : natural;
 --! variable v_pkt     : t_slv_arr(0 to 127)(7 downto 0); -- data array
---! ~~~
+--! ```
 --! Example 1: Create a data packet.
---! ~~~
+--! ```vhdl
 --! v_usb_pkt                       := C_DEFAULT_USB_PACKET; -- copy default packet
 --! v_usb_pkt.pkt_type              := DATA; -- define the type of packet to create
 --! v_usb_pkt.data_pkt.data(0 to 5) := (x"01", x"02", x"33", x"44", x"50", x"06"); -- set the data packet payload (6 bytes)
 --! v_usb_pkt.data_pkt.data_len     := 6; -- set the data length
 --! v_len                           := f_usb_create_pkt_len(v_usb_pkt); -- get length of USB packet (optional)
 --! v_pkt(0 to v_len - 1)           := f_usb_create_pkt(v_usb_pkt); -- v_pkt now holds the USB packet in 8bit format
---! ~~~
+--! ```
 --! See further examples in the test bench nw_usb_tb.vhd.
 package nw_usb_pkg is
 
@@ -273,10 +273,10 @@ package body nw_usb_pkg is
   --! Create USB packet from packet record. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_pkt  := C_DEFAULT_USB_PACKET; -- default data packet
   --! v_data := f_usb_create_pkt(v_pkt);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_usb_create_pkt(pkt : t_usb_packet)
     return t_slv_arr is
@@ -292,10 +292,10 @@ package body nw_usb_pkg is
   --! Return the length of the created USB packet.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len                  := f_usb_create_pkt_len(v_pkt); 
   --! v_data(0 to v_len - 1) := f_usb_create_pkt(v_pkt);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_usb_create_pkt_len(pkt : t_usb_packet)
     return natural is
@@ -313,9 +313,9 @@ package body nw_usb_pkg is
   --! Extract USB packet from payload. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_usb_pkt := f_usb_get_pkt(data_array_8bit); 
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_usb_get_pkt(usb_pkt : t_slv_arr)
     return t_usb_packet is

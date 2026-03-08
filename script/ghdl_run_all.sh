@@ -35,10 +35,16 @@ ghdl -a --std=08 -frelaxed-rules --work=nw_util ../nw_util/src/nw_util_pkg.vhd
 ghdl -a --std=08 -frelaxed-rules --work=nw_util ../nw_util/src/nw_crc_pkg.vhd
 ghdl -a --std=08 -frelaxed-rules --work=nw_util ../nw_util/src/nw_nrs_pkg.vhd
 ghdl -a --std=08 -frelaxed-rules --work=nw_util ../nw_util/src/nw_prbs_pkg.vhd
+ghdl -a --std=08 -frelaxed-rules --work=nw_util ../nw_util/src/nw_axis_pkg.vhd
+ghdl -a --std=08 -frelaxed-rules --work=nw_util ../nw_util/src/nw_axis_sink.vhd
+ghdl -a --std=08 -frelaxed-rules --work=nw_util ../nw_util/src/nw_axis_source.vhd
 ghdl -a --std=08 -frelaxed-rules --work=nw_util ../nw_util/src/nw_util_context.vhd
 ghdl -a --std=08 -frelaxed-rules --work=work ../nw_util/tb/nw_util_tb.vhd
+ghdl -a --std=08 -frelaxed-rules --work=work ../nw_util/tb/nw_axis_tb.vhd
 ghdl -e --std=08 -frelaxed-rules --work=work nw_util_tb
 ghdl -r --std=08 -frelaxed-rules --work=work nw_util_tb
+ghdl -e --std=08 -frelaxed-rules --work=work nw_axis_tb
+ghdl -r --std=08 -frelaxed-rules --work=work nw_axis_tb
 # nw_pcap
 echo -e "\nTesting nw_pcap:"
 ghdl -a --std=08 -frelaxed-rules --work=nw_pcap ../nw_pcap/src/nw_pcap_pkg.vhd
@@ -104,3 +110,9 @@ ghdl -a --std=08 -frelaxed-rules --work=nw_rtp ../nw_rtp/src/nw_rtp_pkg.vhd
 ghdl -a --std=08 -frelaxed-rules --work=work ../nw_rtp/tb/nw_rtp_tb.vhd
 ghdl -e --std=08 -frelaxed-rules --work=work nw_rtp_tb
 ghdl -r --std=08 -frelaxed-rules --work=work nw_rtp_tb
+# netwiz
+echo -e "\nTesting netwiz"
+ghdl -a --std=08 -frelaxed-rules --work=netwiz ../netwiz/src/netwiz_context.vhd
+ghdl -a --std=08 -frelaxed-rules --work=work ../netwiz/tb/ethernet_fuzzer_tb.vhd
+ghdl -e --std=08 -frelaxed-rules --work=work ethernet_fuzzer_tb
+ghdl -r --std=08 -frelaxed-rules --work=work ethernet_fuzzer_tb

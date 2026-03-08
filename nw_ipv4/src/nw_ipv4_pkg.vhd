@@ -60,29 +60,29 @@ use work.ip_protocols_pkg.all;
 --! \n More details in \ref nw_ipv4_pkg
 --! \subsection ipv4_subsec2 Example use
 --! Include the libraries:
---! ~~~
+--! ```vhdl
 --! library nw_util;
 --! context nw_util.nw_util_context;
 --! library nw_ipv4;
 --! context nw_ipv4.nw_ipv4_context;
---! ~~~
+--! ```
 --! Assume the variable \c v_payload contains the IPv4 payload, for example an UDP packet. The variables are defined:
---! ~~~
+--! ```vhdl
 --! variable v_header   : t_ipv4_header; -- header record
 --! variable v_ipv4_pkt : t_slv_arr(0 to 1500)(7 downto 0); -- byte array
 --! variable v_len      : natural;
---! ~~~
+--! ```
 --! First setup the header, then calculate the total IPv4 packet length before creating the packet.
---! ~~~
+--! ```vhdl
 --! v_header                   := C_DEFAULT_IPV4_HEADER; -- copy default header
 --! v_header.src_ip            := x"c0a820fe"; -- change source IP
 --! v_len                      := f_ipv4_create_pkt_len(v_header, v_payload); -- calculate total packet length
 --! v_ipv4_pkt(0 to v_len - 1) := f_ipv4_create_pkt(v_header, v_payload); -- create the packet
---! ~~~
+--! ```
 --! The variable \c v_ipv4_pkt is an 8-bit array. This can of course be rearranged to any word width with \c f_repack .
---! ~~~
+--! ```vhdl
 --! v_ipv4_pkt_64 := f_repack(v_ipv4_pkt, 64, C_MSB_FIRST); -- repack to 64bit words (padded with zeros if required)
---! ~~~
+--! ```
 --! See further examples in the test bench nw_ipv4_tb.vhd.
 package nw_ipv4_pkg is
 
@@ -203,9 +203,9 @@ package body nw_ipv4_pkg is
   --! Extract IPv4 header from IPv4 packet. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_ipv4_header := f_ipv4_get_header(data_array_8bit); 
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_ipv4_get_header(ipv4_pkt : t_slv_arr)
     return t_ipv4_header is
@@ -238,9 +238,9 @@ package body nw_ipv4_pkg is
       v_header.options.option_data(1) := ipv4_pkt(v_start + 23)(7 downto 0);
     end if;
     if v_header.ihl > x"6" then
-      for i in 7 to to_integer(unsigned(v_header.ihl)) loop
+      for i in 0 to to_integer(unsigned(v_header.ihl)) - 7 loop
         for j in 0 to 3 loop
-          v_header.options.option_data(2 + j + (i - 7)* 4) := ipv4_pkt(v_start + 24 + j + i * 4);
+          v_header.options.option_data(2 + j + i * 4) := ipv4_pkt(v_start + 24 + j + i * 4);
         end loop;
       end loop;
     end if;
@@ -287,10 +287,10 @@ package body nw_ipv4_pkg is
   --! Extract IPv4 payload from IPv4 packet. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len                     := f_ipv4_get_payload_len(data_array_8bit); 
   --! v_payload(0 to v_len - 1) := f_ipv4_get_payload(data_array_8bit); 
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_ipv4_get_payload(ipv4_pkt : t_slv_arr)
     return t_slv_arr is
@@ -307,9 +307,9 @@ package body nw_ipv4_pkg is
   --! Get IPv4 payload length from IPv4 packet. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len := f_ipv4_get_payload_len(data_array_8bit); -- determine size of payload
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_ipv4_get_payload_len(ipv4_pkt : t_slv_arr)
     return natural is
@@ -359,7 +359,7 @@ package body nw_ipv4_pkg is
       v_data(22 to 23) := header.options.option_data(0 to 1);
     end if;
     if to_integer(unsigned(header.ihl)) > 6 then
-      for i in 0 to to_integer(unsigned(header.ihl)) - 6 loop
+      for i in 0 to to_integer(unsigned(header.ihl)) - 7 loop
         for j in 0 to 3 loop
           v_data(24 + 4 * i + j) := header.options.option_data(2 + 4 * i + j);
         end loop;
@@ -391,10 +391,10 @@ package body nw_ipv4_pkg is
   --! Create IPv4 packet. Payload must be 8bit data array.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_ipv4_header := C_DEFAULT_IPV4_HEADER;
   --! v_packet_8bit := f_ipv4_create_pkt(v_ipv4_header, payload); 
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_ipv4_create_pkt(header  : t_ipv4_header;
                              payload : t_slv_arr)
@@ -412,10 +412,10 @@ package body nw_ipv4_pkg is
   --! Return the length of the created IPv4 packet.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len                      := f_ipv4_create_pkt_len(v_ipv4_header, payload); 
   --! v_pkt_8bit(0 to v_len - 1) := f_ipv4_create_pkt(v_ipv4_header, payload);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_ipv4_create_pkt_len(header  : t_ipv4_header;
                                  payload : t_slv_arr)
@@ -434,15 +434,16 @@ package body nw_ipv4_pkg is
   --! Check checksum of IPv4 packet. The first byte of the packet must be the first byte of the IPv4 header.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_check := f_ipv4_chksum_ok(data_array_8bit); 
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_ipv4_chksum_ok(ipv4_pkt : t_slv_arr)
     return boolean is
     variable v_chksum : std_logic_vector(15 downto 0);
     variable v_header : t_ipv4_header;
     variable v_hlen   : natural;
+    variable v_start  : natural := ipv4_pkt'left;
   begin
     assert ipv4_pkt'ascending report "f_ipv4_chksum_ok: IPv4 packet must be ascending" severity C_SEVERITY;
     assert ipv4_pkt'length >= 20 report "f_ipv4_chksum_ok: IPv4 packet must be at least 20 bytes" severity C_SEVERITY;
@@ -451,7 +452,7 @@ package body nw_ipv4_pkg is
     v_header := f_ipv4_get_header(ipv4_pkt);
     v_hlen   := to_integer(unsigned(v_header.ihl)) * 4;
 
-    v_chksum := not f_gen_chksum(f_repack(ipv4_pkt(0 to v_hlen - 1), 16), 16);
+    v_chksum := not f_gen_chksum(f_repack(ipv4_pkt(v_start to v_start + v_hlen - 1), 16), 16);
     if v_chksum = x"0000" then
       return true;
     else

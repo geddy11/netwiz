@@ -55,49 +55,51 @@ use work.nw_types_pkg.all;
 --! \li \subpage nw_crc
 --! \li \subpage nw_prbs
 --! \li \subpage nw_nrs
+--! \li \subpage nw_axis_source
+--! \li \subpage nw_axis_sink
 --!
 --! \n More details in \ref nw_util_pkg
 --! \subsection util_subsec2 Example use
 --! Include the libraries:
---! ~~~
+--! ```vhdl
 --! library nw_util;
 --! context nw_util.nw_util_context;
---! ~~~
+--! ```
 --! Bit-flip (reflect) and swap endianness of data arrays and std_logic_vectors:
---! ~~~
+--! ```vhdl
 --! array_8bit    := (x"c1", x"67");
 --! array_flipped := f_bitflip(array_8bit); -- array_flipped is now (x"83", x"e6")
 --! v_a           := "1100001111";
 --! v_a_flipped   := f_bitflip(v_a); -- v_a_flipped is now "1111000011"
 --! array_32bit   := (x"11223344", x"abcdef00);
 --! array_swapped := f_swap_endian(array_32bit); -- array_swapped is now (x"44332211",  x"00efcdab")
---! ~~~
+--! ```
 --! Concatenate data arrays:
---! ~~~
+--! ```vhdl
 --! array_8bit   := (x"c1", x"67");
 --! array2_8bit  := (x"55", x"8f", x"42);
 --! array_concat := f_concat(array_8bit, array2_8bit); -- array_concat is now (x"c1", x"67", x"55", x"8f", x"42)
---! ~~~
+--! ```
 --! Repack data arrays to new data word width:
---! ~~~
+--! ```vhdl
 --! array_8bit  := (x"11", x"22", x"33", x"44", x"55", x"66", x"77");
 --! array_32bit := f_repack(array_8bit, 32, C_MSB_FIRST, C_PAD_BEFORE, x"ff"); -- array_32bit is now (x"ff112233", x"44556677")
 --! array_32bit := f_repack(array_8bit, 32, C_LSB_FIRST, C_PAD_BEFORE, x"ff"); -- array_32bit is now (x"332211ff", x"77665544")
 --! array_1bit  := f_repack(array_8bit(0 to 0), 1, C_MSB_FIRST); -- array_1bit is now ("0", "0", "0", "1", "0", "0", "0", "1")
 --! array_3bit  := f_repack(array_1bit, 3, C_LSB_FIRST);         -- array_3bit is now ("000", "001", "010")
 --! array_7bit  := f_repack(f_repack(array_8bit, 1), 7); -- array_7bit is now ("0001000", "1001000", "1000110", "0110100", "0100010", ...)
---! ~~~
+--! ```
 --! Reverse data arrays:
---! ~~~ 
+--! ```vhdl
 --! array_8bit := (x"c1", x"67", x"42");
 --! array_rev  := f_reverse(array_8bit); -- array_rev is now (x"42", x"67", x"c1")
---! ~~~
+--! ```
 --! Stack data arrays to create wider data words:
---! ~~~ 
+--! ```vhdl
 --! array_8bit  := (x"11", x"22", x"33", x"44", x"55", x"66", x"77");
 --! array_4bit  := (x"0", x"1", x"2", x"3");
 --! array_12bit := f_stack(array_4bit, array_8bit); -- array_12bit is now (x"011", x"122", x"233", x"344)
---! ~~~ 
+--! ``` 
 --! See further examples in the test bench nw_util_tb.vhd.
 package nw_util_pkg is
 
@@ -172,10 +174,10 @@ package body nw_util_pkg is
   --! \return       Bit-flipped data array
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! array_8bit    := (x"c1", x"67");
   --! array_flipped := f_bitflip(array_8bit); -- array_flipped is now (x"83", x"e6")
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_bitflip(data : t_slv_arr)
     return t_slv_arr is
@@ -202,10 +204,10 @@ package body nw_util_pkg is
   --! \return       Bit-flipped data 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_a         := "1100001111";
   --! v_a_flipped := f_bitflip(v_a); -- v_a_flipped is now "1111000011"
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_bitflip(data : std_logic_vector)
     return std_logic_vector is
@@ -229,11 +231,11 @@ package body nw_util_pkg is
   --! \return       Concatenated data array
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! array_8bit   := (x"c1", x"67");
   --! array2_8bit  := (x"55", x"8f", x"42);
   --! array_concat := f_concat(array_8bit, array2_8bit); -- array_concat is now (x"c1", x"67", x"55", x"8f", x"42)
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_concat(data1 : t_slv_arr;
                     data2 : t_slv_arr) return t_slv_arr is
@@ -397,14 +399,14 @@ package body nw_util_pkg is
   --! When increasing the data width, padding will be added before or after as required with a user-defined pad word. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! array_8bit  := (x"11", x"22", x"33", x"44", x"55", x"66", x"77");
   --! array_32bit := f_repack(array_8bit, 32, C_MSB_FIRST, C_PAD_BEFORE, x"ff"); -- array_32bit is now (x"ff112233", x"44556677")
   --! array_32bit := f_repack(array_8bit, 32, C_LSB_FIRST, C_PAD_BEFORE, x"ff"); -- array_32bit is now (x"332211ff", x"77665544")
   --! array_1bit  := f_repack(array_8bit(0 to 0), 1, C_MSB_FIRST); -- array_1bit is now ("0", "0", "0", "1", "0", "0", "0", "1")
   --! array_3bit  := f_repack(array_1bit, 3, C_LSB_FIRST);         -- array_3bit is now ("000", "001", "010")
   --! array_7bit  := f_repack(f_repack(array_8bit, 1), 7); -- array_7bit is now ("0001000", "1001000", "1000110", "0110100", "0100010", ...)
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_repack(data      : t_slv_arr;
                     new_width : natural;
@@ -428,13 +430,13 @@ package body nw_util_pkg is
   --! pad_value: (others => '0')
   --!</pre>
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! array_8bit   := (x"11", x"22", x"33", x"44", x"55", x"66", x"77");
   --! array_24bit  := f_repack(array_8bit, 24, C_MSB_FIRST);  -- array_24bit is now (x"112233", x"445566", x"770000")
   --! array_24bit  := f_repack(array_8bit, 24, C_LSB_FIRST);  -- array_24bit is now (x"332211", x"665544", x"000077")
   --! array_128bit := f_repack(array_8bit, 128, C_MSB_FIRST); -- array_128bit is now (x"11223344556677000000000000000000")
   --! array_128bit := f_repack(array_8bit, 128, C_LSB_FIRST); -- array_128bit is now (x"00000000000000000077665544332211")
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_repack(data      : t_slv_arr;
                     new_width : natural;
@@ -455,10 +457,10 @@ package body nw_util_pkg is
   --! Return the length of the array when repacked to new_width.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! array_8bit := (x"11", x"22", x"33", x"44", x"55", x"66", x"77");
   --! v_len      := f_repack_len(array_8bit,  2); -- v_len is now 28
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_repack_len(data      : t_slv_arr;
                         new_width : natural;
@@ -477,10 +479,10 @@ package body nw_util_pkg is
   --! \return       Reversed data array
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! array_8bit := (x"c1", x"67", x"42");
   --! array_rev  := f_reverse(array_8bit); -- array_rev is now (x"42", x"67", x"c1")
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_reverse(data : t_slv_arr)
     return t_slv_arr is
@@ -506,13 +508,13 @@ package body nw_util_pkg is
   --! Search for a token in a data array. The token and data array must have the same data width. If the token is not found, -1 is returned.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! array_8bit := (x"11", x"22", x"33", x"44", x"55", x"66", x"77");
   --! token      := (x"55", x"66");
   --! v_res      := f_search(array_8bit,  token); -- v_res is now 4
   --! token      := (x"55", x"77");
   --! v_res      := f_search(array_8bit,  token); -- v_res is now -1
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_search(data  : t_slv_arr;
                     token : t_slv_arr)
@@ -539,11 +541,11 @@ package body nw_util_pkg is
   --! Stack two data arrays, word by word. If one array is longer than the other, it will be cropped to match the length of the shorter one.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! array_8bit  := (x"11", x"22", x"33", x"44", x"55", x"66", x"77");
   --! array_4bit  := (x"0", x"1", x"2", x"3");
   --! array_12bit := f_stack(array_4bit, array_8bit); -- array_12bit is now (x"011", x"122", x"233", x"344)
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_stack(data_high : t_slv_arr;
                    data_low  : t_slv_arr)
@@ -567,10 +569,10 @@ package body nw_util_pkg is
   --! of the input data must be an integer factor of 8. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! array_32bit   := (x"11223344", x"abcdef00);
   --! array_swapped := f_swap_endian(array_32bit); -- array_swapped is now (x"44332211",  x"00efcdab")
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_swap_endian(data : t_slv_arr)
     return t_slv_arr is
@@ -602,10 +604,10 @@ package body nw_util_pkg is
   --! of the input data word must be an integer factor of 8. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_32bit   := x"11223344";
   --! v_swapped := f_swap_endian(v_32bit); -- v_swapped is now x"44332211"
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_swap_endian(data : std_logic_vector)
     return std_logic_vector is
@@ -634,9 +636,9 @@ package body nw_util_pkg is
   --! This function converts a hex number in string format to slv. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_number   := f_str_2_slv("a50"); -- v_number is now "101001010000"
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_str_2_slv(value : string)
     return std_logic_vector is
@@ -677,9 +679,9 @@ package body nw_util_pkg is
   --! This function converts each word in the data array from std_logic_vector to unsigned type.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_udata := f_to_unsigned_arr(v_data);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_to_unsigned_arr(data : t_slv_arr)
     return t_unsigned_arr is
@@ -702,9 +704,9 @@ package body nw_util_pkg is
   --! This function converts each word in the data array from unsigned to std_logic_vector type.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_data := f_to_slv_arr(v_udata);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_to_slv_arr(data : t_unsigned_arr)
     return t_slv_arr is
@@ -727,9 +729,9 @@ package body nw_util_pkg is
   --! This function converts a string to array of std_logic_vector(7 downto 0). 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_array(0 to 5) := f_str_2_slv_arr("NetWiz"); -- v_array is now (x"4e", x"65", x"74", x"57", x"76", x"7a")
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_str_2_slv_arr(str : string)
     return t_slv_arr is
@@ -749,10 +751,10 @@ package body nw_util_pkg is
   --! This function converts an 8bit slv array to string. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_array := (x"4e", x"65", x"74", x"57", x"76", x"7a");
   --! v_str   := f_slv_arr_2_str(v_array); -- v_str is now "NetWiz"
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_slv_arr_2_str(data : t_slv_arr)
     return string is
@@ -771,9 +773,9 @@ package body nw_util_pkg is
   --! The input string is printed with a timestamp. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! msg("Hello world");
-  --! ~~~
+  --! ```
   -----------------------------------------------------------------------------
   procedure msg (
     constant msg_txt : in string) is

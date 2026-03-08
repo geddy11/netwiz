@@ -5,3 +5,5 @@ _NVC_LIB
 script/*
 !script/*.sh
 !script/*.do
+todo.txt
+work

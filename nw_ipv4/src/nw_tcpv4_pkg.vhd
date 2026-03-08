@@ -55,21 +55,21 @@ use work.nw_ipv4_pkg.all;
 --! \n\n More details in \ref nw_tcpv4_pkg
 --! \subsection tcpv4_subsec2 Example use
 --! Include the libraries:
---! ~~~
+--! ```vhdl
 --! library nw_util;
 --! context nw_util.nw_util_context;
 --! library nw_ipv4;
 --! context nw_ipv4.nw_ipv4_context;
---! ~~~
+--! ```
 --! Assume the variable \c v_payload contains the TCP payload. The variables are defined:
---! ~~~
+--! ```vhdl
 --! variable v_header      : t_tcp_header; -- TCP header record
 --! variable v_ipv4_header : t_ipv4_header; -- IPv4 header record
 --! variable v_tcp_pkt     : t_slv_arr(0 to 1500)(7 downto 0); -- byte array
 --! variable v_len         : natural;
---! ~~~
+--! ```
 --! First setup the header, then calculate the total TCP packet length before creating the packet. 
---! ~~~
+--! ```vhdl
 --! v_header                  := C_DEFAULT_TCP_HEADER; -- copy default header
 --! v_header.seq_no           := x"1033010f"; -- change sequence number
 --! v_ipv4_header             := C_DEFAULT_IPV4_HEADER; -- IPv4 header needed for pseudo header
@@ -77,11 +77,11 @@ use work.nw_ipv4_pkg.all;
 --! -- change other header fields as required...
 --! v_len                     := f_tcpv4_create_pkt_len(v_ipv4_header, v_header, v_payload); -- calculate total packet length
 --! v_tcp_pkt(0 to v_len - 1) := f_tcpv4_create_pkt(v_ipv4_header, v_header, v_payload); -- create the packet
---! ~~~
+--! ```
 --! The variable \c v_tcp_pkt is an 8-bit array. This can of course be rearranged to any word width with \c f_repack .
---! ~~~
+--! ```vhdl
 --! v_tcp_pkt_32 := f_repack(v_tcp_pkt, 32, C_MSB_FIRST); -- repack to 32bit words (padded with zeros if required)
---! ~~~
+--! ```
 --! See further examples in the test bench nw_ipv4_tb.vhd.
 package nw_tcpv4_pkg is
 
@@ -248,11 +248,11 @@ package body nw_tcpv4_pkg is
   --! which is included in the checksum calculation.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_ipv4_header := C_DEFAULT_IPV4_HEADER;
   --! v_tcp_header  := C_DEFAULT_TCP_HEADER;
   --! v_packet_8bit := f_tcpv4_create_pkt(v_ipv4_header, v_tcp_header, payload); 
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_tcpv4_create_pkt(ipv4_header : t_ipv4_header;
                               tcp_header  : t_tcp_header;
@@ -272,10 +272,10 @@ package body nw_tcpv4_pkg is
   --! Return the length of the created TCP packet.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len                      := f_tcpv4_create_pkt_len(v_ipv4_header, v_tcp_header, payload); 
   --! v_pkt_8bit(0 to v_len - 1) := f_tcpv4_create_pkt(v_ipv4_header, v_tcp_header, payload);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_tcpv4_create_pkt_len(ipv4_header : t_ipv4_header;
                                   tcp_header  : t_tcp_header;
@@ -296,11 +296,11 @@ package body nw_tcpv4_pkg is
   --! Create TCPv4 packet without payload.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_ipv4_header := C_DEFAULT_IPV4_HEADER;
   --! v_tcp_header  := C_DEFAULT_TCP_HEADER;
   --! v_packet_8bit := f_tcpv4_create_pkt(v_ipv4_header, v_tcp_header); 
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_tcpv4_create_pkt(ipv4_header : t_ipv4_header;
                               tcp_header  : t_tcp_header)
@@ -319,10 +319,10 @@ package body nw_tcpv4_pkg is
   --! Return the length of the created TCP packet (no payload).
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len                      := f_tcpv4_create_pkt_len(v_ipv4_header, v_tcp_header); 
   --! v_pkt_8bit(0 to v_len - 1) := f_tcpv4_create_pkt(v_ipv4_header, v_tcp_header);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_tcpv4_create_pkt_len(ipv4_header : t_ipv4_header;
                                   tcp_header  : t_tcp_header)
@@ -342,9 +342,9 @@ package body nw_tcpv4_pkg is
   --! Extract TCP header from TCP packet. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_tcp_header := f_tcpv4_get_header(data_array_8bit); 
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_tcpv4_get_header(tcp_pkt : t_slv_arr)
     return t_tcp_header is
@@ -424,10 +424,10 @@ package body nw_tcpv4_pkg is
   --! Extract TCP payload from TCP packet. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len                     := f_tcpv4_get_payload_len(data_array_8bit); 
   --! v_payload(0 to v_len - 1) := f_tcpv4_get_payload(data_array_8bit); 
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_tcpv4_get_payload(tcp_pkt : t_slv_arr)
     return t_slv_arr is
@@ -443,9 +443,9 @@ package body nw_tcpv4_pkg is
   --! Get TCP payload length from TCP packet. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len := f_tcpv4_get_payload_len(data_array_8bit); -- determine size of payload
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_tcpv4_get_payload_len(tcp_pkt : t_slv_arr)
     return natural is
@@ -464,9 +464,9 @@ package body nw_tcpv4_pkg is
   --! Check checksum of TCP packet. The IPv4 header is required for the pseudo-header fields.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_check := f_tcpv4_chksum_ok(ipv4_header, data_array_8bit); 
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_tcpv4_chksum_ok(ipv4_header : t_ipv4_header;
                              tcp_pkt     : t_slv_arr)

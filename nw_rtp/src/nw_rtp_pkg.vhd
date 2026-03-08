@@ -52,19 +52,19 @@ context nw_util.nw_util_context;
 --! \n\n More details in \ref nw_rtp_pkg
 --! \subsection rtp_subsec2 Example use
 --! Include the libraries:
---! ~~~
+--! ```vhdl
 --! library nw_util;
 --! context nw_util.nw_util_context;
 --! library nw_rtp;
---! ~~~
+--! ```
 --! Assume the variable \c v_payload contains the RTP payload. The variables are defined:
---! ~~~
+--! ```vhdl
 --! variable v_header  : t_rtp_header; -- RTP header record
 --! variable v_rtp_pkt : t_slv_arr(0 to 1500)(7 downto 0); -- byte array
 --! variable v_len     : natural;
---! ~~~
+--! ```
 --! First setup the header, then calculate the total RTP packet length before creating the packet. 
---! ~~~
+--! ```vhdl
 --! v_header                  := C_DEFAULT_RTP_HEADER; -- copy default header
 --! v_header.cc               := x"0010"; -- two CSRC identifiers
 --! v_header.csrc(0)          := x"10005678"; -- CSRC #1
@@ -72,11 +72,11 @@ context nw_util.nw_util_context;
 --! v_header.payload_type     := "0100011"; -- payload type
 --! v_len                     := f_rtp_create_pkt_len(v_header, v_payload); -- calculate total packet length
 --! v_rtp_pkt(0 to v_len - 1) := f_rtp_create_pkt(v_header, v_payload); -- create the packet
---! ~~~
+--! ```
 --! The variable \c v_rtp_pkt is an 8-bit array. This can of course be rearranged to any word width with \c f_repack .
---! ~~~
+--! ```vhdl
 --! v_rtp_pkt_64 := f_repack(v_rtp_pkt, 64, C_MSB_FIRST); -- repack to 64bit words (padded with zeros if required)
---! ~~~
+--! ```
 --! See further examples in the test bench nw_rtp_tb.vhd.
 package nw_rtp_pkg is
 
@@ -193,10 +193,10 @@ package body nw_rtp_pkg is
   --! Create RTP packet. Payload must be 8bit data array. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_rtp_header  := C_DEFAULT_RTP_HEADER;
   --! v_packet_8bit := f_rtp_create_pkt(v_rtp_header, payload); 
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_rtp_create_pkt(rtp_header : t_rtp_header;
                             payload    : t_slv_arr)
@@ -214,10 +214,10 @@ package body nw_rtp_pkg is
   --! Return the length of the created RTP packet.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len                      := f_rtp_create_pkt_len(v_rtp_header, payload); 
   --! v_pkt_8bit(0 to v_len - 1) := f_rtp_create_pkt(v_rtp_header, payload);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_rtp_create_pkt_len(rtp_header : t_rtp_header;
                                 payload    : t_slv_arr)
@@ -236,9 +236,9 @@ package body nw_rtp_pkg is
   --! Extract RTP header from RTP packet. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_rtp_header := f_rtp_get_header(data_array_8bit); 
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_rtp_get_header(rtp_pkt : t_slv_arr)
     return t_rtp_header is
@@ -308,10 +308,10 @@ package body nw_rtp_pkg is
   --! Extract RTP payload from RTP packet (including extension header and padding if present). 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len                     := f_rtp_get_payload_len(data_array_8bit); 
   --! v_payload(0 to v_len - 1) := f_rtp_get_payload(data_array_8bit); 
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_rtp_get_payload(rtp_pkt : t_slv_arr)
     return t_slv_arr is
@@ -327,9 +327,9 @@ package body nw_rtp_pkg is
   --! Get RTP payload length from RTP packet (including extension header and padding if present). 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len := f_rtp_get_payload_len(data_array_8bit); -- determine size of payload
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_rtp_get_payload_len(rtp_pkt : t_slv_arr)
     return natural is

@@ -58,12 +58,12 @@ context nw_util.nw_util_context;
 --! \n More details in \ref nw_hamming_pkg
 --! \subsection hamming_subsec2 Example use
 --! Include the libraries:
---! ~~~
+--! ```vhdl
 --! library nw_codec;
 --! context nw_codec.nw_codec_context;
---! ~~~
+--! ```
 --! Example 1: Encode/decode 32bit data array without extra parity bit. 
---! ~~~
+--! ```vhdl
 --! v_ewidth   := f_hamming_enc_width(data_array_32bit, false); -- determine word width of encoded array
 --! v_enc_data := new t_slv_arr(0 to data_array_32bit'length - 1)(v_ewidth - 1 downto 0); -- allocate array
 --! v_enc_data := f_hamming_enc(data_array_32bit, false); -- encode data
@@ -71,9 +71,9 @@ context nw_util.nw_util_context;
 --! v_dwidth   := f_hamming_dec_width(v_enc_data, false); -- determine width of decoded data (32bit + 1 status bit)
 --! v_dec_data := new t_slv_arr(0 to data_array_32bit'length - 1)(v_dwidth - 1 downto 0); -- allocate array
 --! v_dec_data := f_hamming_dec(v_enc_data, false); -- decode data (MSB holds error status)
---! ~~~
+--! ```
 --! Example 2: Encode/decode 128bit data array with extra parity bit (SECDED). 
---! ~~~
+--! ```vhdl
 --! v_ewidth   := f_hamming_enc_width(data_array_128bit, true); -- determine word width of encoded array
 --! v_enc_data := new t_slv_arr(0 to data_array_128bit'length - 1)(v_ewidth - 1 downto 0); -- allocate array
 --! v_enc_data := f_hamming_enc(data_array_128bit, true); -- encode data
@@ -81,7 +81,7 @@ context nw_util.nw_util_context;
 --! v_dwidth   := f_hamming_dec_width(v_enc_data, true); -- determine width of decoded data (128bit + 2 status bits)
 --! v_dec_data := new t_slv_arr(0 to data_array_128bit'length - 1)(v_dwidth - 1 downto 0); -- allocate array
 --! v_dec_data := f_hamming_dec(v_enc_data, true); -- decode data (two MSBs hold error status)
---! ~~~
+--! ```
 --! See further examples in the test bench nw_codec_tb.vhd.
 package nw_hamming_pkg is
 
@@ -193,9 +193,9 @@ package body nw_hamming_pkg is
   --! Calculate parity (even or odd) of a logic vector.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! parity := f_calc_parity("0010101111101");
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_calc_parity(data        : std_logic_vector;
                          even_parity : boolean := true)
@@ -217,9 +217,9 @@ package body nw_hamming_pkg is
   --! Calculate parity (even or odd) of a logic vector array. Returns a one-bit array of parity.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! parity_array := f_calc_parity(data_array);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_calc_parity(data        : t_slv_arr;
                          even_parity : boolean := true)
@@ -249,9 +249,9 @@ package body nw_hamming_pkg is
   --! The encoded data is non-systematic (data and parity bits mixed).
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! encoded_data_ptr := f_hamming_enc(data);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   impure function f_hamming_enc(data         : t_slv_arr;
                                 extra_parity : boolean := false)
@@ -313,9 +313,9 @@ package body nw_hamming_pkg is
   --! Encode data with a Hamming encoder. Same as above, but returns a data array instead of pointer.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! encoded_data := f_hamming_enc(data, true);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   impure function f_hamming_enc(data         : t_slv_arr;
                                 extra_parity : boolean := false)
@@ -336,9 +336,9 @@ package body nw_hamming_pkg is
   --! Get encoded data width. The encoded data width is the sum of data bits in input data and the number of parity bits required.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! edata_width := f_hamming_enc_width(data);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_hamming_enc_width(data         : t_slv_arr;
                                extra_parity : boolean := false)
@@ -368,7 +368,7 @@ package body nw_hamming_pkg is
   --! the first indicates single error correction, and the last double error detection.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! decoded_data_ptr := f_hamming_dec(data, true);
   --! decoded_data     := decoded_data_ptr.all;
   --! v_statpos        := decoded_data(0)'high;
@@ -381,7 +381,7 @@ package body nw_hamming_pkg is
   --! end loop;
   --! -- deallocate the array when finished
   --! deallocate(decoded_data_ptr);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   impure function f_hamming_dec(data         : t_slv_arr;
                                 extra_parity : boolean := false)
@@ -467,9 +467,9 @@ package body nw_hamming_pkg is
   --! Decode data with a Hamming decoder. Same as above, but returns a data array instead of pointer.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! decoded_data := f_hamming_dec(data, true);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   impure function f_hamming_dec(data         : t_slv_arr;
                                 extra_parity : boolean := false)
@@ -490,9 +490,9 @@ package body nw_hamming_pkg is
   --! Get decoded data width, which is the original data width plus one or two status bits.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! data_width := f_hamming_dec_width(data, true);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_hamming_dec_width(data         : t_slv_arr;
                                extra_parity : boolean := false)

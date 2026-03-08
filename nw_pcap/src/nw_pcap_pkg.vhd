@@ -59,33 +59,33 @@ context nw_util.nw_util_context;
 --! \n More details in \ref nw_pcap_pkg
 --! \subsection pcap_subsec3 Example use
 --! Include the libraries:
---! ~~~
+--! ```vhdl
 --! library nw_util;
 --! context nw_util.nw_util_context;
 --! library nw_pcap;
 --! use nw_pcap.nw_pcap_pkg.all;
---! ~~~
+--! ```
 --! Define file name of PCAP file:
---! ~~~
+--! ```vhdl
 --! constant C_FNAME : string := "/home/user/ddos_attack.pcap";
---! ~~~
+--! ```
 --! Now, assume we have a procedure called \c schedule_pkt() that will send a packet across an interface to the DUT. 
 --! Such procedures are readily available in verification frameworks like <a href="https://github.com/UVVM/UVVM">UVVM</a>.
 --! The code below will schedule all the network packets in the PCAP file for transmission in the test bench:
---! ~~~
+--! ```vhdl
 --! for i in 0 to f_pcap_get_pkt_cnt(C_FNAME) - 1 loop
 --!   schedule_pkt(f_pcap_get_pkt(C_FNAME, i, f_pcap_get_pkt_len(C_FNAME, i)));
 --! end loop;
---! ~~~
+--! ```
 --! The packets in PCAP files do not always contain all the information normally transmitted on a physical link.
 --! For example captured ethernet packets do not have preamble and often not the FCS. NetWiz can fix this for supported network protocols.
 --! Include ethernet library to fix captured ethernet packets:
---! ~~~
+--! ```vhdl
 --! library nw_ethernet;
 --! use nw_ethernet.nw_ethernet_pkg.all;
---! ~~~
+--! ```
 --! Add preamble and FCS to packets before scheduling:
---! ~~~
+--! ```vhdl
 --! for i in 0 to f_pcap_get_pkt_cnt(C_FNAME) - 1 loop
 --!   v_len                     := f_pcap_get_pkt_len(C_FNAME, i); -- get length of packet #i
 --!   array_8bit(0 to v_len -1) := f_pcap_get_pkt(C_FNAME, i, v_len); -- get packet
@@ -93,7 +93,7 @@ context nw_util.nw_util_context;
 --!   v_header.mac_dest         := f_eth_mac_2_slv_arr("a2:34:56:f1:30:00"); -- maybe modify the header
 --!   schedule_pkt(f_concat(C_ETH_PREAMBLE, f_eth_create_pkt(v_header, f_eth_get_payload(array_8bit(0 to v_len -1))))); -- add preamble and FCS
 --! end loop;
---! ~~~
+--! ```
 --! See further examples in the test bench nw_pcap_tb.vhd.
 package nw_pcap_pkg is
 
@@ -483,10 +483,10 @@ package body nw_pcap_pkg is
   --! Get the number of network packets in PCAP file. Supports both PCAP and PCAPNG formats (only the first section in the latter format).
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_cnt := f_pcap_get_pkt_cnt("../nw_pcap/tb/ipv6-smtp.pcapng");  -- v_cnt is now 17 (17 packets in this file)
   --! v_cnt := f_pcap_get_pkt_cnt("../nw_pcap/tb/PPTP_negotiation.pcap");  -- v_cnt is now 28 (28 packets in this file)
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   impure function f_pcap_get_pkt_cnt(name : string)
     return integer is
@@ -515,10 +515,10 @@ package body nw_pcap_pkg is
   --! Get the length of a specific network packet in a PCAP file.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len := f_pcap_get_pkt_len("../nw_pcap/tb/ipv6-smtp.pcapng", 3);  -- v_len is now 125 (length of packet #3)
   --! v_len := f_pcap_get_pkt_cnt("../nw_pcap/tb/PPTP_negotiation.pcap", 26);  -- v_len is now 138 (length of packet #26)
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   impure function f_pcap_get_pkt_len(name   : string;
                                      pkt_no : natural)
@@ -549,10 +549,10 @@ package body nw_pcap_pkg is
   --! Get a specific packet from file. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len                  := f_pcap_get_pkt_len("../nw_pcap/tb/ipv6-smtp.pcapng", 3);  -- v_len is now 125 (length of packet #3)
   --! v_data(0 to v_len - 1) := f_pcap_get_pkt("../nw_pcap/tb/ipv6-smtp.pcapng", 3, v_len); 
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   impure function f_pcap_get_pkt(name    : string;
                                  pkt_no  : natural;
