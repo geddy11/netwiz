@@ -108,15 +108,15 @@ begin
     variable v_end   : natural;
 
     procedure data (
-      signal pkt : in t_slv_arr;
-      signal tdata: out std_logic_vector;
-      signal tkeep: out std_logic_vector;
-      signal tstrb: out std_logic_vector;
-      signal tlast: out std_logic;
-      signal tvalid: out std_logic;
-      variable v_cnt: inout natural;
-      variable v_start : in natural;
-      variable v_end : in natural
+      signal pkt       : in  t_slv_arr;
+      signal tdata     : out std_logic_vector;
+      signal tkeep     : out std_logic_vector;
+      signal tstrb     : out std_logic_vector;
+      signal tlast     : out std_logic;
+      signal tvalid    : out std_logic;
+      variable v_cnt   : inout natural;
+      variable v_start : in  natural;
+      variable v_end   : in  natural
     ) is
     begin
       tlast <= '0';
