@@ -52,23 +52,23 @@ context nw_util.nw_util_context;
 --! \n More details in \ref nw_base_pkg
 --! \subsection base_subsec2 Example use
 --! Include the libraries:
---! ~~~
+--! ```vhdl
 --! library nw_codec;
 --! context nw_codec.nw_codec_context;
---! ~~~
+--! ```
 --! Data to be encoded must be in 8bit format.
---! ~~~
+--! ```vhdl
 --! v_data                    := f_str_2_slv_arr("Blue shoes"); -- data array to be encoded
 --! v_len                     := f_base_enc_len(v_data, BASE64); -- get length of encoded data (v_len is now 16)
 --! v_encoded(0 to v_len - 1) := f_base_enc(v_data, BASE64); -- v_encoded is now "Qmx1ZSBzaG9lcw=="
 --! v_len                     := f_base_enc_len(v_data, BASE32); -- get length of encoded data (v_len is now 16)
 --! v_encoded(0 to v_len - 1) := f_base_enc(v_data, BASE32); -- v_encoded is now "IJWHKZJAONUG6ZLT"  
---! ~~~
+--! ```
 --! Decode the encoded data:
---! ~~~
+--! ```vhdl
 --! v_dlen                     := f_base_dec_len(v_encoded(0 to v_len - 1)); -- get length od decoded data (v_dlen is now 10)
 --! v_decoded(0 to v_dlen - 1) := f_base_dec(v_encoded(0 to v_len - 1)); -- v_decoded is now equal to v_data
---! ~~~
+--! ```
 --! See further examples in the test bench nw_codec_tb.vhd.
 package nw_base_pkg is
 
@@ -148,9 +148,9 @@ package body nw_base_pkg is
   --! Encode data according to RFC 4648 with the selected alphabet.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! encoded_data := f_base_enc(data_8bit, BASE64);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_base_enc(data     : t_slv_arr;
                       alphabet : t_base_alphabet)
@@ -288,9 +288,9 @@ package body nw_base_pkg is
   --! Get length of encoded data after applying RFC 4648 with the selected alphabet.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len := f_base_enc_len(data_8bit, BASE64);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_base_enc_len(data     : t_slv_arr;
                           alphabet : t_base_alphabet)
@@ -333,9 +333,9 @@ package body nw_base_pkg is
   --! Decode data according to RFC 4648 with the selected alphabet.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! decoded_data := f_base_dec(data_8bit, BASE64);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_base_dec(data     : t_slv_arr;
                       alphabet : t_base_alphabet)
@@ -444,9 +444,9 @@ package body nw_base_pkg is
   --! Get length of decoded data after applying RFC 4648 with the selected alphabet.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len := f_base_dec_len(data_8bit, BASE32HEX);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_base_dec_len(data     : t_slv_arr;
                           alphabet : t_base_alphabet)

@@ -55,31 +55,31 @@ use work.nw_ethernet_pkg.all;
 --! \n More details in \ref nw_arp_pkg
 --! \subsection arp_subsec2 Example use
 --! Include the libraries:
---! ~~~
+--! ```vhdl
 --! library nw_util;
 --! context nw_util.nw_util_context;
 --! library nw_ethernet;
 --! context nw_ethernet.nw_ethernet_context;
---! ~~~
+--! ```
 --! Define a few variables:
---! ~~~
+--! ```vhdl
 --! variable v_header  : t_arp_header; -- header record
 --! variable v_arp_pkt : t_slv_arr(0 to 27)(7 downto 0); -- byte array
 --! variable v_len     : natural;
---! ~~~
+--! ```
 --! First setup the header, then calculate the total ethernet packet length before creating the packet.
---! ~~~
+--! ```vhdl
 --! v_header                  := C_DEFAULT_ARP_HEADER; -- copy default header
 --! v_header.sender_hw_addr   := f_eth_mac_2_slv_arr("08:00:27:27:1a:d5"); -- change sender MAC
 --! v_len                     := f_arp_create_pkt_len(v_header); -- calculate total packet length (28)
 --! v_arp_pkt(0 to v_len - 1) := f_arp_create_pkt(v_header); -- create the ARP packet
---! ~~~
+--! ```
 --! Next step is to can be to put the ARP packet into an Ethernet frame:
---! ~~~
+--! ```vhdl
 --! v_eth_header              := C_DEFAULT_ETH_HEADER;
 --! v_len                     := f_eth_create_pkt_len(v_eth_header, v_arp_pkt); -- calculate total packet length
 --! v_eth_pkt(0 to v_len - 1) := f_eth_create_pkt(v_eth_header, v_arp_pkt); -- create the packet
---! ~~~
+--! ```
 --! See further examples in the test bench nw_ethernet_tb.vhd.
 package nw_arp_pkg is
 
@@ -237,10 +237,10 @@ package body nw_arp_pkg is
   --! Create ARP packet. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_arp_header  := C_DEFAULT_ARP_HEADER;
   --! v_packet_8bit := f_arp_create_pkt(v_arp_header);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_arp_create_pkt(header     : t_arp_header)
     return t_slv_arr is
@@ -256,10 +256,10 @@ package body nw_arp_pkg is
   --! Return the length of the created ARP packet.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len                      := f_arp_create_pkt_len(v_arp_header); 
   --! v_pkt_8bit(0 to v_len - 1) := f_arp_create_pkt(v_arp_header);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_arp_create_pkt_len(header : t_arp_header)
     return natural is
@@ -277,9 +277,9 @@ package body nw_arp_pkg is
   --! Extract ARP header from ARP packet. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_arp_header := f_arp_get_header(data_array_8bit); 
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_arp_get_header(arp_pkt : t_slv_arr)
     return t_arp_header is

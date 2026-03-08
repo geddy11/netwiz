@@ -62,42 +62,42 @@ use nw_ipv4.ip_protocols_pkg.all;
 --! \n More details in \ref nw_ipv6_pkg
 --! \subsection ipv6_subsec2 Example use
 --! Include the libraries:
---! ~~~
+--! ```vhdl
 --! library nw_util;
 --! context nw_util.nw_util_context;
 --! library nw_ipv6;
 --! context nw_ipv6.nw_ipv6_context;
---! ~~~
+--! ```
 --! Assume the variable \c v_payload contains the IPv6 payload, for example an UDP packet. The variables are defined:
---! ~~~
+--! ```vhdl
 --! variable v_header   : t_ipv6_header; -- header record
 --! variable v_ipv6_pkt : t_slv_arr(0 to 1500)(7 downto 0); -- byte array
 --! variable v_len      : natural;
---! ~~~
+--! ```
 --! First setup the header, then calculate the total IPv6 packet length before creating the packet.
---! ~~~
+--! ```vhdl
 --! v_header                   := C_DEFAULT_IPV6_HEADER; -- copy default header
 --! v_header.src_addr          := f_ipv6_addr_2_slv_arr("2102:ec7::2"); -- change source address
 --! v_len                      := f_ipv6_create_pkt_len(v_header, v_payload); -- calculate total packet length
 --! v_ipv6_pkt(0 to v_len - 1) := f_ipv6_create_pkt(v_header, v_payload); -- create the packet
---! ~~~
+--! ```
 --! Extension headers are used by first defining a variable holding a list of extension headers, then adding individual extension
 --! headers to this list.
---! ~~~
+--! ```vhdl
 --! v_ext_header_list : t_ext_header_list := C_DEFAULT_EXT_HEADER_LIST; -- init the extension header list to empty
 --! v_ext_header      : t_extension_header; -- extension header to be added to list
---! ~~~
+--! ```
 --! Extension headers can added to the list in any order (note that RFC 2460 recommends a specific order).\n 
 --! Add Hop-by-Hop Options Header:
---! ~~~
+--! ```vhdl
 --! v_ext_header              := C_DEFAULT_EXT_HEADER; -- start with a default header
 --! v_ext_header.header_type  := C_HOPOPT; -- Hop-by-Hop Options
 --! v_ext_header.hdr_ext_len  := 1; -- 16byte total length
 --! v_ext_header.data(0 to 1) := (x"01", x"0c"); -- PadN option
 --! v_ext_header_list         := f_ipv6_add_ext_header(v_ext_header_list, v_ext_header); -- add header to list. Note that v_ext_header.next_header is updated here.
---! ~~~
+--! ```
 --! Add Routing Header:
---! ~~~
+--! ```vhdl
 --! v_ext_header               := C_DEFAULT_EXT_HEADER; -- start with a default header
 --! v_ext_header.header_type   := C_IPV6_ROUTE; -- Routing Header
 --! v_ext_header.routing_type  := x"00";  -- routing type 0
@@ -105,9 +105,9 @@ use nw_ipv4.ip_protocols_pkg.all;
 --! v_ext_header.hdr_ext_len   := 1; -- 16byte total length
 --! v_ext_header.data(0 to 7)  := f_ipv6_addr_2_slv_arr("4200:8a::44");
 --! v_ext_header_list          := f_ipv6_add_ext_header(v_ext_header_list, v_ext_header); -- add header to list. 
---! ~~~
+--! ```
 --! Add Fragment Header:
---! ~~~
+--! ```vhdl
 --! v_ext_header                  := C_DEFAULT_EXT_HEADER; -- start with a default header
 --! v_ext_header.header_type      := C_IPV6_FRAG; -- Fragment header
 --! v_ext_header.framgment_offset := "0011001000000"; -- 13bit offset
@@ -115,17 +115,17 @@ use nw_ipv4.ip_protocols_pkg.all;
 --! v_ext_header.identification   := x"00000042"; 
 --! v_ext_header.hdr_ext_len      := 0; -- 8byte total length
 --! v_ext_header_list             := f_ipv6_add_ext_header(v_ext_header_list, v_ext_header); -- add header to list.
---! ~~~
+--! ```
 --! Add Destination Options Header:
---! ~~~
+--! ```vhdl
 --! v_ext_header              := C_DEFAULT_EXT_HEADER; -- start with a default header
 --! v_ext_header.header_type  := C_IPV6_OPTS; -- Destination Options
 --! v_ext_header.hdr_ext_len  := 0; -- 8byte total length
 --! v_ext_header.data(0 to 3) := (x"01", x"02"); -- PadN option
 --! v_ext_header_list         := f_ipv6_add_ext_header(v_ext_header_list, v_ext_header); -- add header to list.
---! ~~~
+--! ```
 --! Add Authentication Header (RFC 2402):
---! ~~~
+--! ```vhdl
 --! v_ext_header               := C_DEFAULT_EXT_HEADER; -- start with a default header
 --! v_ext_header.header_type   := C_AH; -- Authentication Header
 --! v_ext_header.hdr_ext_len   := 4; -- Note! Number of 4byte words minus 2
@@ -133,12 +133,12 @@ use nw_ipv4.ip_protocols_pkg.all;
 --! v_ext_header.seq_no        := x"000000f4"; -- sequence number
 --! v_ext_header.data(0 to 11) := f_gen_prbs(C_POLY_X16_X15_X13_X4_1, 8, 12); -- random payload
 --! v_ext_header_list          := f_ipv6_add_ext_header(v_ext_header_list, v_ext_header); -- add header to list.
---! ~~~
+--! ```
 --! Finally create the IPv6 packet with extension headers:
---! ~~~
+--! ```vhdl
 --! v_len                      := f_ipv6_create_pkt_len(v_header, v_payload, v_ext_header_list); -- calculate total packet length
 --! v_ipv6_pkt(0 to v_len - 1) := f_ipv6_create_pkt(v_header, v_payload, v_ext_header_list); -- create the packet
---! ~~~
+--! ```
 --! See further examples in the test bench nw_ipv6_tb.vhd.
 package nw_ipv6_pkg is
 
@@ -367,11 +367,11 @@ package body nw_ipv6_pkg is
   --! Create IPv6 packet. Payload must be 8bit data array.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_ipv6_header              := C_DEFAULt_IPV66_HEADER;
   --! v_len                      := f_ipv6_create_pkt_len(v_ipv6_header, payload); -- get total packet length
   --! v_ipv6_pkt(0 to v_len - 1) := f_ipv6_create_pkt(v_ipv6_header, payload); 
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_ipv6_create_pkt(header          : t_ipv6_header;
                              payload         : t_slv_arr;
@@ -391,9 +391,9 @@ package body nw_ipv6_pkg is
   --! Return the length of the created IPv6 packet.
   --!
   --! **Example use**
-  --! ~~~
-  --! v_len                      := f_ipv6_create_pkt_len(v_ipv6_header, payload); 
-  --! ~~~
+  --! ```vhdl
+  --! v_len := f_ipv6_create_pkt_len(v_ipv6_header, payload); 
+  --! ```
   -------------------------------------------------------------------------------
   function f_ipv6_create_pkt_len(header          : t_ipv6_header;
                                  payload         : t_slv_arr;
@@ -414,11 +414,11 @@ package body nw_ipv6_pkg is
   --! Add an extension header to a extension header list.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_ext_header_list := C_DEFAULT_EXT_HEADER_LIST; -- start with empty list
   --! v_ext_header_list := f_ipv6_add_ext_header(ext_header_list, ext_header1); -- add first header
   --! v_ext_header_list := f_ipv6_add_ext_header(ext_header_list, ext_header2); -- add second header
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_ipv6_add_ext_header(ext_header_list : t_ext_header_list;
                                  ext_header      : t_extension_header)
@@ -442,9 +442,9 @@ package body nw_ipv6_pkg is
   --! Extract IPv6 header from IPv6 packet. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_ipv6_header := f_ipv6_get_header(ipv6_pkt); 
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_ipv6_get_header(ipv6_pkt : t_slv_arr)
     return t_ipv6_header is
@@ -476,9 +476,9 @@ package body nw_ipv6_pkg is
   --! Extract IPv6 extension headers from IPv6 packet. The number of extension headers found in the packet is indicated by the "header_cnt" field in returned record.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_ext_headers := f_ipv6_get_ext_headers(ipv6_pkt); -- v_ext_headers.header_cnt now has the # of ext headers found in the packet
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_ipv6_get_ext_headers(ipv6_pkt : t_slv_arr)
     return t_ext_header_list is
@@ -609,10 +609,10 @@ package body nw_ipv6_pkg is
   --! Extract IPv6 payload from IPv6 packet. Extension headers are not part of the payload retunred.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len                     := f_ipv6_get_payload_len(ipv6_pkt); 
   --! v_payload(0 to v_len - 1) := f_ipv6_get_payload(ipv6_pkt); 
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_ipv6_get_payload(ipv6_pkt : t_slv_arr)
     return t_slv_arr is
@@ -628,9 +628,9 @@ package body nw_ipv6_pkg is
   --! Get IPv6 payload length from IPv6 packet. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len := f_ipv6_get_payload_len(ipv6_pkt); -- determine size of payload
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_ipv6_get_payload_len(ipv6_pkt : t_slv_arr)
     return natural is
@@ -648,10 +648,10 @@ package body nw_ipv6_pkg is
   --! Convert IPv6 address in string format to byte array. The string is assumed to follow RFC 5952 recommendation.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_addr := f_ipv6_addr_2_slv_arr("2102:ec7::2"); -- v_addr is now (x"21", x"02", x"0e", x"c7", x"00", x"00", ..., x"00", x"02")
   --! v_addr := f_ipv6_addr_2_slv_arr("a2-34-56-f1-30-00"); -- v_addr is now (x"a2", x"34", x"56", x"f1", x"30", x"00")
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_ipv6_addr_2_slv_arr(addr : string)
     return t_slv_arr is

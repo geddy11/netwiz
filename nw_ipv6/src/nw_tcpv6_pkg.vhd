@@ -58,21 +58,21 @@ use work.nw_ipv6_pkg.all;
 --! \n\n More details in \ref nw_tcpv6_pkg
 --! \subsection tcpv6_subsec2 Example use
 --! Include the libraries:
---! ~~~
+--! ```vhdl
 --! library nw_util;
 --! context nw_util.nw_util_context;
 --! library nw_ipv6;
 --! context nw_ipv6.nw_ipv6_context;
---! ~~~
+--! ```
 --! Assume the variable \c v_payload contains the TCP payload. The variables are defined:
---! ~~~
+--! ```vhdl
 --! variable v_header      : t_tcp_header; -- TCP header record
 --! variable v_ipv6_header : t_ipv6_header; -- IPv6 header record
 --! variable v_tcp_pkt     : t_slv_arr(0 to 1500)(7 downto 0); -- byte array
 --! variable v_len         : natural;
---! ~~~
+--! ```
 --! First setup the header, then calculate the total TCP packet length before creating the packet. 
---! ~~~
+--! ```vhdl
 --! v_header                  := C_DEFAULT_TCP_HEADER; -- copy default header
 --! v_header.seq_no           := x"1033010f"; -- change sequence number
 --! v_ipv6_header             := C_DEFAULT_IPV6_HEADER; -- IPv6 header needed for pseudo header
@@ -80,11 +80,11 @@ use work.nw_ipv6_pkg.all;
 --! -- change other header fields as required...
 --! v_len                     := f_tcpv6_create_pkt_len(v_ipv6_header, v_header, v_payload); -- calculate total packet length
 --! v_tcp_pkt(0 to v_len - 1) := f_tcpv6_create_pkt(v_ipv6_header, v_header, v_payload); -- create the packet
---! ~~~
+--! ```
 --! The variable \c v_tcp_pkt is an 8-bit array. This can of course be rearranged to any word width with \c f_repack .
---! ~~~
+--! ```vhdl
 --! v_tcp_pkt_32 := f_repack(v_tcp_pkt, 32, C_MSB_FIRST); -- repack to 32bit words (padded with zeros if required)
---! ~~~
+--! ```
 --! See further examples in the test bench nw_ipv6_tb.vhd.
 package nw_tcpv6_pkg is
 
@@ -218,11 +218,11 @@ package body nw_tcpv6_pkg is
   --! which is included in the checksum calculation.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_ipv6_header := C_DEFAULT_ipv6_header;
   --! v_tcp_header  := C_DEFAULT_TCP_HEADER;
   --! v_packet_8bit := f_tcpv6_create_pkt(v_ipv6_header, v_tcp_header, payload); 
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_tcpv6_create_pkt(ipv6_header    : t_ipv6_header;
                               tcp_header     : t_tcp_header;
@@ -244,10 +244,10 @@ package body nw_tcpv6_pkg is
   --! Return the length of the created TCP packet.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len                      := f_tcpv6_create_pkt_len(v_ipv6_header, v_tcp_header, payload); 
   --! v_pkt_8bit(0 to v_len - 1) := f_tcpv6_create_pkt(v_ipv6_header, v_tcp_header, payload);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_tcpv6_create_pkt_len(ipv6_header    : t_ipv6_header;
                                   tcp_header     : t_tcp_header;
@@ -270,11 +270,11 @@ package body nw_tcpv6_pkg is
   --! Create TCP for IPv6 packet without payload.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_ipv6_header := C_DEFAULT_ipv6_header;
   --! v_tcp_header  := C_DEFAULT_TCP_HEADER;
   --! v_packet_8bit := f_tcpv6_create_pkt(v_ipv6_header, v_tcp_header); 
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_tcpv6_create_pkt(ipv6_header    : t_ipv6_header;
                               tcp_header     : t_tcp_header;
@@ -295,10 +295,10 @@ package body nw_tcpv6_pkg is
   --! Return the length of the created TCP packet (no payload).
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len                      := f_tcpv6_create_pkt_len(v_ipv6_header, v_tcp_header); 
   --! v_pkt_8bit(0 to v_len - 1) := f_tcpv6_create_pkt(v_ipv6_header, v_tcp_header);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_tcpv6_create_pkt_len(ipv6_header    : t_ipv6_header;
                                   tcp_header     : t_tcp_header;
@@ -319,9 +319,9 @@ package body nw_tcpv6_pkg is
   --! Extract TCP header from TCP packet. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_tcp_header := f_tcpv6_get_header(data_array_8bit); 
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_tcpv6_get_header(tcp_pkt : t_slv_arr)
     return t_tcp_header is
@@ -401,10 +401,10 @@ package body nw_tcpv6_pkg is
   --! Extract TCP payload from TCP packet. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len                     := f_tcpv6_get_payload_len(data_array_8bit); 
   --! v_payload(0 to v_len - 1) := f_tcpv6_get_payload(data_array_8bit); 
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_tcpv6_get_payload(tcp_pkt : t_slv_arr)
     return t_slv_arr is
@@ -420,9 +420,9 @@ package body nw_tcpv6_pkg is
   --! Get TCP payload length from TCP packet. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len := f_tcpv6_get_payload_len(data_array_8bit); -- determine size of payload
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_tcpv6_get_payload_len(tcp_pkt : t_slv_arr)
     return natural is
@@ -442,9 +442,9 @@ package body nw_tcpv6_pkg is
   --! Check checksum of TCP packet. The IPv6 header is required for the pseudo-header fields.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_check := f_tcpv6_chksum_ok(ipv6_header, data_array_8bit); 
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_tcpv6_chksum_ok(ipv6_header    : t_ipv6_header;
                              tcp_pkt        : t_slv_arr;

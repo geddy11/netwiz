@@ -94,3 +94,4 @@ nvc --std=2008 --work=work -L . -a ../nw_rtp/tb/nw_rtp_tb.vhd -e nw_rtp_tb -r
 # netwiz
 echo -e "\nTesting netwiz"
 nvc --std=2008 --work=netwiz -L . -a ../netwiz/src/netwiz_context.vhd
+nvc --std=2008 --work=work -L . -a ../netwiz/tb/ethernet_fuzzer_tb.vhd -e ethernet_fuzzer_tb -r

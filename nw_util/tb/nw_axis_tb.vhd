@@ -41,7 +41,7 @@ context nw_util.nw_util_context;
 entity nw_axis_tb is
 end entity nw_axis_tb;
 
-architecture behav of nw_axis_tb is
+architecture tb of nw_axis_tb is
 
   type t_nat_arr is array (natural range <>) of natural;
 
@@ -185,4 +185,4 @@ begin
   end process p_main;
 
 
-end architecture behav;
+end architecture tb;

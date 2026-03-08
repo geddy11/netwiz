@@ -57,30 +57,31 @@ context nw_util.nw_util_context;
 --! \n More details in \ref nw_ethernet_pkg
 --! \subsection eth_subsec2 Example use
 --! Include the libraries:
---! ~~~
+--! ```vhdl
 --! library nw_util;
 --! context nw_util.nw_util_context;
 --! library nw_ethernet;
 --! use nw_ethernet.nw_ethernet_pkg.all;
---! ~~~
+--! ```
 --! Assume the variable \c v_payload contains the ethernet payload, for example an IPv4 packet. The variables are defined:
---! ~~~
+--! ```vhdl
 --! variable v_header  : t_ethernet_header; -- header record
 --! variable v_eth_pkt : t_slv_arr(0 to 1500)(7 downto 0); -- byte array
 --! variable v_len     : natural;
---! ~~~
+--! ```
 --! First setup the header, then calculate the total ethernet packet length before creating the packet.
---! ~~~
+--! ```vhdl
 --! v_header                  := C_DEFAULT_ETH_HEADER; -- copy default header
 --! v_header.mac_dest         := f_eth_mac_2_slv_arr("08:00:27:27:1a:d5"); -- change destination MAC
+--! v_header.mac_src          := f_randmac; -- random source MAC address
 --! v_len                     := f_eth_create_pkt_len(v_header, v_payload); -- calculate total packet length
 --! v_eth_pkt(0 to v_len - 1) := f_eth_create_pkt(v_header, v_payload); -- create the packet
 --! v_eth_pkt(0 to v_len + 7) := f_concat(C_ETH_PREAMBLE, v_eth_pkt(0 to v_len - 1)); -- add preamble
---! ~~~
+--! ```
 --! The variable \c v_eth_pkt is an 8-bit array. This can of course be rearranged to any word width with \c f_repack().
---! ~~~
+--! ```vhdl
 --! v_eth_pkt_256 := f_repack(v_eth_pkt, 256, C_MSB_FIRST); -- repack to 256bit words (padded with zeros if required)
---! ~~~
+--! ```
 --! See further examples in the test bench nw_ethernet_tb.vhd.
 package nw_ethernet_pkg is
 
@@ -179,21 +180,26 @@ package nw_ethernet_pkg is
   -- Functions
   --!@cond functions
   -------------------------------------------------------------------------------
-  function f_eth_create_pkt(header     : t_ethernet_header;
-                            payload    : t_slv_arr) return t_slv_arr;
+  function f_eth_create_pkt(header  : t_ethernet_header;
+                            payload : t_slv_arr) return t_slv_arr;
 
   function f_eth_create_pkt_len(header  : t_ethernet_header;
                                 payload : t_slv_arr) return natural;
 
   function f_eth_get_header(eth_pkt : t_slv_arr) return t_ethernet_header;
 
-  function f_eth_get_payload(eth_pkt    : t_slv_arr) return t_slv_arr;
+  function f_eth_get_payload(eth_pkt : t_slv_arr) return t_slv_arr;
 
   function f_eth_get_payload_len(eth_pkt : t_slv_arr) return natural;
 
   function f_eth_crc_ok(eth_pkt : t_slv_arr) return boolean;
 
   function f_eth_mac_2_slv_arr(mac : string(1 to 17)) return t_slv_arr;
+
+  impure function f_randmac(
+    mac  : t_slv_arr(0 to 5)(7 downto 0) := (x"ff", x"ff", x"ff", x"ff", x"ff", x"ff");
+    mask : t_slv_arr(0 to 5)(7 downto 0) := (x"00", x"00", x"00", x"00", x"00", x"00")
+  ) return t_slv_arr;
   --!@endcond
 
 end package nw_ethernet_pkg;
@@ -262,11 +268,11 @@ package body nw_ethernet_pkg is
   --! For VLAN tagging: Set header.vlan_tag.tpid = C_ET_VLAN.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_eth_header  := C_DEFAULT_ETH_HEADER;
   --! v_packet_8bit := f_eth_create_pkt(v_eth_header, payload); 
   --! v_pkt_256bit  := f_repack(f_concat(C_ETH_PREAMBLE, v_packet_8bit), 256); -- add preamble and repack to 256bit  word size
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_eth_create_pkt(header     : t_ethernet_header;
                             payload    : t_slv_arr)
@@ -284,10 +290,10 @@ package body nw_ethernet_pkg is
   --! Return the length of the created ethernet packet.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len                      := f_eth_create_pkt_len(v_eth_header, payload); 
   --! v_pkt_8bit(0 to v_len - 1) := f_eth_create_pkt(v_eth_header, payload);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_eth_create_pkt_len(header  : t_ethernet_header;
                                 payload : t_slv_arr)
@@ -306,9 +312,9 @@ package body nw_ethernet_pkg is
   --! Extract ethernet header from ethernet packet. Assumes that first byte in packet is first byte after start frame delimiter.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_eth_header := f_eth_get_header(data_array_8bit); 
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_eth_get_header(eth_pkt : t_slv_arr)
     return t_ethernet_header is
@@ -375,10 +381,10 @@ package body nw_ethernet_pkg is
   --! Extract ethernet payload from ethernet packet. Assumes that first byte in packet is first byte after start frame delimiter.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len                     := f_eth_get_payload_len(data_array_8bit); -- determine size of payload
   --! v_payload(0 to v_len - 1) := f_eth_get_payload(data_array_8bit); 
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_eth_get_payload(eth_pkt    : t_slv_arr)
     return t_slv_arr is
@@ -394,9 +400,9 @@ package body nw_ethernet_pkg is
   --! Get ethernet payload length from ethernet packet. Assumes that first byte in packet is first byte after start frame delimiter.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```
   --! v_len := f_eth_get_payload_len(data_array_8bit); -- determine size of payload
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_eth_get_payload_len(eth_pkt : t_slv_arr)
     return natural is
@@ -414,9 +420,9 @@ package body nw_ethernet_pkg is
   --! Check CRC of ethernet packet. Assumes that first byte in packet is first byte after start frame delimiter and the FCS are the last four bytes.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_check := f_eth_crc_ok(data_array_8bit); 
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_eth_crc_ok(eth_pkt : t_slv_arr)
     return boolean is
@@ -441,10 +447,10 @@ package body nw_ethernet_pkg is
   --! Convert MAC address in string format to byte array. The character separating the numbers is not checked, and can be any valid character.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_mac := f_eth_mac_2_slv_arr("a2:34:56:f1:30:00"); -- v_mac is now (x"a2", x"34", x"56", x"f1", x"30", x"00")
   --! v_mac := f_eth_mac_2_slv_arr("a2-34-56-f1-30-00"); -- v_mac is now (x"a2", x"34", x"56", x"f1", x"30", x"00")
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_eth_mac_2_slv_arr(mac : string(1 to 17))
     return t_slv_arr is
@@ -455,5 +461,34 @@ package body nw_ethernet_pkg is
     end loop;
     return v_mac;
   end function f_eth_mac_2_slv_arr;
+
+  -------------------------------------------------------------------------------
+  --! \brief Create random MAC address
+  --! \param mac   MAC address to keep (where mask is '1')
+  --! \param mask  MAC address mask
+  --! \return      Random MAC address
+  --!
+  --! Crate random MAC addres. 
+  --!
+  --! **Example use**
+  --! ```vhdl
+  --! v_mac_dest := f_randmac; -- completely random MAC address
+  --! v_mac_src  := f_randmac((x"a2", x"34", x"50", x"00", x"00", x"00"), (x"ff", x"ff", x"f0", x"00", x"00", x"00"); -- random lower 28bits
+  --! ```
+  -------------------------------------------------------------------------------
+  impure function f_randmac(
+    mac  : t_slv_arr(0 to 5)(7 downto 0) := (x"ff", x"ff", x"ff", x"ff", x"ff", x"ff"); -- default mac
+    mask : t_slv_arr(0 to 5)(7 downto 0) := (x"00", x"00", x"00", x"00", x"00", x"00") -- 1 to keep
+  ) return t_slv_arr is
+    variable v_mac : t_slv_arr(0 to 5)(7 downto 0);
+    variable v_rnd : t_slv_arr(0 to 5)(7 downto 0);
+  begin
+    v_rnd := f_gen_prbs(C_POLY_X16_X15_X13_X4_1, 8, 6, true, f_gen_seed(16));
+    for i in 0 to 5 loop
+      v_mac(i) := (mac(i) and mask(i)) or (v_rnd(i) and not mask(i));
+    end loop;
+
+    return v_mac;
+  end function f_randmac;
 
 end package body nw_ethernet_pkg;

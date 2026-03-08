@@ -53,25 +53,25 @@ context nw_util.nw_util_context;
 --! \n More details in \ref nw_bitstuff_pkg
 --! \subsection bstuff_subsec2 Example use
 --! Include the libraries:
---! ~~~
+--! ```vhdl
 --! library nw_codec;
 --! context nw_codec.nw_codec_context;
---! ~~~
+--! ```
 --! Example: HDLC-style bit-stuffing. Assume we have a HDLC frame in the variable \c v_data (8bit format). A zero-bit shall be inserted after each sequence of 5 one's.
 --! The 8-bit frame is converted to 1-bit with f_repack().
---! ~~~
+--! ```vhdl
 --! v_len                     := f_bitstuff_enc_len(f_repack(v_data, 1), 5); -- get length of encoded data (v_data is here 8bit, and is repacked to 1bit)
 --! v_encoded(0 to v_len - 1) := f_bitstuff_enc(f_repack(v_data, 1), 5); -- encode 
---! ~~~
+--! ```
 --! Add FEC (0x7e) before and after the bit-stuffed HDLC frame:
---! ~~~
+--! ```vhdl
 --! v_encoded(0 to v_len + 15) :=  f_concat("01111110", f_concat(v_encoded, "01111110")); -- add FEC before and after data frame
---! ~~~
+--! ```
 --! Decoding of a bit-stuffed frame:
---! ~~~
+--! ```vhdl
 --! v_dlen                     := f_bitstuff_dec_len(v_encoded(0 to v_len - 1)); -- get length of decoded data 
 --! v_decoded(0 to v_dlen - 1) := f_bitstuff_dec(v_encoded(0 to v_len - 1)); 
---! ~~~
+--! ```
 --! See further examples in the test bench nw_codec_tb.vhd.
 package nw_bitstuff_pkg is
 
@@ -147,9 +147,9 @@ package body nw_bitstuff_pkg is
   --! Encode data with bit-stuffing. If a sequence of bits with value run_type longer than run_length is enconutered, a stuff bit of inverse value is inserted.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! encoded_data := f_bitstuff_enc(data_1bit, 5);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_bitstuff_enc(data       : t_slv_arr;
                           run_length : positive;
@@ -169,9 +169,9 @@ package body nw_bitstuff_pkg is
   --! Get length of encoded data after applying bit stuffing.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len := f_bitstuff_enc_len(data_1bit, 5);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_bitstuff_enc_len(data       : t_slv_arr;
                               run_length : positive;
@@ -241,9 +241,9 @@ package body nw_bitstuff_pkg is
   --! Decode bit-stuffed data. Remove bits inserted by the encoding process.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! decoded_data := f_bitstuff_dec(data_1bit, 5);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_bitstuff_dec(data       : t_slv_arr;
                           run_length : positive;
@@ -263,9 +263,9 @@ package body nw_bitstuff_pkg is
   --! Get length of decoded data after bit stuffing is removed.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len := f_bitstuff_dec_len(data_1bit, 5);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_bitstuff_dec_len(data       : t_slv_arr;
                               run_length : positive;

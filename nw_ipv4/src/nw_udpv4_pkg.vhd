@@ -55,35 +55,35 @@ use work.nw_ipv4_pkg.all;
 --! \n\n More details in \ref nw_udpv4_pkg
 --! \subsection udpv4_subsec2 Example use
 --! Include the libraries:
---! ~~~
+--! ```vhdl
 --! library nw_util;
 --! context nw_util.nw_util_context;
 --! library nw_ipv4;
 --! context nw_ipv4.nw_ipv4_context;
---! ~~~
+--! ```
 --! Assume the variable \c v_payload contains the UDP payload. The variables are defined:
---! ~~~
+--! ```vhdl
 --! variable v_header  : t_udp_header; -- UDP header record
 --! variable v_udp_pkt : t_slv_arr(0 to 1500)(7 downto 0); -- byte array
 --! variable v_len     : natural;
---! ~~~
+--! ```
 --! First setup the header, then calculate the total UDP packet length before creating the packet. 
 --! Checksum is optional for UDP over IPv4. Here it will be set to x"0000".
---! ~~~
+--! ```vhdl
 --! v_header                  := C_DEFAULT_UDP_HEADER; -- copy default header
 --! v_header.src_port         := x"0101"; -- change source port
 --! v_len                     := f_udpv4_create_pkt_len(v_header, v_payload); -- calculate total packet length
 --! v_udp_pkt(0 to v_len - 1) := f_udpv4_create_pkt(v_header, v_payload); -- create the packet (no checksum)
---! ~~~
+--! ```
 --! If checksum is desired, the IPv4 header must be supplied for the pseudo header:
---! ~~~
+--! ```vhdl
 --! v_ipv4_header             := C_DEFAULT_IPV4_HEADER; -- copy default header
 --! v_udp_pkt(0 to v_len - 1) := f_udpv4_create_pkt(v_ipv4_header, v_header, v_payload); -- create the packet
---! ~~~
+--! ```
 --! The variable \c v_udp_pkt is an 8-bit array. This can of course be rearranged to any word width with \c f_repack .
---! ~~~
+--! ```vhdl
 --! v_ipv4_pkt_32 := f_repack(v_udp_pkt, 32, C_MSB_FIRST); -- repack to 32bit words (padded with zeros if required)
---! ~~~
+--! ```
 --! See further examples in the test bench nw_ipv4_tb.vhd.
 package nw_udpv4_pkg is
 
@@ -206,11 +206,11 @@ package body nw_udpv4_pkg is
   --! which is included in the checksum calculation.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_ipv4_header := C_DEFAULT_IPV4_HEADER;
   --! v_udp_header  := C_DEFAULT_UDP_HEADER;
   --! v_packet_8bit := f_udpv4_create_pkt(v_ipv4_header, v_udp_header, payload); 
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_udpv4_create_pkt(ipv4_header : t_ipv4_header;
                               udp_header  : t_udp_header;
@@ -230,10 +230,10 @@ package body nw_udpv4_pkg is
   --! Create UDP packet, set checksum field to x"0000". Payload must be 8bit data array. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_udp_header  := C_DEFAULT_UDP_HEADER;
   --! v_packet_8bit := f_udpv4_create_pkt(v_udp_header, payload); 
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_udpv4_create_pkt(udp_header : t_udp_header;
                               payload    : t_slv_arr)
@@ -251,10 +251,10 @@ package body nw_udpv4_pkg is
   --! Return the length of the created UDP packet.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len                      := f_udpv4_create_pkt_len(v_udp_header, payload); 
   --! v_pkt_8bit(0 to v_len - 1) := f_udpv4_create_pkt(v_udp_header, payload);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_udpv4_create_pkt_len(udp_header : t_udp_header;
                                   payload    : t_slv_arr)
@@ -276,10 +276,10 @@ package body nw_udpv4_pkg is
   --! Return the length of the created UDP packet.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len                      := f_udpv4_create_pkt_len(v_ipv4_header, v_udp_header, payload); 
   --! v_pkt_8bit(0 to v_len - 1) := f_udpv4_create_pkt(_ipv4_header, v_udp_header, payload);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_udpv4_create_pkt_len(ipv4_header : t_ipv4_header;
                                   udp_header  : t_udp_header;
@@ -300,9 +300,9 @@ package body nw_udpv4_pkg is
   --! Extract UDP header from UDP packet. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_udp_header := f_udpv4_get_header(data_array_8bit); 
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_udpv4_get_header(udp_pkt : t_slv_arr)
     return t_udp_header is
@@ -358,10 +358,10 @@ package body nw_udpv4_pkg is
   --! Extract UDP payload from UDP packet. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len                     := f_udpv4_get_payload_len(data_array_8bit); 
   --! v_payload(0 to v_len - 1) := f_udpv4_get_payload(data_array_8bit); 
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_udpv4_get_payload(udp_pkt : t_slv_arr)
     return t_slv_arr is
@@ -377,9 +377,9 @@ package body nw_udpv4_pkg is
   --! Get UDP payload length from UDP packet. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len := f_udpv4_get_payload_len(data_array_8bit); -- determine size of payload
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_udpv4_get_payload_len(udp_pkt : t_slv_arr)
     return natural is
@@ -399,9 +399,9 @@ package body nw_udpv4_pkg is
   --! Check checksum of UDP packet. The IPv4 header is required for the pseudo-header fields.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_check := f_udpv4_chksum_ok(ipv4_header, data_array_8bit); 
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_udpv4_chksum_ok(ipv4_header : t_ipv4_header;
                              udp_pkt     : t_slv_arr)

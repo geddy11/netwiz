@@ -110,3 +110,9 @@ ghdl -a --std=08 -frelaxed-rules --work=nw_rtp ../nw_rtp/src/nw_rtp_pkg.vhd
 ghdl -a --std=08 -frelaxed-rules --work=work ../nw_rtp/tb/nw_rtp_tb.vhd
 ghdl -e --std=08 -frelaxed-rules --work=work nw_rtp_tb
 ghdl -r --std=08 -frelaxed-rules --work=work nw_rtp_tb
+# netwiz
+echo -e "\nTesting netwiz"
+ghdl -a --std=08 -frelaxed-rules --work=netwiz ../netwiz/src/netwiz_context.vhd
+ghdl -a --std=08 -frelaxed-rules --work=work ../netwiz/tb/ethernet_fuzzer_tb.vhd
+ghdl -e --std=08 -frelaxed-rules --work=work ethernet_fuzzer_tb
+ghdl -r --std=08 -frelaxed-rules --work=work ethernet_fuzzer_tb

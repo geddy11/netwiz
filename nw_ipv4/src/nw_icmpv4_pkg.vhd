@@ -53,30 +53,30 @@ context nw_util.nw_util_context;
 --! \n\n More details in \ref nw_icmpv4_pkg
 --! \subsection icmpv4_subsec2 Example use
 --! Include the libraries:
---! ~~~
+--! ```vhdl
 --! library nw_util;
 --! context nw_util.nw_util_context;
 --! library nw_ipv4;
 --! context nw_ipv4.nw_ipv4_context;
---! ~~~
+--! ```
 --! Assume the variable \c v_payload contains the ICMP payload. The variables are defined:
---! ~~~
+--! ```vhdl
 --! variable v_header   : t_icmpv4_header; -- ICMP header record
 --! variable v_payload  : t_slv_arr(0 to 31)(7 downto 0);
 --! variable v_icmp_pkt : t_slv_arr(0 to 39)(7 downto 0); -- byte array
 --! variable v_len      : natural;
---! ~~~
+--! ```
 --! First setup the header, then calculate the total ICMP packet length before creating the packet. 
---! ~~~
+--! ```vhdl
 --! v_header                   := C_DEFAULT_ICMPV4_HEADER; -- copy default header (ping request)
 --! v_payload                  := f_gen_nrs(x"80", 32); -- payload contents
 --! v_len                      := f_icmpv4_create_pkt_len(v_header, v_payload); -- calculate total packet length
 --! v_icmp_pkt(0 to v_len - 1) := f_icmpv4_create_pkt(v_header, v_payload); -- create the packet (no checksum)
---! ~~~
+--! ```
 --! The variable \c v_icmp_pkt is an 8-bit array. This can of course be rearranged to any word width with \c f_repack().
---! ~~~
+--! ```vhdl
 --! v_icmpv4_pkt_32 := f_repack(v_icmp_pkt, 32, C_MSB_FIRST); -- repack to 32bit words (padded with zeros if required)
---! ~~~
+--! ```
 --! See further examples in the test bench nw_ipv4_tb.vhd.
 package nw_icmpv4_pkg is
 
@@ -196,10 +196,10 @@ package body nw_icmpv4_pkg is
   --! Create ICMPv4 packet. Payload must be 8bit data array. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_packet_8bit  := f_icmpv4_create_pkt(C_DEFAULT_ICMPV4_HEADER); -- echo request
   --! v_packet2_8bit := f_icmpv4_create_pkt(C_DEFAULT_ICMPV4_HEADER, payload); -- with payload
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_icmpv4_create_pkt(icmp_header : t_icmpv4_header;
                                payload     : t_slv_arr)
@@ -216,9 +216,9 @@ package body nw_icmpv4_pkg is
   --! Create ICMPv4 packet. Payload must be 8bit data array. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_packet_8bit  := f_icmpv4_create_pkt(C_DEFAULT_ICMPV4_HEADER); -- echo request
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_icmpv4_create_pkt(icmp_header : t_icmpv4_header)
     return t_slv_arr is
@@ -235,10 +235,10 @@ package body nw_icmpv4_pkg is
   --! Return the length of the created ICMP packet.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len                      := f_icmpv4_create_pkt_len(v_icmp_header, payload); 
   --! v_pkt_8bit(0 to v_len - 1) := f_icmpv4_create_pkt(v_icmp_header, payload);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_icmpv4_create_pkt_len(icmp_header : t_icmpv4_header;
                                    payload     : t_slv_arr)
@@ -257,10 +257,10 @@ package body nw_icmpv4_pkg is
   --! Return the length of the created ICMP packet.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len                      := f_icmpv4_create_pkt_len(v_icmp_header); 
   --! v_pkt_8bit(0 to v_len - 1) := f_icmpv4_create_pkt(v_icmp_header);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_icmpv4_create_pkt_len(icmp_header : t_icmpv4_header)
     return natural is
@@ -278,9 +278,9 @@ package body nw_icmpv4_pkg is
   --! Extract ICMP header from ICMP packet. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_icmp_header := f_icmpv4_get_header(data_array_8bit); 
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_icmpv4_get_header(icmp_pkt : t_slv_arr)
     return t_icmpv4_header is
@@ -333,10 +333,10 @@ package body nw_icmpv4_pkg is
   --! Extract ICMP payload from ICMP packet. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len                     := f_icmpv4_get_payload_len(data_array_8bit); 
   --! v_payload(0 to v_len - 1) := f_icmpv4_get_payload(data_array_8bit); 
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_icmpv4_get_payload(icmp_pkt : t_slv_arr)
     return t_slv_arr is
@@ -352,9 +352,9 @@ package body nw_icmpv4_pkg is
   --! Get ICMP payload length from ICMP packet. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len := f_icmpv4_get_payload_len(data_array_8bit); -- determine size of payload
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_icmpv4_get_payload_len(icmp_pkt : t_slv_arr)
     return natural is
@@ -375,9 +375,9 @@ package body nw_icmpv4_pkg is
   --! Check checksum of ICMP packet. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_check := f_icmpv4_chksum_ok(data_array_8bit); 
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_icmpv4_chksum_ok(icmp_pkt : t_slv_arr)
     return boolean is

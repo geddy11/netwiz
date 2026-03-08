@@ -53,22 +53,22 @@ use work.nw_util_pkg.all;
 --! \n More details in \ref nw_crc_pkg
 --! \subsection crc_subsec2 Example use
 --! Include the libraries:
---! ~~~
+--! ```vhdl
 --! library nw_util;
 --! context nw_util.nw_util_context;
---! ~~~
+--! ```
 --! Calculation of internet checksum (IPv4 header checksum):
---! ~~~
+--! ```vhdl
 --! v_chksum16 := not f_gen_chksum(array_16bit, 16); 
---! ~~~
+--! ```
 --! Calculation of 8bit checksum (no carry):
---! ~~~
+--! ```vhdl
 --! v_chksum8 := not f_gen_chksum(array_8bit, 8, False); 
---! ~~~
+--! ```
 --! Calculation of ethernet CRC - here we need to postprocess the CRC by bit-reversing, swap endianess and inverting:
---! ~~~
+--! ```vhdl
 --! v_crc_32   := not f_swap_endian(f_bitflip(f_gen_crc(C_ETH_CRC32, array_8bit, x"ffffffff", C_LSB_FIRST)));
---! ~~~
+--! ```
 --! See further examples in the test bench nw_util_tb.vhd.
 package nw_crc_pkg is
 
@@ -101,10 +101,10 @@ package body nw_crc_pkg is
   --! Calculate CRC checksum of data array. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! array_8bit := (x"11", x"22", x"33", x"44", x"55", x"66", x"77");
   --! v_crc_32   := f_gen_crc(C_ETH_CRC32, array_8bit, x"ffffffff"); -- v_crc_32 is now x"97aee1d3"
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_gen_crc(poly      : std_logic_vector;
                      data      : t_slv_arr;
@@ -154,10 +154,10 @@ package body nw_crc_pkg is
   --! which is accomplished with e.g. f_repack().
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! array_16bit := (x"4500", x"0073", x"0000", x"4000", x"4011", x"0000", x"c0a8", x"0001", x"c0a8", x"00c7"); -- IPv4 Header
   --! v_chksum    := not f_gen_chksum(array_16bit, 16); -- v_chksum is now x"b861", which is the IPv4 header checksum
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_gen_chksum(data: t_slv_arr;
                         chksum_width: positive;

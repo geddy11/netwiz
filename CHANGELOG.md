@@ -10,10 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
   - nw_prbs: New functions: f_gen_seed(), f_randnat(), f_randslv(), f_randsel()
   - nw_axis: AXIS-Stream sink and source
+  - nw_ethernet: Random MAC address generator
+  - netwiz: Library containing all sub-libraries
+  - Ethernet packet fuzzer testbench
 
 ### Fixed
   - nw_ethernet: Padding of small packets
-  - nw_ipv4: Options with IHL=15
+  - nw_ipv4: Options with IHL=15, checksum verification with arrays starting >0
 
 ## [1.4.0] - 2026-01-03
 

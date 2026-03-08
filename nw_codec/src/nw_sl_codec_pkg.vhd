@@ -58,29 +58,29 @@ context nw_util.nw_util_context;
 --! \n More details in \ref nw_sl_codec_pkg
 --! \subsection sl_codec_subsec2 Example use
 --! Include the libraries:
---! ~~~
+--! ```vhdl
 --! library nw_codec;
 --! context nw_codec.nw_codec_context;
---! ~~~
+--! ```
 --! Example 1: Bytestuffing of PPP frame - replace 0x7e and 0x7d with escape sequences. First, define the codec:
---! ~~~
+--! ```vhdl
 --! constant C_PPP_CODEC : t_codec(0 to 1)(word(7 downto 0), code(0 to 1)(7 downto 0)) := ((word => x"7e", code => (x"7d", x"5e")),
 --!                                                                                        (word => x"7d", code => (x"7d", x"5d")));
---! ~~~
+--! ```
 --! Then encode a data array:
---! ~~~
+--! ```vhdl
 --! v_data                    := (x"19", x"7e", x"fa", x"91", x"7d", x"80", x"00"); -- data array to be encoded
 --! v_len                     := f_sl_enc_len(v_data, C_PPP_CODEC); -- get length of encoded data (v_len is now 9)
 --! v_encoded(0 to v_len - 1) := f_sl_enc(v_data, C_PPP_CODEC); -- v_encoded is now (x"19", x"7d", x"5e", x"fa", x"91", x"7d", x"5d", x"80", x"00")
---! ~~~
+--! ```
 --! Decode the encoded data:
---! ~~~
+--! ```vhdl
 --! v_dlen                     := f_sl_dec_len(v_encoded(0 to v_len - 1), C_PPP_CODEC); -- get length od decoded data
 --! v_decoded(0 to v_dlen - 1) := f_sl_dec(v_encoded(0 to v_len - 1), C_PPP_CODEC); -- v_decoded is now equal to v_data
---! ~~~
+--! ```
 --! Example 2: Encode data with lookup table - here we will apply Hamming(7,4) coding to a data vector (not an elegant way to perform Hamming coding, but nonetheless).\n
 --! First, define the codec (the loopup table must be complete):
---! ~~~
+--! ```vhdl
 --! constant C_HAMMING_7_4: t_codec(0 to 15)(word(3 downto 0), code(0 to 0)(6 downto 0)) := ((word => x"0", code => (others => "0000000")),
 --!                                                                                          (word => x"1", code => (others => "1101001")),
 --!                                                                                          (word => x"2", code => (others => "0101010")),
@@ -97,13 +97,13 @@ context nw_util.nw_util_context;
 --!                                                                                          (word => x"d", code => (others => "1010101")),
 --!                                                                                          (word => x"e", code => (others => "0010110")),
 --!                                                                                          (word => x"f", code => (others => "1111111")));
---! ~~~
+--! ```
 --! The the codec is applied to a data vector:
---! ~~~ 
+--! ``` vhdl
 --! v_data                := (x"7", x"0", x"e", x"a"); -- data array to be encoded
 --! v_len                 := f_sl_enc_len(v_data, C_HAMMING_7_4); -- get length of encoded data (in this case will be equal to v_data length)
 --! v_ham(0 to v_len - 1) := f_sl_enc(v_data, C_HAMMING_7_4); -- v_ham is now ("0001111", "0000000", "0010110", "1011010")
---! ~~~
+--! ```
 --! See further examples in the test bench nw_codec_tb.vhd.
 package nw_sl_codec_pkg is
 
@@ -188,9 +188,9 @@ package body nw_sl_codec_pkg is
   --! Encode data with a custom codec.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! encoded_data := f_sl_enc(data_8bit, codec);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_sl_enc(data  : t_slv_arr;
                     codec : t_codec)
@@ -208,9 +208,9 @@ package body nw_sl_codec_pkg is
   --! Get length of encoded data with a custom codec.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len := f_sl_enc_len(data_8bit, codec);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_sl_enc_len(data  : t_slv_arr;
                         codec : t_codec)
@@ -282,9 +282,9 @@ package body nw_sl_codec_pkg is
   --! Decode data with a custom codec.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! decoded_data := f_sl_dec(encoded_data, codec);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_sl_dec(data  : t_slv_arr;
                     codec : t_codec)
@@ -302,9 +302,9 @@ package body nw_sl_codec_pkg is
   --! Get length of decoded data with a custom codec.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len := f_sl_dec_len(encoded_data, codec);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_sl_dec_len(data  : t_slv_arr;
                         codec : t_codec)

@@ -6,3 +6,4 @@ script/*
 !script/*.sh
 !script/*.do
 todo.txt
+work

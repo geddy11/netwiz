@@ -53,21 +53,21 @@ context nw_util.nw_util_context;
 --! \n More details in \ref nw_cobs_pkg
 --! \subsection cobs_subsec2 Example use
 --! Include the libraries:
---! ~~~
+--! ```vhdl
 --! library nw_codec;
 --! context nw_codec.nw_codec_context;
---! ~~~
+--! ```
 --! The encoding process will replace all zeros in the data to be encoded. 
---! ~~~
+--! ```vhdl
 --! v_data                    := (x"00", x"00", x"00", x"01", x"80", x"57", x"68", x"00", x"00", x"00"); -- data array to be encoded
 --! v_len                     := f_cobs_enc_len(v_data); -- get length of encoded data (v_len is now 11)
 --! v_encoded(0 to v_len - 1) := f_cobs_enc(v_data); -- v_encoded is now (x"01", x"01", x"01", x"05", x"01", x"80", x"57", x"68", x"01", x"01", x"01")
---! ~~~
+--! ```
 --! Decode the encoded data:
---! ~~~
+--! ```vhdl
 --! v_dlen                     := f_cobs_dec_len(v_encoded(0 to v_len - 1)); -- get length od decoded data (v_dlen is now 10)
 --! v_decoded(0 to v_dlen - 1) := f_cobs_dec(v_encoded(0 to v_len - 1)); -- v_decoded is now equal to v_data
---! ~~~
+--! ```
 --! See further examples in the test bench nw_codec_tb.vhd.
 package nw_cobs_pkg is
 
@@ -153,9 +153,9 @@ package body nw_cobs_pkg is
   --! Encode data with the COBS algorithm.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! encoded_data := f_cobs_enc(data_8bit);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_cobs_enc(data : t_slv_arr)
     return t_slv_arr is
@@ -171,9 +171,9 @@ package body nw_cobs_pkg is
   --! Get length of encoded data after applying COBS.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len := f_cobs_enc_len(data_8bit);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_cobs_enc_len(data : t_slv_arr)
     return natural is
@@ -243,9 +243,9 @@ package body nw_cobs_pkg is
   --! Decode data with the COBS algorithm. 
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! decoded_data := f_cobs_dec(data_8bit);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_cobs_dec(data : t_slv_arr)
     return t_slv_arr is
@@ -261,9 +261,9 @@ package body nw_cobs_pkg is
   --! Get length of decoded data after applying COBS.
   --!
   --! **Example use**
-  --! ~~~
+  --! ```vhdl
   --! v_len := f_cobs_dec_len(data_8bit);
-  --! ~~~
+  --! ```
   -------------------------------------------------------------------------------
   function f_cobs_dec_len(data : t_slv_arr)
     return natural is
