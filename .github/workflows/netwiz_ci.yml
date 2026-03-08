@@ -24,7 +24,7 @@ jobs:
        #wget https://github.com/ghdl/ghdl/releases/download/v4.1.0/ghdl-gha-ubuntu-22.04-llvm.tgz
        #sudo tar zxf ghdl-gha-ubuntu-22.04-llvm.tgz -C /usr
        wget https://github.com/ghdl/ghdl/releases/download/v6.0.0/ghdl-llvm-6.0.0-ubuntu24.04-x86_64.tar.gz
-       sudo tar zxf hdl-llvm-6.0.0-ubuntu24.04-x86_64.tar.gz -C /usr
+       sudo tar zxf ghdl-llvm-6.0.0-ubuntu24.04-x86_64.tar.gz -C /usr
        ghdl --version
     - name: checkout
       uses: actions/checkout@v4
