@@ -29,7 +29,7 @@ var NAVTREE =
       [ "Intro", "index.html#autotoc_md18", null ],
       [ "Libraries", "index.html#autotoc_md19", null ],
       [ "Documentation", "index.html#autotoc_md20", null ],
-      [ "[1.5.0] - 2026-xx-xx", "md_CHANGELOG.html#autotoc_md1", [
+      [ "[1.5.0] - 2026-08-03", "md_CHANGELOG.html#autotoc_md1", [
         [ "Added", "md_CHANGELOG.html#autotoc_md2", null ],
         [ "Fixed", "md_CHANGELOG.html#autotoc_md3", null ]
       ] ],
