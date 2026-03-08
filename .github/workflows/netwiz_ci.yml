@@ -23,8 +23,8 @@ jobs:
        sudo apt-get install -y wget libglib2.0-0
        #wget https://github.com/ghdl/ghdl/releases/download/v4.1.0/ghdl-gha-ubuntu-22.04-llvm.tgz
        #sudo tar zxf ghdl-gha-ubuntu-22.04-llvm.tgz -C /usr
-       wget https://github.com/ghdl/ghdl/releases/download/v6.0.0/ghdl-llvm-6.0.0-ubuntu24.04-x86_64.tar.gz
-       sudo tar zxf ghdl-llvm-6.0.0-ubuntu24.04-x86_64.tar.gz -C /usr
+       wget https://github.com/ghdl/ghdl/releases/download/v5.1.1/ghdl-llvm-5.1.1-ubuntu24.04-x86_64.tar.gz
+       sudo tar zxf ghdl-llvm-5.1.1-ubuntu24.04-x86_64.tar.gz -C /usr
        ghdl --version
     - name: checkout
       uses: actions/checkout@v4
