@@ -32,13 +32,13 @@ ghdl -a --std=08 -frelaxed-rules --work=nw_adapt ../nw_adapt/src/nw_adaptations_
 echo -e "\nTesting nw_util:"
 ghdl -a --std=08 -frelaxed-rules --work=nw_util ../nw_util/src/nw_types_pkg.vhd
 ghdl -a --std=08 -frelaxed-rules --work=nw_util ../nw_util/src/nw_util_pkg.vhd
-ghdl -a --std=08 -frelaxed-rules --work=nw_util ../nw_util/src/nw_util_context.vhd
 ghdl -a --std=08 -frelaxed-rules --work=nw_util ../nw_util/src/nw_crc_pkg.vhd
 ghdl -a --std=08 -frelaxed-rules --work=nw_util ../nw_util/src/nw_nrs_pkg.vhd
 ghdl -a --std=08 -frelaxed-rules --work=nw_util ../nw_util/src/nw_prbs_pkg.vhd
 ghdl -a --std=08 -frelaxed-rules --work=nw_util ../nw_util/src/nw_axis_pkg.vhd
 ghdl -a --std=08 -frelaxed-rules --work=nw_util ../nw_util/src/nw_axis_sink.vhd
 ghdl -a --std=08 -frelaxed-rules --work=nw_util ../nw_util/src/nw_axis_source.vhd
+ghdl -a --std=08 -frelaxed-rules --work=nw_util ../nw_util/src/nw_util_context.vhd
 ghdl -a --std=08 -frelaxed-rules --work=work ../nw_util/tb/nw_util_tb.vhd
 ghdl -a --std=08 -frelaxed-rules --work=work ../nw_util/tb/nw_axis_tb.vhd
 ghdl -e --std=08 -frelaxed-rules --work=work nw_util_tb
