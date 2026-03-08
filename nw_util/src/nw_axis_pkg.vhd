@@ -49,11 +49,7 @@ package nw_axis_pkg is
     generic (
       GC_BYTES : integer range 1 to 1024
     );
-    port (
-      pkt       : in  t_slv_arr(open)(7 downto 0);
-      pkt_len   : in  natural;
-      pkt_valid : in  std_logic;
-      done      : out std_logic;
+    port ( 
       aclk      : in  std_logic;
       aresetn   : in  std_logic;
       tready    : in  std_logic;
@@ -61,7 +57,11 @@ package nw_axis_pkg is
       tdata     : out std_logic_vector(GC_BYTES * 8 - 1 downto 0);
       tkeep     : out std_logic_vector(GC_BYTES - 1 downto 0);
       tstrb     : out std_logic_vector(GC_BYTES - 1 downto 0);
-      tlast     : out std_logic
+      tlast     : out std_logic;
+      done      : out std_logic;
+      pkt_len   : in  natural;
+      pkt_valid : in  std_logic;
+      pkt       : in  t_slv_arr
     );
   end component axis_source;
 
@@ -79,9 +79,9 @@ package nw_axis_pkg is
       tkeep     : in  std_logic_vector(GC_BYTES - 1 downto 0);
       tstrb     : in  std_logic_vector(GC_BYTES - 1 downto 0);
       tlast     : in  std_logic;
-      pkt       : out  t_slv_arr(open)(7 downto 0);
       pkt_len   : out  natural;
-      pkt_valid : out  std_logic
+      pkt_valid : out  std_logic;
+      pkt       : out  t_slv_arr(0 to GC_MAX_PKT_SIZE - 1)(7 downto 0)
     );
   end component axis_sink;
 

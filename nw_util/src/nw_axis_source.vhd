@@ -86,7 +86,7 @@ entity axis_source is
     done      : out std_logic; --! Packet send done
     pkt_len   : in  natural; --! Packet length (bytes)
     pkt_valid : in  std_logic; --! Packet valid
-    pkt       : in  t_slv_arr(open)(7 downto 0) --! Packet to send
+    pkt       : in  t_slv_arr --! Packet to send (byte array)
   );
 end entity axis_source;
 
@@ -100,6 +100,7 @@ begin
 
   assert pkt'ascending report "axis_source: packet array must be ascending" severity C_SEVERITY;
   assert pkt'high - pkt'low + 1 >= pkt_len report "axis_source: packet array must be as large as pkt_len" severity C_SEVERITY;
+  assert pkt(pkt'low)'length = 8 report "axis_source: packet must be 8bit" severity C_SEVERITY;
 
   p_source: process (aclk) is
     variable v_cnt   : natural;
