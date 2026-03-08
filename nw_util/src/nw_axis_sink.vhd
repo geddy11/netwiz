@@ -36,9 +36,8 @@ use IEEE.numeric_std.all;
 
 library nw_adapt;
 use nw_adapt.nw_adaptations_pkg.all;
-use work.nw_types_pkg.all;
-use work.nw_util_pkg.all;
-use work.nw_prbs_pkg.all;
+library nw_util;
+use nw_util.nw_types_pkg.all;
 --! @endcond
 
 --! \page nw_axis_sink AXI-Stream sink
