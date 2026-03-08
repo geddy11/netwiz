@@ -108,7 +108,7 @@ begin
     variable v_end   : natural;
 
     procedure data (
-      signal pkt : in t_slv_arr(open)(7 downto 0);
+      signal pkt : in t_slv_arr;
       signal tdata: out std_logic_vector;
       signal tkeep: out std_logic_vector;
       signal tstrb: out std_logic_vector;
