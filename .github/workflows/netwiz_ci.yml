@@ -11,19 +11,21 @@ jobs:
   ghdl_sim:
     runs-on: ubuntu-24.04
     steps:
-    #- name: setup_ghdl
-    - uses: ghdl/setup-ghdl@v1
-      with:
-        version: 6.0.0
-        backend: llvm
+    # - uses: ghdl/setup-ghdl@v1
+    #   with:
+    #     version: 6.0.0
+    #     backend: llvm
       #  investigate: true
-      #run: |
-      #  sudo apt-get update
-      #  sudo apt-get install -y gcc clang libgnat-10 libllvm14 libc-dev zlib1g-dev 
-      #  sudo apt-get install -y wget libglib2.0-0
-      #  wget https://github.com/ghdl/ghdl/releases/download/v4.1.0/ghdl-gha-ubuntu-22.04-llvm.tgz
-      #  sudo tar zxf ghdl-gha-ubuntu-22.04-llvm.tgz -C /usr
-      #  ghdl --version
+    - name: setup_ghdl
+      run: |
+       sudo apt-get update
+       sudo apt-get install -y gcc clang libgnat-10 libllvm14 libc-dev zlib1g-dev 
+       sudo apt-get install -y wget libglib2.0-0
+       #wget https://github.com/ghdl/ghdl/releases/download/v4.1.0/ghdl-gha-ubuntu-22.04-llvm.tgz
+       #sudo tar zxf ghdl-gha-ubuntu-22.04-llvm.tgz -C /usr
+       wget https://github.com/ghdl/ghdl/releases/download/v6.0.0/ghdl-llvm-6.0.0-ubuntu24.04-x86_64.tar.gz
+       sudo tar zxf hdl-llvm-6.0.0-ubuntu24.04-x86_64.tar.gz -C /usr
+       ghdl --version
     - name: checkout
       uses: actions/checkout@v4
     - name: sim_ghdl
