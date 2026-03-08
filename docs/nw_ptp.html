@@ -113,27 +113,27 @@ Functionality</h2>
  More details in <a class="el" href="classnw__ptpv2__pkg.html">nw_ptpv2_pkg</a> </p>
 <h2><a class="anchor" id="ptp_subsec2"></a>
 Example use</h2>
-<p>Include the libraries: </p><div class="fragment"><div class="line">library nw_util;</div>
-<div class="line">context nw_util.nw_util_context;</div>
-<div class="line">library nw_ptp;</div>
-<div class="line">use nw_ptp.nw_ptpv2.all;</div>
-<div class="line">library ne_ethernet;</div>
-<div class="line">context nw_ethernet.nw_ethernet_context;</div>
-</div><!-- fragment --><p> In many other NetWiz protocols a packet consists of a header and a payload. The PTP packet (or message) is contained completely in a record. </p><div class="fragment"><div class="line">variable v_msg : t_ptpv2_msg; -- message record</div>
-<div class="line">variable v_len : natural;</div>
-<div class="line">variable v_pkt : t_slv_arr(0 to 127)(7 downto 0);</div>
-</div><!-- fragment --><p> Example 1: Create a Sync message in an Ethernet packet. </p><div class="fragment"><div class="line">v_msg                              := C_DEFAULT_PTPV2_MSG; -- copy default msg</div>
-<div class="line">v_msg.header.message_type          := C_MSG_SYNC; -- Sync message</div>
-<div class="line">v_msg.header.sequence_id           := x&quot;1234&quot;; -- Sequence ID</div>
-<div class="line">v_msg.origin_timestamp.seconds     := x&quot;0000511003fc&quot;; -- seconds</div>
-<div class="line">v_msg.origin_timestamp.nanoseconds := x&quot;0188fa34&quot;;-- nanoseconds</div>
-<div class="line">-- PTP message record is ready, now setup Ethernet header</div>
-<div class="line">v_eth_header           := C_DEFAULT_ETH_HEADER;</div>
-<div class="line">v_eth_header.mac_dest  := f_eth_mac_2_slv_arr(&quot;01:1b:19:00:00:00&quot;); -- IEEE1588 broadcast MAC</div>
-<div class="line">v_eth_header.ethertype := C_ET_PTP; -- PTP over Ethernet</div>
-<div class="line">-- Create Ethernet packet with Sync message</div>
-<div class="line">v_len                := f_eth_create_pkt_len(v_eth_header, f_ptpv2_create_pkt(v_msg)); -- get length of packet</div>
-<div class="line">v_pkt(0 to v_len -1) := f_eth_create_pkt(v_eth_header, f_ptpv2_create_pkt(v_msg)); -- v_pkt now holds Ethernet+Sync</div>
+<p>Include the libraries: </p><div class="fragment"><div class="line"><span class="vhdlkeyword">library </span><span class="keywordflow">nw_util</span>;</div>
+<div class="line"><span class="keywordflow">context</span> <span class="vhdlchar">nw_util</span><span class="vhdlchar">.</span><span class="vhdlchar">nw_util_context</span>;</div>
+<div class="line"><span class="vhdlkeyword">library </span><span class="keywordflow">nw_ptp</span>;</div>
+<div class="line"><span class="vhdlkeyword">use </span>nw_ptp.nw_ptpv2.<span class="keywordflow">all</span>;</div>
+<div class="line"><span class="vhdlkeyword">library </span><span class="keywordflow">ne_ethernet</span>;</div>
+<div class="line"><span class="keywordflow">context</span> <span class="vhdlchar">nw_ethernet</span><span class="vhdlchar">.</span><span class="vhdlchar">nw_ethernet_context</span>;</div>
+</div><!-- fragment --><p> In many other NetWiz protocols a packet consists of a header and a payload. The PTP packet (or message) is contained completely in a record. </p><div class="fragment"><div class="line"><span class="keywordflow">variable</span> <span class="vhdlchar">v_msg</span> <span class="vhdlchar">:</span> <span class="vhdlchar">t_ptpv2_msg</span>;<span class="comment"> -- message record</span></div>
+<div class="line"><span class="keywordflow">variable</span> <span class="vhdlchar">v_len</span> <span class="vhdlchar">:</span> <span class="keywordtype">natural</span>;</div>
+<div class="line"><span class="keywordflow">variable</span> <span class="vhdlchar">v_pkt</span> <span class="vhdlchar">:</span> <span class="vhdlchar">t_slv_arr</span><span class="vhdlchar">(</span><span class="vhdllogic"></span><span class="vhdllogic">0</span> <span class="keywordflow">to</span> <span class="vhdllogic"></span><span class="vhdllogic">127</span><span class="vhdlchar">)</span><span class="vhdlchar">(</span><span class="vhdllogic"></span><span class="vhdllogic">7</span> <span class="keywordflow">downto</span> <span class="vhdllogic"></span><span class="vhdllogic">0</span><span class="vhdlchar">)</span>;</div>
+</div><!-- fragment --><p> Example 1: Create a Sync message in an Ethernet packet. </p><div class="fragment"><div class="line"><span class="vhdlchar">v_msg</span>                              <span class="vhdlchar">:=</span> <span class="vhdlchar">C_DEFAULT_PTPV2_MSG</span>;<span class="comment"> -- copy default msg</span></div>
+<div class="line"><span class="vhdlchar">v_msg</span><span class="vhdlchar">.</span><span class="vhdlchar">header</span><span class="vhdlchar">.</span><span class="vhdlchar">message_type</span>          <span class="vhdlchar">:=</span> <span class="vhdlchar">C_MSG_SYNC</span>;<span class="comment"> -- Sync message</span></div>
+<div class="line"><span class="vhdlchar">v_msg</span><span class="vhdlchar">.</span><span class="vhdlchar">header</span><span class="vhdlchar">.</span><span class="vhdlchar">sequence_id</span>           <span class="vhdlchar">:=</span> <span class="vhdlchar">x</span><span class="vhdllogic">&quot;1234&quot;</span>;<span class="comment"> -- Sequence ID</span></div>
+<div class="line"><span class="vhdlchar">v_msg</span><span class="vhdlchar">.</span><span class="vhdlchar">origin_timestamp</span><span class="vhdlchar">.</span><span class="vhdlchar">seconds</span>     <span class="vhdlchar">:=</span> <span class="vhdlchar">x</span><span class="vhdllogic">&quot;0000511003fc&quot;</span>;<span class="comment"> -- seconds</span></div>
+<div class="line"><span class="vhdlchar">v_msg</span><span class="vhdlchar">.</span><span class="vhdlchar">origin_timestamp</span><span class="vhdlchar">.</span><span class="vhdlchar">nanoseconds</span> <span class="vhdlchar">:=</span> <span class="vhdlchar">x</span><span class="vhdllogic">&quot;0188fa34&quot;</span>;<span class="comment">-- nanoseconds</span></div>
+<div class="line"><span class="comment">-- PTP message record is ready, now setup Ethernet header</span></div>
+<div class="line"><span class="vhdlchar">v_eth_header</span>           <span class="vhdlchar">:=</span> <span class="vhdlchar">C_DEFAULT_ETH_HEADER</span>;</div>
+<div class="line"><span class="vhdlchar">v_eth_header</span><span class="vhdlchar">.</span><span class="vhdlchar">mac_dest</span>  <span class="vhdlchar">:=</span> <span class="vhdlchar">f_eth_mac_2_slv_arr</span><span class="vhdlchar">(</span><span class="keyword">&quot;01:1b:19:00:00:00&quot;</span><span class="vhdlchar">)</span>;<span class="comment"> -- IEEE1588 broadcast MAC</span></div>
+<div class="line"><span class="vhdlchar">v_eth_header</span><span class="vhdlchar">.</span><span class="vhdlchar">ethertype</span> <span class="vhdlchar">:=</span> <span class="vhdlchar">C_ET_PTP</span>;<span class="comment"> -- PTP over Ethernet</span></div>
+<div class="line"><span class="comment">-- Create Ethernet packet with Sync message</span></div>
+<div class="line"><span class="vhdlchar">v_len</span>                <span class="vhdlchar">:=</span> <span class="vhdlchar">f_eth_create_pkt_len</span><span class="vhdlchar">(</span><span class="vhdlchar">v_eth_header</span><span class="vhdlchar">,</span> <span class="vhdlchar">f_ptpv2_create_pkt</span><span class="vhdlchar">(</span><span class="vhdlchar">v_msg</span><span class="vhdlchar">)</span><span class="vhdlchar">)</span>;<span class="comment"> -- get length of packet</span></div>
+<div class="line"><span class="vhdlchar">v_pkt</span><span class="vhdlchar">(</span><span class="vhdllogic"></span><span class="vhdllogic">0</span> <span class="keywordflow">to</span> <span class="vhdlchar">v_len</span> <span class="vhdlchar">-</span><span class="vhdllogic"></span><span class="vhdllogic">1</span><span class="vhdlchar">)</span> <span class="vhdlchar">:=</span> <span class="vhdlchar">f_eth_create_pkt</span><span class="vhdlchar">(</span><span class="vhdlchar">v_eth_header</span><span class="vhdlchar">,</span> <span class="vhdlchar">f_ptpv2_create_pkt</span><span class="vhdlchar">(</span><span class="vhdlchar">v_msg</span><span class="vhdlchar">)</span><span class="vhdlchar">)</span>;<span class="comment"> -- v_pkt now holds Ethernet+Sync</span></div>
 </div><!-- fragment --><p> See further examples in the test bench nw_ptp_tb.vhd. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->

@@ -113,6 +113,8 @@ Functions</h2></td></tr>
 <tr class="memdesc:a1cc05e34b9c910bfe2e5315805060dc5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check CRC.  <a href="#a1cc05e34b9c910bfe2e5315805060dc5"></a><br /></td></tr>
 <tr class="memitem:a4166054764c7c7ee6497107459636ea0" id="r_a4166054764c7c7ee6497107459636ea0"><td class="memItemLeft" align="right" valign="top"><b><b><span class="vhdlchar">t_slv_arr</span><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="class__nw__ethernet__pkg.html#a4166054764c7c7ee6497107459636ea0">f_eth_mac_2_slv_arr</a><b> ( </b><b><span class="vhdlchar">mac: </span><span class="stringliteral">in </span><span class="vhdlchar">string( 1 to  17)</span></b><b> )</b></td></tr>
 <tr class="memdesc:a4166054764c7c7ee6497107459636ea0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert MAC string to slv_array.  <a href="#a4166054764c7c7ee6497107459636ea0"></a><br /></td></tr>
+<tr class="memitem:a3d7548ff9fa56739fc01ad56a1e1e2a7" id="r_a3d7548ff9fa56739fc01ad56a1e1e2a7"><td class="memItemLeft" align="right" valign="top"><b><b><span class="vhdlchar">t_slv_arr</span><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="class__nw__ethernet__pkg.html#a3d7548ff9fa56739fc01ad56a1e1e2a7">f_randmac</a><b> ( </b><b><span class="vhdlchar">mac: </span><span class="stringliteral">in </span><span class="vhdlchar">t_slv_arr( 0 to  5)( 7 downto  0) ( x&quot;ff&quot;, x&quot;ff&quot;, x&quot;ff&quot;, x&quot;ff&quot;, x&quot;ff&quot;, x&quot;ff&quot;)</span></b><b> , <span class="vhdlchar">mask: </span><span class="stringliteral">in </span><span class="vhdlchar">t_slv_arr( 0 to  5)( 7 downto  0) ( x&quot;00&quot;, x&quot;00&quot;, x&quot;00&quot;, x&quot;00&quot;, x&quot;00&quot;, x&quot;00&quot;)</span></b><b> )&#160;</td><td class="memItemRight" valign="bottom"><b>[ impure ]</b></b></td></tr>
+<tr class="memdesc:a3d7548ff9fa56739fc01ad56a1e1e2a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create random MAC address.  <a href="#a3d7548ff9fa56739fc01ad56a1e1e2a7"></a><br /></td></tr>
 </table>
 <h2 class="groupheader">Member Function/Procedure/Process Documentation</h2>
 <a id="a93ec605c1e29c90f576dca0faeafb235" name="a93ec605c1e29c90f576dca0faeafb235"></a>
@@ -418,6 +420,55 @@ Functions</h2></td></tr>
 <p>Convert MAC address in string format to byte array. The character separating the numbers is not checked, and can be any valid character.</p>
 <p><b>Example use</b> </p><div class="fragment"><div class="line"><span class="vhdlchar">v_mac</span> <span class="vhdlchar">:=</span> <span class="vhdlchar">f_eth_mac_2_slv_arr</span><span class="vhdlchar">(</span><span class="keyword">&quot;a2:34:56:f1:30:00&quot;</span><span class="vhdlchar">)</span>;<span class="comment"> -- v_mac is now (x&quot;a2&quot;, x&quot;34&quot;, x&quot;56&quot;, x&quot;f1&quot;, x&quot;30&quot;, x&quot;00&quot;)</span></div>
 <div class="line"><span class="vhdlchar">v_mac</span> <span class="vhdlchar">:=</span> <span class="vhdlchar">f_eth_mac_2_slv_arr</span><span class="vhdlchar">(</span><span class="keyword">&quot;a2-34-56-f1-30-00&quot;</span><span class="vhdlchar">)</span>;<span class="comment"> -- v_mac is now (x&quot;a2&quot;, x&quot;34&quot;, x&quot;56&quot;, x&quot;f1&quot;, x&quot;30&quot;, x&quot;00&quot;)</span></div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a3d7548ff9fa56739fc01ad56a1e1e2a7" name="a3d7548ff9fa56739fc01ad56a1e1e2a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d7548ff9fa56739fc01ad56a1e1e2a7">&#9670;&#160;</a></span>f_randmac()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"> <b><span class="vhdlchar">t_slv_arr</span><span class="vhdlchar"> </span></b> f_randmac</td>
+          <td>(</td>
+          <td class="paramtype"><span class="keywordtype"></span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">mac</span><span class="vhdlchar"> </span></b><span class="stringliteral">in</span> <em><b><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar">t_slv_arr</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="keywordflow">to</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">5</span> <span class="vhdlchar">)</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar">x</span><span class="vhdlchar">&quot;</span><span class="vhdlchar">ff</span><span class="vhdlchar">&quot;</span><span class="vhdlchar">,</span><span class="vhdlchar"> </span><span class="vhdlchar">x</span><span class="vhdlchar">&quot;</span><span class="vhdlchar">ff</span><span class="vhdlchar">&quot;</span><span class="vhdlchar">,</span><span class="vhdlchar"> </span><span class="vhdlchar">x</span><span class="vhdlchar">&quot;</span><span class="vhdlchar">ff</span><span class="vhdlchar">&quot;</span><span class="vhdlchar">,</span><span class="vhdlchar"> </span><span class="vhdlchar">x</span><span class="vhdlchar">&quot;</span><span class="vhdlchar">ff</span><span class="vhdlchar">&quot;</span><span class="vhdlchar">,</span><span class="vhdlchar"> </span><span class="vhdlchar">x</span><span class="vhdlchar">&quot;</span><span class="vhdlchar">ff</span><span class="vhdlchar">&quot;</span><span class="vhdlchar">,</span><span class="vhdlchar"> </span><span class="vhdlchar">x</span><span class="vhdlchar">&quot;</span><span class="vhdlchar">ff</span><span class="vhdlchar">&quot;</span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></em> , </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><span class="keywordtype"></span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">mask</span><span class="vhdlchar"> </span></b><span class="stringliteral">in</span> <em><b><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar">t_slv_arr</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="keywordflow">to</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">5</span> <span class="vhdlchar">)</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar">x</span><span class="vhdlchar">&quot;</span> <span class="vhdldigit">00</span> <span class="vhdlchar">&quot;</span><span class="vhdlchar">,</span><span class="vhdlchar"> </span><span class="vhdlchar">x</span><span class="vhdlchar">&quot;</span> <span class="vhdldigit">00</span> <span class="vhdlchar">&quot;</span><span class="vhdlchar">,</span><span class="vhdlchar"> </span><span class="vhdlchar">x</span><span class="vhdlchar">&quot;</span> <span class="vhdldigit">00</span> <span class="vhdlchar">&quot;</span><span class="vhdlchar">,</span><span class="vhdlchar"> </span><span class="vhdlchar">x</span><span class="vhdlchar">&quot;</span> <span class="vhdldigit">00</span> <span class="vhdlchar">&quot;</span><span class="vhdlchar">,</span><span class="vhdlchar"> </span><span class="vhdlchar">x</span><span class="vhdlchar">&quot;</span> <span class="vhdldigit">00</span> <span class="vhdlchar">&quot;</span><span class="vhdlchar">,</span><span class="vhdlchar"> </span><span class="vhdlchar">x</span><span class="vhdlchar">&quot;</span> <span class="vhdldigit">00</span> <span class="vhdlchar">&quot;</span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> impure</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">Function</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Create random MAC address. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mac</td><td>MAC address to keep (where mask is '1') </td></tr>
+    <tr><td class="paramname">mask</td><td>MAC address mask </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Random MAC address</dd></dl>
+<p>Crate random MAC addres.</p>
+<p><b>Example use</b> </p><div class="fragment"><div class="line"><span class="vhdlchar">v_mac_dest</span> <span class="vhdlchar">:=</span> <span class="vhdlchar">f_randmac</span>;<span class="comment"> -- completely random MAC address</span></div>
+<div class="line"><span class="vhdlchar">v_mac_src</span>  <span class="vhdlchar">:=</span> <span class="vhdlchar">f_randmac</span><span class="vhdlchar">(</span><span class="vhdlchar">(</span><span class="vhdlchar">x</span><span class="keyword">&quot;a2&quot;</span><span class="vhdlchar">,</span> <span class="vhdlchar">x</span><span class="vhdllogic">&quot;34&quot;</span><span class="vhdlchar">,</span> <span class="vhdlchar">x</span><span class="vhdllogic">&quot;50&quot;</span><span class="vhdlchar">,</span> <span class="vhdlchar">x</span><span class="vhdllogic">&quot;00&quot;</span><span class="vhdlchar">,</span> <span class="vhdlchar">x</span><span class="vhdllogic">&quot;00&quot;</span><span class="vhdlchar">,</span> <span class="vhdlchar">x</span><span class="vhdllogic">&quot;00&quot;</span><span class="vhdlchar">)</span><span class="vhdlchar">,</span> <span class="vhdlchar">(</span><span class="vhdlchar">x</span><span class="keyword">&quot;ff&quot;</span><span class="vhdlchar">,</span> <span class="vhdlchar">x</span><span class="keyword">&quot;ff&quot;</span><span class="vhdlchar">,</span> <span class="vhdlchar">x</span><span class="keyword">&quot;f0&quot;</span><span class="vhdlchar">,</span> <span class="vhdlchar">x</span><span class="vhdllogic">&quot;00&quot;</span><span class="vhdlchar">,</span> <span class="vhdlchar">x</span><span class="vhdllogic">&quot;00&quot;</span><span class="vhdlchar">,</span> <span class="vhdlchar">x</span><span class="vhdllogic">&quot;00&quot;</span><span class="vhdlchar">)</span>;<span class="comment"> -- random lower 28bits</span></div>
 </div><!-- fragment --> 
 </div>
 </div>

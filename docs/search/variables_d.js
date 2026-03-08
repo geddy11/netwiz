@@ -9,9 +9,12 @@ var searchData=
   ['pid_7e141_6',['pid~141',['../classnw__usb__pkg.html#a77c67c253bbcd7d5861bdb90f36e2518',1,'nw_usb_pkg']]],
   ['pid_7e142_7',['pid~142',['../classnw__usb__pkg.html#a08a7b2a747723162df0381e1497fccee',1,'nw_usb_pkg']]],
   ['pid_7e146_8',['pid~146',['../classnw__usb__pkg.html#a630cf91103d655298d84cfb09ab379ec',1,'nw_usb_pkg']]],
-  ['pkt_5ftype_7e154_9',['pkt_type~154',['../classnw__usb__pkg.html#ad9503e562284e4d04aa25570fb797220',1,'nw_usb_pkg']]],
-  ['plen_7e5_10',['plen~5',['../classnw__arp__pkg.html#aa6eb73af22e87ef97ad18af41dfdedd3',1,'nw_arp_pkg']]],
-  ['port_5fnumber_7e149_11',['port_number~149',['../classnw__usb__pkg.html#af455e31c47931eb606af99381f151c09',1,'nw_usb_pkg']]],
-  ['protocol_7e37_12',['protocol~37',['../classnw__ipv4__pkg.html#a64608860b7e37ffdd9acec8b43188322',1,'nw_ipv4_pkg']]],
-  ['ptype_7e3_13',['ptype~3',['../classnw__arp__pkg.html#ac7c0eedab790d9526a7631a4f64704d7',1,'nw_arp_pkg']]]
+  ['pkt_9',['pkt',['../classaxis__source.html#a2ba3b4dd8621b8c823235a54884afa30',1,'axis_source.pkt'],['../classaxis__sink.html#a64d5ceea3618afee77857a49575a8d25',1,'axis_sink.pkt']]],
+  ['pkt_5flen_10',['pkt_len',['../classaxis__sink.html#a73e6bd4596558b70d3cbaf2cd290f3e7',1,'axis_sink.pkt_len'],['../classaxis__source.html#a1bc7975234a9d76baac8f31bd84d0887',1,'axis_source.pkt_len']]],
+  ['pkt_5ftype_7e154_11',['pkt_type~154',['../classnw__usb__pkg.html#ad9503e562284e4d04aa25570fb797220',1,'nw_usb_pkg']]],
+  ['pkt_5fvalid_12',['pkt_valid',['../classaxis__sink.html#a6bc594daaf7f9c814a84d7fc3074d8e9',1,'axis_sink.pkt_valid'],['../classaxis__source.html#a81f4b018054c2854e2f69b6abb6f109d',1,'axis_source.pkt_valid']]],
+  ['plen_7e5_13',['plen~5',['../classnw__arp__pkg.html#aa6eb73af22e87ef97ad18af41dfdedd3',1,'nw_arp_pkg']]],
+  ['port_5fnumber_7e149_14',['port_number~149',['../classnw__usb__pkg.html#af455e31c47931eb606af99381f151c09',1,'nw_usb_pkg']]],
+  ['protocol_7e37_15',['protocol~37',['../classnw__ipv4__pkg.html#a64608860b7e37ffdd9acec8b43188322',1,'nw_ipv4_pkg']]],
+  ['ptype_7e3_16',['ptype~3',['../classnw__arp__pkg.html#ac7c0eedab790d9526a7631a4f64704d7',1,'nw_arp_pkg']]]
 ];

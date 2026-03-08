@@ -115,22 +115,22 @@ Functionality</h2>
  More details in <a class="el" href="classnw__tcpv4__pkg.html">nw_tcpv4_pkg</a> </p>
 <h2><a class="anchor" id="tcpv4_subsec2"></a>
 Example use</h2>
-<p>Include the libraries: </p><div class="fragment"><div class="line">library nw_util;</div>
-<div class="line">context nw_util.nw_util_context;</div>
-<div class="line">library nw_ipv4;</div>
-<div class="line">context nw_ipv4.nw_ipv4_context;</div>
-</div><!-- fragment --><p> Assume the variable <code>v_payload</code> contains the TCP payload. The variables are defined: </p><div class="fragment"><div class="line">variable v_header      : t_tcp_header; -- TCP header record</div>
-<div class="line">variable v_ipv4_header : t_ipv4_header; -- IPv4 header record</div>
-<div class="line">variable v_tcp_pkt     : t_slv_arr(0 to 1500)(7 downto 0); -- byte array</div>
-<div class="line">variable v_len         : natural;</div>
-</div><!-- fragment --><p> First setup the header, then calculate the total TCP packet length before creating the packet. </p><div class="fragment"><div class="line">v_header                  := C_DEFAULT_TCP_HEADER; -- copy default header</div>
-<div class="line">v_header.seq_no           := x&quot;1033010f&quot;; -- change sequence number</div>
-<div class="line">v_ipv4_header             := C_DEFAULT_IPV4_HEADER; -- IPv4 header needed for pseudo header</div>
-<div class="line">v_ipv4_header.protocol    := C_TCP; -- set protocol</div>
-<div class="line">-- change other header fields as required...</div>
-<div class="line">v_len                     := f_tcpv4_create_pkt_len(v_ipv4_header, v_header, v_payload); -- calculate total packet length</div>
-<div class="line">v_tcp_pkt(0 to v_len - 1) := f_tcpv4_create_pkt(v_ipv4_header, v_header, v_payload); -- create the packet</div>
-</div><!-- fragment --><p> The variable <code>v_tcp_pkt</code> is an 8-bit array. This can of course be rearranged to any word width with <code>f_repack</code> . </p><div class="fragment"><div class="line">v_tcp_pkt_32 := f_repack(v_tcp_pkt, 32, C_MSB_FIRST); -- repack to 32bit words (padded with zeros if required)</div>
+<p>Include the libraries: </p><div class="fragment"><div class="line"><span class="vhdlkeyword">library </span><span class="keywordflow">nw_util</span>;</div>
+<div class="line"><span class="keywordflow">context</span> <span class="vhdlchar">nw_util</span><span class="vhdlchar">.</span><span class="vhdlchar">nw_util_context</span>;</div>
+<div class="line"><span class="vhdlkeyword">library </span><span class="keywordflow">nw_ipv4</span>;</div>
+<div class="line"><span class="keywordflow">context</span> <span class="vhdlchar">nw_ipv4</span><span class="vhdlchar">.</span><span class="vhdlchar">nw_ipv4_context</span>;</div>
+</div><!-- fragment --><p> Assume the variable <code>v_payload</code> contains the TCP payload. The variables are defined: </p><div class="fragment"><div class="line"><span class="keywordflow">variable</span> <span class="vhdlchar">v_header</span>      <span class="vhdlchar">:</span> <span class="vhdlchar">t_tcp_header</span>;<span class="comment"> -- TCP header record</span></div>
+<div class="line"><span class="keywordflow">variable</span> <span class="vhdlchar">v_ipv4_header</span> <span class="vhdlchar">:</span> <span class="vhdlchar">t_ipv4_header</span>;<span class="comment"> -- IPv4 header record</span></div>
+<div class="line"><span class="keywordflow">variable</span> <span class="vhdlchar">v_tcp_pkt</span>     <span class="vhdlchar">:</span> <span class="vhdlchar">t_slv_arr</span><span class="vhdlchar">(</span><span class="vhdllogic"></span><span class="vhdllogic">0</span> <span class="keywordflow">to</span> <span class="vhdllogic"></span><span class="vhdllogic">1500</span><span class="vhdlchar">)</span><span class="vhdlchar">(</span><span class="vhdllogic"></span><span class="vhdllogic">7</span> <span class="keywordflow">downto</span> <span class="vhdllogic"></span><span class="vhdllogic">0</span><span class="vhdlchar">)</span>;<span class="comment"> -- byte array</span></div>
+<div class="line"><span class="keywordflow">variable</span> <span class="vhdlchar">v_len</span>         <span class="vhdlchar">:</span> <span class="keywordtype">natural</span>;</div>
+</div><!-- fragment --><p> First setup the header, then calculate the total TCP packet length before creating the packet. </p><div class="fragment"><div class="line"><span class="vhdlchar">v_header</span>                  <span class="vhdlchar">:=</span> <span class="vhdlchar">C_DEFAULT_TCP_HEADER</span>;<span class="comment"> -- copy default header</span></div>
+<div class="line"><span class="vhdlchar">v_header</span><span class="vhdlchar">.</span><span class="vhdlchar">seq_no</span>           <span class="vhdlchar">:=</span> <span class="vhdlchar">x</span><span class="vhdllogic">&quot;1033010f&quot;</span>;<span class="comment"> -- change sequence number</span></div>
+<div class="line"><span class="vhdlchar">v_ipv4_header</span>             <span class="vhdlchar">:=</span> <span class="vhdlchar">C_DEFAULT_IPV4_HEADER</span>;<span class="comment"> -- IPv4 header needed for pseudo header</span></div>
+<div class="line"><span class="vhdlchar">v_ipv4_header</span><span class="vhdlchar">.</span><span class="vhdlchar">protocol</span>    <span class="vhdlchar">:=</span> <span class="vhdlchar">C_TCP</span>;<span class="comment"> -- set protocol</span></div>
+<div class="line"><span class="comment">-- change other header fields as required...</span></div>
+<div class="line"><span class="vhdlchar">v_len</span>                     <span class="vhdlchar">:=</span> <span class="vhdlchar">f_tcpv4_create_pkt_len</span><span class="vhdlchar">(</span><span class="vhdlchar">v_ipv4_header</span><span class="vhdlchar">,</span> <span class="vhdlchar">v_header</span><span class="vhdlchar">,</span> <span class="vhdlchar">v_payload</span><span class="vhdlchar">)</span>;<span class="comment"> -- calculate total packet length</span></div>
+<div class="line"><span class="vhdlchar">v_tcp_pkt</span><span class="vhdlchar">(</span><span class="vhdllogic"></span><span class="vhdllogic">0</span> <span class="keywordflow">to</span> <span class="vhdlchar">v_len</span> <span class="vhdlchar">-</span> <span class="vhdllogic"></span><span class="vhdllogic">1</span><span class="vhdlchar">)</span> <span class="vhdlchar">:=</span> <span class="vhdlchar">f_tcpv4_create_pkt</span><span class="vhdlchar">(</span><span class="vhdlchar">v_ipv4_header</span><span class="vhdlchar">,</span> <span class="vhdlchar">v_header</span><span class="vhdlchar">,</span> <span class="vhdlchar">v_payload</span><span class="vhdlchar">)</span>;<span class="comment"> -- create the packet</span></div>
+</div><!-- fragment --><p> The variable <code>v_tcp_pkt</code> is an 8-bit array. This can of course be rearranged to any word width with <code>f_repack</code> . </p><div class="fragment"><div class="line"><span class="vhdlchar">v_tcp_pkt_32</span> <span class="vhdlchar">:=</span> <span class="vhdlchar">f_repack</span><span class="vhdlchar">(</span><span class="vhdlchar">v_tcp_pkt</span><span class="vhdlchar">,</span> <span class="vhdllogic"></span><span class="vhdllogic">32</span><span class="vhdlchar">,</span> <span class="vhdlchar">C_MSB_FIRST</span><span class="vhdlchar">)</span>;<span class="comment"> -- repack to 32bit words (padded with zeros if required)</span></div>
 </div><!-- fragment --><p> See further examples in the test bench nw_ipv4_tb.vhd. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->

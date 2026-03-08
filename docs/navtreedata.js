@@ -26,29 +26,33 @@ var NAVTREE =
 [
   [ "Network Wizard for VHDL Test Benches", "index.html", [
     [ "Changelog", "md_CHANGELOG.html", [
-      [ "Intro", "index.html#autotoc_md15", null ],
-      [ "Libraries", "index.html#autotoc_md16", null ],
-      [ "Documentation", "index.html#autotoc_md17", null ],
-      [ "[1.4.0] - 2026-01-03", "md_CHANGELOG.html#autotoc_md1", [
-        [ "Added", "md_CHANGELOG.html#autotoc_md2", null ]
+      [ "Intro", "index.html#autotoc_md18", null ],
+      [ "Libraries", "index.html#autotoc_md19", null ],
+      [ "Documentation", "index.html#autotoc_md20", null ],
+      [ "[1.5.0] - 2026-xx-xx", "md_CHANGELOG.html#autotoc_md1", [
+        [ "Added", "md_CHANGELOG.html#autotoc_md2", null ],
+        [ "Fixed", "md_CHANGELOG.html#autotoc_md3", null ]
       ] ],
-      [ "[1.3.1] - 2023-10-16", "md_CHANGELOG.html#autotoc_md3", [
-        [ "Changed", "md_CHANGELOG.html#autotoc_md4", null ]
+      [ "[1.4.0] - 2026-01-03", "md_CHANGELOG.html#autotoc_md4", [
+        [ "Added", "md_CHANGELOG.html#autotoc_md5", null ]
       ] ],
-      [ "[1.3.0] - 2023-10-13", "md_CHANGELOG.html#autotoc_md5", [
-        [ "Added", "md_CHANGELOG.html#autotoc_md6", null ]
+      [ "[1.3.1] - 2023-10-16", "md_CHANGELOG.html#autotoc_md6", [
+        [ "Changed", "md_CHANGELOG.html#autotoc_md7", null ]
       ] ],
-      [ "[1.2.1] - 2023-06-26", "md_CHANGELOG.html#autotoc_md7", [
-        [ "Fixed", "md_CHANGELOG.html#autotoc_md8", null ]
+      [ "[1.3.0] - 2023-10-13", "md_CHANGELOG.html#autotoc_md8", [
+        [ "Added", "md_CHANGELOG.html#autotoc_md9", null ]
       ] ],
-      [ "[1.2.0] - 2023-05-31", "md_CHANGELOG.html#autotoc_md9", [
-        [ "Added", "md_CHANGELOG.html#autotoc_md10", null ]
+      [ "[1.2.1] - 2023-06-26", "md_CHANGELOG.html#autotoc_md10", [
+        [ "Fixed", "md_CHANGELOG.html#autotoc_md11", null ]
       ] ],
-      [ "[1.1.0] - 2023-02-25", "md_CHANGELOG.html#autotoc_md11", [
-        [ "Added", "md_CHANGELOG.html#autotoc_md12", null ]
+      [ "[1.2.0] - 2023-05-31", "md_CHANGELOG.html#autotoc_md12", [
+        [ "Added", "md_CHANGELOG.html#autotoc_md13", null ]
       ] ],
-      [ "[1.0.0] - 2023-02-20", "md_CHANGELOG.html#autotoc_md13", [
-        [ "Added", "md_CHANGELOG.html#autotoc_md14", null ]
+      [ "[1.1.0] - 2023-02-25", "md_CHANGELOG.html#autotoc_md14", [
+        [ "Added", "md_CHANGELOG.html#autotoc_md15", null ]
+      ] ],
+      [ "[1.0.0] - 2023-02-20", "md_CHANGELOG.html#autotoc_md16", [
+        [ "Added", "md_CHANGELOG.html#autotoc_md17", null ]
       ] ]
     ] ],
     [ "Codec library", "nw_sl_codec.html", [
@@ -188,10 +192,15 @@ var NAVTREE =
           [ "Functionality", "nw_nrs.html#nrs_subsec1", null ],
           [ "Example use", "nw_nrs.html#nrs_subsec2", null ]
         ] ]
-      ] ]
+      ] ],
+      [ "AXI-Stream source", "nw_axis_source.html", null ],
+      [ "AXI-Stream sink", "nw_axis_sink.html", null ]
+    ] ],
+    [ "Packages", "namespaces.html", [
+      [ "Package List", "namespaces.html", "namespaces_dup" ]
     ] ],
     [ "Design Units", "annotated.html", [
-      [ "Design Unit List", "annotated.html", null ],
+      [ "Design Unit List", "annotated.html", "annotated_dup" ],
       [ "Design Unit Index", "classes.html", null ],
       [ "Design Unit Members", "functions.html", [
         [ "All", "functions.html", "functions_dup" ],

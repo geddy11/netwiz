@@ -113,10 +113,10 @@ Functionality</h2>
  More details in <a class="el" href="classnw__nrs__pkg.html">nw_nrs_pkg</a> </p>
 <h2><a class="anchor" id="nrs_subsec2"></a>
 Example use</h2>
-<p>Include the libraries: </p><div class="fragment"><div class="line">library nw_util;</div>
-<div class="line">context nw_util.nw_util_context;</div>
-</div><!-- fragment --><p> Call f_gen_nrs() with desired parameters: </p><div class="fragment"><div class="line">array_8bit(0 to 127) := f_gen_nrs(x&quot;80&quot;, 128); -- array_8bit is now (x&quot;80&quot;, x&quot;81&quot;, x&quot;82&quot;, ...)</div>
-<div class="line">array_48bit(0 to 15) := f_gen_nrs(x&quot;ff0000&quot;, 16, x&quot;10000&quot;, False); -- array_48bit is now (x&quot;ff0000&quot;, x&quot;fe0000&quot;, x&quot;fd0000&quot;, ...)</div>
+<p>Include the libraries: </p><div class="fragment"><div class="line"><span class="vhdlkeyword">library </span><span class="keywordflow">nw_util</span>;</div>
+<div class="line"><span class="keywordflow">context</span> <span class="vhdlchar">nw_util</span><span class="vhdlchar">.</span><span class="vhdlchar">nw_util_context</span>;</div>
+</div><!-- fragment --><p> Call f_gen_nrs() with desired parameters: </p><div class="fragment"><div class="line"><span class="vhdlchar">array_8bit</span><span class="vhdlchar">(</span><span class="vhdllogic"></span><span class="vhdllogic">0</span> <span class="keywordflow">to</span> <span class="vhdllogic"></span><span class="vhdllogic">127</span><span class="vhdlchar">)</span> <span class="vhdlchar">:=</span> <span class="vhdlchar">f_gen_nrs</span><span class="vhdlchar">(</span><span class="vhdlchar">x</span><span class="vhdllogic">&quot;80&quot;</span><span class="vhdlchar">,</span> <span class="vhdllogic"></span><span class="vhdllogic">128</span><span class="vhdlchar">)</span>;<span class="comment"> -- array_8bit is now (x&quot;80&quot;, x&quot;81&quot;, x&quot;82&quot;, ...)</span></div>
+<div class="line"><span class="vhdlchar">array_48bit</span><span class="vhdlchar">(</span><span class="vhdllogic"></span><span class="vhdllogic">0</span> <span class="keywordflow">to</span> <span class="vhdllogic"></span><span class="vhdllogic">15</span><span class="vhdlchar">)</span> <span class="vhdlchar">:=</span> <span class="vhdlchar">f_gen_nrs</span><span class="vhdlchar">(</span><span class="vhdlchar">x</span><span class="keyword">&quot;ff0000&quot;</span><span class="vhdlchar">,</span> <span class="vhdllogic"></span><span class="vhdllogic">16</span><span class="vhdlchar">,</span> <span class="vhdlchar">x</span><span class="vhdllogic">&quot;10000&quot;</span><span class="vhdlchar">,</span> <span class="vhdlchar">False</span><span class="vhdlchar">)</span>;<span class="comment"> -- array_48bit is now (x&quot;ff0000&quot;, x&quot;fe0000&quot;, x&quot;fd0000&quot;, ...)</span></div>
 </div><!-- fragment --><p> See further examples in the test bench nw_util_tb.vhd. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->

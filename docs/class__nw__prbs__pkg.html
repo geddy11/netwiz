@@ -112,8 +112,16 @@ Functions</h2></td></tr>
 <b><span class="vhdlchar">data_width: </span><span class="stringliteral">in </span><b><span class="keywordtype">positive</span><span class="vhdlchar"> </span></b></b><br />
 <b><span class="vhdlchar">length: </span><span class="stringliteral">in </span><b><span class="keywordtype">positive</span><span class="vhdlchar"> </span></b></b><br />
 <b><span class="vhdlchar">msb_first: </span><span class="stringliteral">in </span><span class="vhdlchar">boolean    true</span></b><br />
-<b> )</b></td></tr>
+<b> )&#160;</td><td class="memItemRight" valign="bottom"><b>[ impure ]</b></b></td></tr>
 <tr class="memdesc:aceff2923d850300bb5b5040f8caf7aeb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create PRBS sequence.  <a href="#aceff2923d850300bb5b5040f8caf7aeb"></a><br /></td></tr>
+<tr class="memitem:a4caefb91525bdc6950522d0b87591b37" id="r_a4caefb91525bdc6950522d0b87591b37"><td class="memItemLeft" align="right" valign="top"><b><b><span class="keywordtype">std_logic_vector</span><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="class__nw__prbs__pkg.html#a4caefb91525bdc6950522d0b87591b37">f_gen_seed</a><b> ( </b><b><span class="vhdlchar">data_width: </span><span class="stringliteral">in </span><b><span class="keywordtype">positive</span><span class="vhdlchar"> </span></b></b><b> )&#160;</td><td class="memItemRight" valign="bottom"><b>[ impure ]</b></b></td></tr>
+<tr class="memdesc:a4caefb91525bdc6950522d0b87591b37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create random seed.  <a href="#a4caefb91525bdc6950522d0b87591b37"></a><br /></td></tr>
+<tr class="memitem:a94eedbc8aed71673996159e100264a38" id="r_a94eedbc8aed71673996159e100264a38"><td class="memItemLeft" align="right" valign="top"><b><b><span class="keywordtype">integer</span><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="class__nw__prbs__pkg.html#a94eedbc8aed71673996159e100264a38">f_randnat</a><b> ( </b><b><span class="vhdlchar">minval: </span><span class="stringliteral">in </span><span class="vhdlchar">natural  0</span></b><b> , <span class="vhdlchar">maxval: </span><span class="stringliteral">in </span><span class="vhdlchar">natural    integer&#39;high</span></b><b> )&#160;</td><td class="memItemRight" valign="bottom"><b>[ impure ]</b></b></td></tr>
+<tr class="memdesc:a94eedbc8aed71673996159e100264a38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return random integer (natural)  <a href="#a94eedbc8aed71673996159e100264a38"></a><br /></td></tr>
+<tr class="memitem:adc32c70863f5716c4e417da3f4bc4b4a" id="r_adc32c70863f5716c4e417da3f4bc4b4a"><td class="memItemLeft" align="right" valign="top"><b><b><span class="keywordtype">std_logic_vector</span><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="class__nw__prbs__pkg.html#adc32c70863f5716c4e417da3f4bc4b4a">f_randslv</a><b> ( </b><b><span class="vhdlchar">data_width: </span><span class="stringliteral">in </span><b><span class="keywordtype">positive</span><span class="vhdlchar"> </span></b></b><b> )&#160;</td><td class="memItemRight" valign="bottom"><b>[ impure ]</b></b></td></tr>
+<tr class="memdesc:adc32c70863f5716c4e417da3f4bc4b4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return random std_logic_vector.  <a href="#adc32c70863f5716c4e417da3f4bc4b4a"></a><br /></td></tr>
+<tr class="memitem:a5743c5f404a1d5f3b45527c6df859d7d" id="r_a5743c5f404a1d5f3b45527c6df859d7d"><td class="memItemLeft" align="right" valign="top"><b><b><span class="keywordtype">std_logic_vector</span><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="class__nw__prbs__pkg.html#a5743c5f404a1d5f3b45527c6df859d7d">f_randsel</a><b> ( </b><b><span class="vhdlchar">data: </span><span class="stringliteral">in </span><span class="vhdlchar">t_slv_arr</span></b><b> )&#160;</td><td class="memItemRight" valign="bottom"><b>[ impure ]</b></b></td></tr>
+<tr class="memdesc:a5743c5f404a1d5f3b45527c6df859d7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return random element.  <a href="#a5743c5f404a1d5f3b45527c6df859d7d"></a><br /></td></tr>
 </table>
 <h2 class="groupheader">Member Function/Procedure/Process Documentation</h2>
 <a id="a011a9ffda411610fa6a1408ac95fc6bd" name="a011a9ffda411610fa6a1408ac95fc6bd"></a>
@@ -221,7 +229,7 @@ Functions</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td> impure</td>
         </tr>
       </table>
   </td>
@@ -242,8 +250,181 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>PRBS sequence in data array</dd></dl>
-<p>This is an overloaded verison of f_gen_prbs with init value set to all 1's.</p>
+<p>This is an overloaded verison of f_gen_prbs with init value set to a random seed using <a class="el" href="class__nw__prbs__pkg.html#a4caefb91525bdc6950522d0b87591b37" title="Create random seed.">f_gen_seed()</a>.</p>
 <p><b>Example use</b> </p><div class="fragment"><div class="line"><span class="vhdlchar">array_8bit</span> <span class="vhdlchar">:=</span> <span class="vhdlchar">f_gen_prbs</span><span class="vhdlchar">(</span><span class="vhdlchar">C_POLY_X6_X5_1</span><span class="vhdlchar">,</span> <span class="vhdllogic"></span><span class="vhdllogic">8</span><span class="vhdlchar">,</span> <span class="vhdllogic"></span><span class="vhdllogic">6</span><span class="vhdlchar">)</span>;</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a4caefb91525bdc6950522d0b87591b37" name="a4caefb91525bdc6950522d0b87591b37"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4caefb91525bdc6950522d0b87591b37">&#9670;&#160;</a></span>f_gen_seed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"> <b><span class="keywordtype">std_logic_vector</span><span class="vhdlchar"> </span></b> f_gen_seed</td>
+          <td>(</td>
+          <td class="paramtype"><span class="keywordtype"></span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">data_width</span><span class="vhdlchar"> </span></b><span class="stringliteral">in</span> <em><b><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="keywordtype">positive</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> impure</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">Function</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Create random seed. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data_width</td><td>Seed vector length </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Random seed</dd></dl>
+<p>A random, non-zero seed is returned. The seed is based on the current simulation time.</p>
+<p><b>Example use</b> </p><div class="fragment"><div class="line"><span class="vhdlchar">seed_16bit</span> <span class="vhdlchar">:=</span> <span class="vhdlchar">f_gen_seed</span><span class="vhdlchar">(</span><span class="vhdllogic"></span><span class="vhdllogic">16</span><span class="vhdlchar">)</span>;</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a94eedbc8aed71673996159e100264a38" name="a94eedbc8aed71673996159e100264a38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94eedbc8aed71673996159e100264a38">&#9670;&#160;</a></span>f_randnat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"> <b><span class="keywordtype">integer</span><span class="vhdlchar"> </span></b> f_randnat</td>
+          <td>(</td>
+          <td class="paramtype"><span class="keywordtype"></span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">minval</span><span class="vhdlchar"> </span></b><span class="stringliteral">in</span> <em><b><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="keywordtype">natural</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span></b></em> , </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><span class="keywordtype"></span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">maxval</span><span class="vhdlchar"> </span></b><span class="stringliteral">in</span> <em><b><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="keywordtype">natural</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="keywordtype">integer</span><span class="vhdlchar">&#39;</span><span class="vhdlkeyword">high</span><span class="vhdlchar"> </span></b></em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> impure</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">Function</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return random integer (natural) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">minval</td><td>Minimum value </td></tr>
+    <tr><td class="paramname">maxval</td><td>Maximum value </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Random integer</dd></dl>
+<p>Return a random integer &gt;= 0.</p>
+<p><b>Example use</b> </p><div class="fragment"><div class="line"><span class="vhdlkeyword">val</span> <span class="vhdlchar">:=</span> <span class="vhdlchar">f_randnat</span><span class="vhdlchar">(</span><span class="vhdllogic"></span><span class="vhdllogic">0</span><span class="vhdlchar">,</span> <span class="vhdllogic"></span><span class="vhdllogic">42</span><span class="vhdlchar">)</span>;</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="adc32c70863f5716c4e417da3f4bc4b4a" name="adc32c70863f5716c4e417da3f4bc4b4a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc32c70863f5716c4e417da3f4bc4b4a">&#9670;&#160;</a></span>f_randslv()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"> <b><span class="keywordtype">std_logic_vector</span><span class="vhdlchar"> </span></b> f_randslv</td>
+          <td>(</td>
+          <td class="paramtype"><span class="keywordtype"></span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">data_width</span><span class="vhdlchar"> </span></b><span class="stringliteral">in</span> <em><b><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="keywordtype">positive</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> impure</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">Function</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return random std_logic_vector. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data_width</td><td>Vector width </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Random std_logic_vector</dd></dl>
+<p>Return a random std_logic_vector.</p>
+<p><b>Example use</b> </p><div class="fragment"><div class="line"><span class="vhdlchar">val_64bit</span> <span class="vhdlchar">:=</span> <span class="vhdlchar">f_randslv</span><span class="vhdlchar">(</span><span class="vhdllogic"></span><span class="vhdllogic">64</span><span class="vhdlchar">)</span>;</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a5743c5f404a1d5f3b45527c6df859d7d" name="a5743c5f404a1d5f3b45527c6df859d7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5743c5f404a1d5f3b45527c6df859d7d">&#9670;&#160;</a></span>f_randsel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"> <b><span class="keywordtype">std_logic_vector</span><span class="vhdlchar"> </span></b> f_randsel</td>
+          <td>(</td>
+          <td class="paramtype"><span class="keywordtype"></span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">data</span><span class="vhdlchar"> </span></b><span class="stringliteral">in</span> <em><b><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar">t_slv_arr</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> impure</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">Function</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return random element. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>Array </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Random element</dd></dl>
+<p>Return a random element from std_logic_vector array.</p>
+<p><b>Example use</b> </p><div class="fragment"><div class="line"><span class="keywordflow">constant</span> <span class="vhdlchar">C_SELECTION</span> <span class="vhdlchar">:</span> <span class="vhdlchar">t_slv_arr</span><span class="vhdlchar">(</span><span class="vhdllogic"></span><span class="vhdllogic">0</span> <span class="keywordflow">to</span> <span class="vhdllogic"></span><span class="vhdllogic">4</span><span class="vhdlchar">)</span><span class="vhdlchar">(</span><span class="vhdllogic"></span><span class="vhdllogic">7</span> <span class="keywordflow">downto</span> <span class="vhdllogic"></span><span class="vhdllogic">0</span><span class="vhdlchar">)</span> <span class="vhdlchar">:=</span> <span class="vhdlchar">(</span><span class="vhdlchar">x</span><span class="vhdllogic">&quot;12&quot;</span><span class="vhdlchar">,</span> <span class="vhdlchar">x</span><span class="vhdllogic">&quot;15&quot;</span><span class="vhdlchar">,</span> <span class="vhdlchar">x</span><span class="vhdllogic">&quot;20&quot;</span><span class="vhdlchar">,</span> <span class="vhdlchar">x</span><span class="vhdllogic">&quot;33&quot;</span><span class="vhdlchar">,</span> <span class="vhdlchar">x</span><span class="vhdllogic">&quot;42&quot;</span><span class="vhdlchar">)</span>;</div>
+<div class="line"> </div>
+<div class="line"><span class="vhdlchar">val_8bit</span> <span class="vhdlchar">:=</span> <span class="vhdlchar">f_randsel</span><span class="vhdlchar">(</span><span class="vhdlchar">C_SELECTION</span><span class="vhdlchar">)</span>;</div>
 </div><!-- fragment --> 
 </div>
 </div>
